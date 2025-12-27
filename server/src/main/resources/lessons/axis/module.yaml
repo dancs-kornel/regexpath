@@ -1,0 +1,19 @@
+module: 
+  id: "axis"
+  title: "Tengelyek"
+  description: "Formális navigáció"
+  lessons:
+    - id: "axes-intro"
+      title: "Tengely, a formális navigáció"
+      description: "A tengelyek koncepciója"
+      order: 1
+
+    - id: "family-axes"
+      title: "Családi tengelyek (ancestor::, descendant::)"
+      description: "A hierarchiában való mozgást szolgáló legfontosabb tengelyek"
+      order: 2
+
+    - id: "neighbor-axes"
+      title: "Szomszédos tengelyek (preceding::, following::)"
+      description: "Az aktuális elem előtt vagy után elhelyezkedő elemek"
+      order: 3

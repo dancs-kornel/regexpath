@@ -1,0 +1,36 @@
+module:
+  id: "regex-basics"
+  title: "Regex alapok"
+  description: "tanuld meg a reguláris kifejezések alapjait"
+  lessons:
+    - id: "character-classes"
+      title: "Karakterosztályok"
+      description: "Tesztelésre használt lecke"
+      order: 1
+
+    - id: "literals"
+      title: "Bevezetés a literálokba"
+      description: "Fix szövegrészek keresése a legegyszerűbb módszerrel"
+      order: 3
+
+    - id: "dot-metacharacter"
+      title: "A mindenttudó pont (.)"
+      description: "Helyettesítő karakter használata, ami bármilyen karakternek megfelel"
+      order: 4
+
+    - id: "character-sets"
+      title: "Karakterkészletek [...]"
+      description: "Egy karakterhelyen többféle lehetséges karakter megadása"
+      order: 5
+    
+    - id: "character-ranges"
+      title: "Karaktertartományok [a-z]"
+      description: "A karakterkészletek hatékony definiálása tartományokkal"
+      order: 6
+      prerequisites: ["character-sets"]
+
+    - id: "negated-character-sets"
+      title: "Negált karakterkészletek [^...]"
+      description: "Olyan karakterek keresése, amik nincsenek benne az adott készletben"
+      order: 7
+      prerequisites: ["character-sets", "character-ranges"]

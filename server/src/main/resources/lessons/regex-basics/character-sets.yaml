@@ -1,0 +1,85 @@
+lesson:
+  id: "character-sets"
+  title: "Karakterkészletek [...]"
+  description: "Egy karakterhelyen többféle lehetséges karakter megadása"
+  introduction: |
+    A literálok pontos egyezést kérnek, a pont pedig mindent engedélyez.
+    A karakterkészletek jelentik a hidat a kettő között: lehetővé teszik, hogy egy adott pozíción több, általunk meghatározott karakter közül bármelyikre illeszkedjen a minta.
+    Szögletes zárójelek használatával megadhatsz egy listát a lehetséges karakterekről.
+    A `k[io]s` minta illeszkedik tehát a 'kis' és 'kos' szavakra, de másra nem.
+    A szögletes zárójeleken belüli karaktereknek általában nincs különleges jelentése, így a pont (`.`) karakter az `[a.b]` készletben a pont karaktert jelenti, nem pedig bármelyik karaktert.
+
+  exercises:
+    - id: "charsets-definition"
+      type: "radio"
+      order: 1
+      title: "Melyik állítás igaz?"
+      question: "Mit tesz az `[ab]` minta a reguláris kifejezésben?"
+      options:
+        - id: "a"
+          text: "Illeszkedik az ab karakterláncra"
+          correct: false
+        - id: "b"
+          text: "Illeszkedik az 'a' vagy 'b' karakterre, de csak egyre"
+          correct: true
+        - id: "c"
+          text: "Illeszkedik az 'a'-val kezdődő, 'b'-vel végződő szavakra"
+          correct: false
+      explanation: "A szögletes zárójelek csak egyetlen karakterhelyet foglalnak el, és a benne lévő listából választanak."
+      hints:
+        - "A lista csak egyetlen pozícióra vonatkozik"
+        - "Az `[ab]` minta nem 'ab'-t keres, hanem egyetlen karaktert, ami 'a' VAGY 'b' lehet"
+
+    - id: "charsets-matching"
+      type: "multiple_choice"
+      order: 2
+      title: "Melyik szavakra illeszkedik?"
+      question: "Mely szavakra illeszkedik az `r[aei]p` reguláris kifejezés?"
+      options:
+        - id: "a"
+          text: "rep"
+          correct: true
+        - id: "b"
+          text: "rip"
+          correct: true
+        - id: "c"
+          text: "rup"
+          correct: false
+        - id: "d"
+          text: "raep"
+          correct: false
+      explanation: "A minta pontosan 3 karaktert keres, ahol az első 'r', az utolsó 'p', a középső pedig 'a', 'e', vagy 'i' is lehet."
+      hints:
+        - "A minta pontosan három karakteres"
+        - "Nézd meg, hogy a középső betű szerepel-e a listában"
+
+    - id: "charsets-sandbox"
+      type: "regex_sandbox"
+      order: 3
+      title: "Találd meg a szavakat - Regex sandbox"
+      question: "Írj egy reguláris kifejezést, ami megtalálja a 'szín' és 'szán' szavakat is a bemeneti szövegben"
+      test_cases:
+        positive:
+          - text: "piros színű szán"
+            description: "Mindkét szó megtalálható"
+            expected_matches: ["szín", "szán"]
+          - text: "szán"
+            description: "Egyetlen illeszkedés"
+            expected_matches: ["szán"]
+          - text: "szín"
+            description: "Ékezetes találat"
+            expected_matches: ["szín"]
+        negative:
+          - text: "szon"
+            description: "Eltérő középső betű"
+          - text: "szin"
+            description: "Hiányzik az ékezet, nem illeszkedik"
+      solution: "sz[íá]n"
+      explanation: "A `sz[íá]n` minta illeszkedik az 'sz' literálra, majd a lista gondoskodik róla, hogy 'í' vagy 'á' következzen, végül az 'n' zárja a szót."
+      hints:
+        - "Közös részek legyenek literálok"
+        - "A változó karaktert tedd listába"
+
+  summary: |
+    Megtanultad, hogy a karakterkészletek (`[...]`) lehetővé teszik, hogy egyetlen pozíción többféle karakter közül válassz.
+    Segít például az olyan szavak kezelésében is, mint a brit/amerikai helyesírású 'grey'/'gray' (`gr[ea]y`).

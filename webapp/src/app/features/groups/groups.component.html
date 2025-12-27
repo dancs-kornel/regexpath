@@ -1,0 +1,129 @@
+<div class="groups-container flex-column">
+    <div class="page-header header">
+        <h1><span class="accent">Saját</span> csoportjaim</h1>
+
+        @if (isTeacher) {
+        <button class="btn-primary" (click)="navigateToCreateGroup()">Csapat létrehozása</button>
+        }
+
+        @if (isStudent) {
+        <button class="btn-primary" (click)="navigateToJoinGroup()">Csatlakozás</button>
+        }
+    </div>
+
+    @if (isLoading) {
+    <p>Csoportok betöltése...</p>
+    }
+
+    @if (errorMessage) {
+    <p class="error-message error">{{ errorMessage }}</p>
+    }
+
+    @if (!isLoading && groups.length === 0) {
+    <div class="empty-state">
+        @if (isTeacher) {
+        <p>Még nem hoztál létre egyetlen csoportot sem.</p>
+        <p>Hozd létre az első csoportodat, és vágj bele a munkába!</p>
+        }
+        @if (isStudent) {
+        <p>Még nem csatlakoztál egyetlen csoporthoz sem.</p>
+        <p>Kérj meghívókódot a tanárodtól, hogy csatlakozhass egy csoporthoz.</p>
+        }
+    </div>
+    }
+
+    @if (!isLoading && groups.length > 0) {
+    <div class="groups-list">
+        @for (group of groups; track group.id) {
+        <div class="group-card card-hover card-wrapper card-interactive flex-column gap-md" (click)="navigateToGroupDetail(group.id)">
+            <h3>{{ group.name }}</h3>
+
+            @if (group.description) {
+            <p>{{ group.description }}</p>
+            }
+
+            <div class="group-info flex-column gap-sm border-top">
+                @if (isStudent) {
+                <span>Tanár: {{ group.teacherName }}</span>
+                }
+                <span>Tagok: {{ group.memberCount }}</span>
+            </div>
+
+            @if (isTeacher) {
+            <div class="invite-code">
+                <strong>Meghívó:</strong>
+                <span class="invite-code-value font-monospace">{{ group.inviteCode }}</span>
+            </div>
+            }
+        </div>
+        }
+    </div>
+
+    @if (isStudent && (upcomingAssignments.length > 0 || laterAssignments.length > 0)) {
+    <section class="upcoming-section card-base" role="region" aria-labelledby="upcoming-title">
+        <div class="upcoming-header flex-between gap-md mb-md">
+            <div class="upcoming-title-wrap">
+                <svg class="upcoming-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <h2 id="upcoming-title">Közelgő határidők</h2>
+                @if (upcomingAssignments.length > 0) {
+                <span class="pill pill-primary flex-center">{{ upcomingAssignments.length }}</span>
+                }
+            </div>
+        </div>
+
+        @if (upcomingAssignments.length > 0) {
+        <div class="assignments-grid">
+            @for (assignment of upcomingAssignments; track assignment.id) {
+            <article class="assignment-card card-hover-subtle card-wrapper flex-column gap-sm" (click)="takeAssignment(assignment.groupId, assignment.id)" role="button"
+                tabindex="0" (keydown.enter)="takeAssignment(assignment.groupId, assignment.id)">
+                <div class="assignment-head flex-between">
+                    <span class="due-badge">{{ formatDueDate(assignment.dueDate) }}</span>
+                    <button class="btn-small"
+                        (click)="$event.stopPropagation(); takeAssignment(assignment.groupId, assignment.id)">
+                        Kitöltés
+                    </button>
+                </div>
+                <h3 class="assignment-name" title="{{ assignment.title }}">{{ assignment.title }}</h3>
+                <div class="assignment-meta">
+                    <span class="group-chip" title="{{ assignment.groupName }}">{{ assignment.groupName }}</span>
+                </div>
+            </article>
+            }
+        </div>
+        }
+
+        @if (laterAssignments.length > 0) {
+        <div class="later-section border-bottom">
+            <h3>Később...</h3>
+            <div class="assignments-list flex-column gap-sm">
+                @for (assignment of laterAssignments; track assignment.id) {
+                <div class="assignment-row flex-between">
+                    <div class="assignment-details">
+                        <span class="assignment-name">{{ assignment.title }}</span>
+                        <span class="group-name">{{ assignment.groupName }}</span>
+                        @if (assignment.dueDate) {
+                        <span class="due-date subtle">{{ formatLaterDate(assignment.dueDate) }}</span>
+                        } @else {
+                        <span class="due-date subtle">Nincs határidő</span>
+                        }
+                    </div>
+                    <button class="btn-small" (click)="takeAssignment(assignment.groupId, assignment.id)">
+                        Kitöltés
+                    </button>
+                </div>
+                }
+            </div>
+        </div>
+        }
+    </section>
+    }
+
+    }
+</div>

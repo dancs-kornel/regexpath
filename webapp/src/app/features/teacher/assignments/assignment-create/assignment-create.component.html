@@ -1,0 +1,115 @@
+
+<div class="assignment-create">
+  <h1>Új feladatsor létrehozása</h1>
+
+  @if (error) { <div class="error-message">{{ error }}</div> }
+
+  <form [formGroup]="assignmentForm">
+    <!-- Section: details -->
+    <div class="form-section section-card">
+      <h2>Feladatsor részletei</h2>
+
+      <div class="form-group">
+        <label for="title">Cím *</label>
+        <input id="title" type="text" formControlName="title" placeholder="Feladatsor címe" />
+        @if (assignmentForm.get('title')?.invalid && assignmentForm.get('title')?.touched) {
+          <span class="field-error">Cím megadása kötelező (3-100 karakter)</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="description">Leírás</label>
+        <textarea id="description" formControlName="description" rows="3" placeholder="Opcionális leírás a feladatsorhoz"></textarea>
+        @if (assignmentForm.get('description')?.invalid && assignmentForm.get('description')?.touched) {
+          <span class="field-error">A leírás túl hosszú (legfeljebb 500 karakter)</span>
+        }
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="dueDate">Határidő</label>
+          <input id="dueDate" type="datetime-local" formControlName="dueDate" [min]="minDate" />
+        </div>
+
+        <div class="form-group">
+          <label for="timeLimit">Időkorlát (perc)</label>
+          <input id="timeLimit" type="number" formControlName="timeLimit" placeholder="No limit" min="1" max="300" />
+          @if (assignmentForm.get('timeLimit')?.invalid && assignmentForm.get('timeLimit')?.touched) {
+            <span class="field-error">Az időkorlát 1 és 300 perc között lehet</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="attemptLimit">Próbálkozások száma</label>
+          <select id="attemptLimit" formControlName="attemptLimit">
+            @for (option of attemptLimitOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: exercises -->
+    <div class="form-section section-card form-group">
+      <div class="section-header flex-between">
+        <h2>Feladatok ({{ exercises.length }})</h2>
+        <span class="total-points badge-pill">Összpontszám: {{ getTotalPoints() }}</span>
+      </div>
+
+      @if (exercises.length === 0) {
+        <div class="empty-state">
+          <p>Még nincsenek feladatok.</p>
+        </div>
+      } @else {
+        <div class="exercises-list">
+          @for (exercise of exercises; track $index) {
+            <div class="exercise-item card-hover-subtle">
+              <div class="exercise-order">{{ $index + 1 }}</div>
+
+              <div class="exercise-info">
+                <span class="exercise-type pill-accent">{{ getExerciseTypeLabel(exercise.type) }}</span>
+                <span class="exercise-question">{{ getExerciseSummary(exercise) }}</span>
+                <span class="exercise-points">{{ exercise.points }} pont</span>
+              </div>
+
+              <div class="exercise-actions">
+                <button type="button" class="btn-secondary btn-small" (click)="moveExerciseUp($index)" [disabled]="$index === 0">↑</button>
+                <button type="button" class="btn-secondary btn-small" (click)="moveExerciseDown($index)" [disabled]="$index === exercises.length - 1">↓</button>
+                <button type="button" class="btn-secondary btn-small" (click)="editExercise($index)">Szerkesztés</button>
+                <button type="button" class="btn-danger-outline btn-small" (click)="removeExercise($index)">Törlés</button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      @if (!showExerciseBuilder) {
+        <button type="button" (click)="addExercise()" class="add-exercise-btn">
+          + Feladat hozzáadása
+        </button>
+      }
+    </div>
+
+    @if (showExerciseBuilder) {
+      <div class="exercise-builder-section section-card">
+        <h3>{{ editingExerciseIndex !== null ? 'Feladat szerkesztése' : 'Feladat hozzáadása' }}</h3>
+        <app-exercise-builder
+          [exercise]="editingExerciseIndex !== null ? exercises[editingExerciseIndex] : null"
+          (save)="onExerciseSaved($event)"
+          (cancel)="onExerciseBuilderCancel()"></app-exercise-builder>
+      </div>
+    }
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="saveAsDraft()" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Mentés...' : 'Mentés vázlatként' }}
+      </button>
+      <button type="button" class="btn-primary" (click)="publish()" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Publikálás...' : 'Publikálás' }}
+      </button>
+      <a routerLink="/teacher/assignments" class="btn-secondary">Mégse</a>
+    </div>
+  </form>
+</div>

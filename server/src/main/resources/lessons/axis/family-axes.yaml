@@ -1,0 +1,59 @@
+lesson:
+  id: "family-axes"
+  title: "Családi tengelyek (ancestor::, descendant::)"
+  description: "A hierarchiában való mozgást szolgáló legfontosabb tengelyek"
+  introduction: |
+    A dokumentumfa hierarchikus szerkezetű, és gyakran szükség van arra, hogy az aktuális csomópont **felmenői** vagy **leszármazottai** között navigáljunk.
+
+    A korábban tanult `parent::` és `child::` tengelyek mellé két fontos tengelyt vezetünk be:
+
+    - **`ancestor::`**  
+      Kiválasztja az aktuális csomópont **összes ősét**, egészen a gyökérig.  
+      Ez több szülői szintet is érinthet.
+
+    - **`descendant::`**  
+      Kiválasztja az aktuális csomópont **összes leszármazottját**, bármilyen mélyen is helyezkednek el.  
+      Például: `//ul/descendant::a` kiválasztja az összes `<a>` elemet, amelyek egy `<ul>` elemen belül találhatók – akár több szinten mélyen is.
+
+  exercises:
+    - id: "ancestor-selection"
+      type: "radio"
+      order: 1
+      title: "Ősök kijelölése"
+      question: |
+        Melyik tengelyt kell használni, ha egy `<li>` elemből szeretnénk kiválasztani a hierarchiában felette lévő összes `<div>` elemet?
+      options:
+        - id: "a"
+          text: "parent::"
+          correct: false
+        - id: "b"
+          text: "ancestor::"
+          correct: true
+        - id: "c"
+          text: "preceding::"
+          correct: false
+      explanation: "A `parent::` csak a közvetlen szülőt adja vissza, míg az `ancestor::` a teljes felfelé vezető ág összes elemét."
+      hints:
+        - "Az ancestor szó jelentése: ős, felmenő."
+
+    - id: "descendant-links"
+      type: "xpath_sandbox"
+      order: 2
+      title: "Leszármazott linkek"
+      question: "Válaszd ki az összes beágyazott `<a>` elemet, amelyek a `<nav>` elem leszármazottai."
+      sample_document: |
+        <nav>
+          <a href="1">Közvetlen link</a>
+          <div><a href="2">Beágyazott link</a></div>
+        </nav>
+      solution: "//nav/descendant::a"
+      explanation: "A `//nav` kiválasztja a nav elemet, a `descendant::a` pedig minden alatta lévő `<a>` elemet, akár több szinten mélyen is."
+      hints:
+        - "A `descendant::` tengely minden leszármazottat vizsgál."
+
+  summary: |
+    A családi tengelyekkel könnyen mozoghatsz a dokumentumfa teljes hierarchiájában:
+    - `parent::` / `child::` → közvetlen szülő és gyerek
+    - `ancestor::` / `descendant::` → összes ős és összes leszármazott
+
+    Ezekkel a tengelyekkel rugalmas és pontos hierarchikus lekérdezések írhatók.

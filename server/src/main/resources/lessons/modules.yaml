@@ -1,0 +1,48 @@
+modules:
+  - id: "regex-basics"
+    title: "Regex alapok"
+    description: "Reguláris kifejezések alapjai"
+    order: 1
+    estimated_time: "45 perc"
+
+  - id: "quantifiers"
+    title: "Kvantorok"
+    description: "Karakterek, minták ismétlése"
+    order: 2
+    estimated_time: "45 perc"
+
+  - id: "abbreviations"
+    title: "Pozíció és rövidítések"
+    description: "Speciális karakterosztályok és határok"
+    order: 3
+    estimated_time: "45 perc"
+
+  - id: "xpath-basics"
+    title: "XPath alapok"
+    description: "XPath lekérdezések alapjai"
+    order: 4
+    estimated_time: "45 perc"
+
+  - id: "predicates"
+    title: "Predikátumok"
+    description: "Egyszerűbb szűrések"
+    order: 5
+    estimated_time: "45 perc"
+
+  - id: "data-extraction"
+    title: "Adatok kinyerése"
+    description: "Szövegek és attribútumértékek"
+    order: 6
+    estimated_time: "45 perc"
+
+  - id: "advanced-xpath"
+    title: "Haladó XPath"
+    description: "Operátorok és függvények"
+    order: 7
+    estimated_time: "45 perc"
+
+  - id: "axis"
+    title: "Tengelyek"
+    description: "Formális navigáció"
+    order: 8
+    estimated_time: "45 perc"

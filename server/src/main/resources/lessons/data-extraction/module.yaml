@@ -1,0 +1,19 @@
+module: 
+  id: "data-extraction"
+  title: "Adatok kinyerése"
+  description: "Szövegek és attribútumértékek"
+  lessons:
+    - id: "xpath-attribute-values"
+      title: "Attribútumok kinyerése (@)"
+      description: "Egy elem attribútumának értéklekérdezése"
+      order: 1
+
+    - id: "xpath-text-content"
+      title: "Szöveges tartalom kinyerése"
+      description: "Egy elem közvetlen szöveges tartalmának kinyerése"
+      order: 2
+
+    - id: "xpath-union-operator"
+      title: "Útvonalak egyesítése ( | )"
+      description: "Több lekérdezés eredményének együttes megjelenítése"
+      order: 3

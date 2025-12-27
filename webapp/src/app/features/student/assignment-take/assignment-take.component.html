@@ -1,0 +1,88 @@
+<div class="assignment-take-container">
+  <div class="header border-bottom">
+    <button class="btn-back" (click)="goBack()">← Mégse</button>
+
+    @if (assignment) {
+      <h1>{{ assignment.title }}</h1>
+    }
+
+    @if (attempt && attempt.expiresAt) {
+      <div class="timer" [class.warning]="isTimerWarning()">
+        <span class="timer-icon">⏱️</span>
+        <span class="timer-text">{{ getTimeDisplay() }}</span>
+      </div>
+    }
+  </div>
+
+  @if (isLoading) { <p class="loading-state">Feladat betöltése...</p> }
+  @if (error)     { <div class="error-message">{{ error }}</div> }
+
+  @if (!isLoading && assignment && attempt) {
+
+    <!-- Info card -->
+    <div class="assignment-info section-card card-wrapper card-interactive">
+      @if (assignment.description) { <p class="description">{{ assignment.description }}</p> }
+
+      <div class="meta">
+        <span><strong>Összpontszám:</strong> {{ assignment.totalPoints }}</span>
+        <span><strong>Próbálkozás:</strong> {{ attempt.attemptNumber }}</span>
+        @if (assignment.maxAttempts) {
+          <span><strong>Hátralévő próbálkozások:</strong> {{ assignment.maxAttempts - assignment.attemptsUsed }}</span>
+        }
+      </div>
+    </div>
+
+    <!-- Exercises -->
+    <div class="exercises-container">
+      @for (exercise of assignment.exercises; track exercise.id; let i = $index) {
+        <div class="exercise-wrapper card-hover-subtle card-wrapper">
+          <div class="exercise-header flex-between border-bottom">
+            <h3>Kérdés {{ i + 1 }} / {{ assignment.exercises.length }}</h3>
+            <span class="points badge-pill">{{ exercise.points }} pont</span>
+          </div>
+
+          <div class="exercise-content">
+            <h4>{{ exercise.question }}</h4>
+
+            @if (exercise.type === 'MULTIPLE_CHOICE') {
+              <app-multiple-choice [exercise]="exercise" [assignmentMode]="true"
+                [initialAnswer]="getExerciseAnswer(exercise.id!)"
+                (answerChange)="onExerciseAnswerChange(exercise.id!, $event)"></app-multiple-choice>
+            }
+
+            @if (exercise.type === 'RADIO') {
+              <app-radio [exercise]="exercise" [assignmentMode]="true"
+                [initialAnswer]="getExerciseAnswer(exercise.id!)"
+                (answerChange)="onExerciseAnswerChange(exercise.id!, $event)"></app-radio>
+            }
+
+            @if (exercise.type === 'REGEX_SANDBOX') {
+              <app-regex-sandbox [exercise]="exercise" [assignmentMode]="true"
+                [initialAnswer]="getExerciseAnswer(exercise.id!)"
+                (answerChange)="onExerciseAnswerChange(exercise.id!, $event)"></app-regex-sandbox>
+            }
+
+            @if (exercise.type === 'XPATH_SANDBOX') {
+              <app-xpath-sandbox-exercise [exercise]="exercise" [assignmentMode]="true"
+                [initialAnswer]="getExerciseAnswer(exercise.id!)"
+                (answerChange)="onExerciseAnswerChange(exercise.id!, $event)"></app-xpath-sandbox-exercise>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-section card-wrapper card-interactive">
+      <button class="btn-primary submit-button"
+              (click)="submitAttempt()"
+              [disabled]="!canSubmit() || isSubmitting">
+        {{ isSubmitting ? 'Beadás...' : 'Feladat beadása' }}
+      </button>
+
+      @if (!canSubmit()) {
+        <p class="hint">Válaszolj minden kérdésre beadás előtt</p>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,140 @@
+<div class="container">
+  <header>
+    <h1>RegE<span class="accent-x">x</span>Path</h1>
+    <p class="subtitle">Interaktív tanulási platform a mintaillesztéshez és XML-navigációhoz</p>
+  </header>
+
+  <div id="cards">
+    <div class="card flex-column" (click)="navigateTo('/sandbox')">
+      <div class="card-content">
+        <div class="card-image">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="icon">
+            <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1" />
+            <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1" />
+          </svg>
+        </div>
+        <div class="card-info-wrapper flex-column">
+          <div class="card-info">
+            <div class="card-info-title">
+              <h3>RegEx Sandbox</h3>
+              <h4>Próbáld ki és kísérletezz reguláris kifejezésekkel valós időben</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card flex-column" (click)="navigateTo('/xpath-sandbox')">
+      <div class="card-content">
+        <div class="card-image">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+            <path d="m18 16 4-4-4-4" />
+            <path d="m6 8-4 4 4 4" />
+            <path d="m14.5 4-5 16" />
+          </svg>
+        </div>
+        <div class="card-info-wrapper flex-column">
+          <div class="card-info">
+            <div class="card-info-title">
+              <h3>XPath Sandbox</h3>
+              <h4>Navigálj XML dokumentumokban interaktív példákkal</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card flex-column" (click)="navigateTo('/lessons')">
+      <div class="card-content">
+        <div class="card-image">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+            <path
+              d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+            <path d="M22 10v6" />
+            <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+          </svg>
+        </div>
+        <div class="card-info-wrapper flex-column">
+          <div class="card-info">
+            <div class="card-info-title">
+              <h3>Leckék</h3>
+              <h4>Strukturált tanulási útvonalak az alapoktól a haladó technikákig</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @if (currentUser) {
+    <div class="card flex-column" (click)="navigateTo('/groups')">
+      <div class="card-content">
+        <div class="card-image">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <path d="M16 3.128a4 4 0 0 1 0 7.744" />
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+            <circle cx="9" cy="7" r="4" />
+          </svg>
+        </div>
+        <div class="card-info-wrapper flex-column">
+          <div class="card-info">
+            <div class="card-info-title">
+              <h3>Csapatok</h3>
+              <h4>Csatlakozz tanulócsapatokhoz</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+
+    @if (authService.isTeacher()) {
+    <div class="card flex-column" (click)="navigateTo('/teacher/assignments')">
+      <div class="card-content">
+        <div class="card-image">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21V7" />
+            <path d="m16 12 2 2 4-4" />
+            <path
+              d="M22 6V4a1 1 0 0 0-1-1h-5a4 4 0 0 0-4 4 4 4 0 0 0-4-4H3a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h6a3 3 0 0 1 3 3 3 3 0 0 1 3-3h6a1 1 0 0 0 1-1v-1.3" />
+          </svg>
+        </div>
+        <div class="card-info-wrapper flex-column">
+          <div class="card-info">
+            <div class="card-info-title">
+              <h3>Feladatok</h3>
+              <h4>Készíts feladatokat diákjaid számára</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card flex-column" (click)="navigateTo('/teacher/dashboard')">
+      <div class="card-content">
+        <div class="card-image">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z" />
+            <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+          </svg>
+        </div>
+        <div class="card-info-wrapper flex-column">
+          <div class="card-info">
+            <div class="card-info-title">
+              <h3>Tanári irányítópult</h3>
+              <h4>Kövesd nyomon a diákok fejlődését</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

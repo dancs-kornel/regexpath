@@ -1,0 +1,25 @@
+<h3 class="explanation-title">Magyarázat</h3>
+<div class="explanation-card card-wrapper card-interactive" *ngIf="nodes?.length">
+
+  <ng-template #renderNode let-node let-level="level">
+    <!-- Node itself -->
+    <div class="node level-{{ level }}" [style.marginLeft.px]="level * indentStep">
+      <span class="token-pill font-monospace">{{ node.token }}</span>
+      <span class="explanation-text">{{ node.explanation }}</span>
+    </div>
+
+    <!-- Group of children (with continuous vertical line) -->
+    <div class="node-group flex-column" *ngIf="node.children?.length">
+      <ng-container *ngFor="let child of node.children">
+        <ng-container *ngTemplateOutlet="renderNode; context: { $implicit: child, level: level + 1 }">
+        </ng-container>
+      </ng-container>
+    </div>
+  </ng-template>
+
+  <!-- Root level render -->
+  <ng-container *ngFor="let root of nodes">
+    <ng-container *ngTemplateOutlet="renderNode; context: { $implicit: root, level: 0 }">
+    </ng-container>
+  </ng-container>
+</div>

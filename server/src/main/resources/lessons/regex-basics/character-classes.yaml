@@ -1,0 +1,83 @@
+lesson:
+  id: "character-classes"
+  title: "Karakterosztályok"
+  description: "Tesztelésre használt lecke"
+  introduction: |
+    Ez a lecke tartalmazza az összes feladattípust, célja ezek helyességének ellenőrzése
+
+  exercises:
+    - id: "char-class-intro"
+      type: "multiple_choice"
+      order: 1
+      title: "Mi az a karakterosztály?"
+      question: "Melyik igaz az [abc] mintára?"
+      options:
+        - id: "a"
+          text: "Illeszkedik az 'abc szövegre"
+          correct: false
+        - id: "b"
+          text: "Illeszkedik egyetlen 'a', 'b', vagy 'c' karakterre"
+          correct: true
+        - id: "c"
+          text: "Illeszkedik az 'a', 'b', és 'c' karakterekre egyszerre"
+          correct: false
+      explanation: "A karakterosztály egyetlen karaktert jelent a megadott opciók közül"
+      hints:
+        - "A szögletes zárójelekre lehet választási lehetőségként gondolni"
+        - "Egy karakterosztály mindig pontosan egy karaktert választ ki"
+
+    - id: "char-class-radio"
+      type: "radio"
+      order: 2
+      title: "Melyik minta helyes?"
+      question: "Melyik reguláris kifejezés illeszkedik pontosan egy számjegyre?"
+      options:
+        - id: "a"
+          text: "[123456789]"
+          correct: false
+        - id: "b"
+          text: "[0-9]"
+          correct: true
+      explanation: "A [0-9] rövidebb és olvashatóbb"
+      hints:
+        - "Gondolj a tartományjelölésre"
+    - id: "basic-digit-sandbox"
+      type: "regex_sandbox"
+      order: 3
+      title: "Számjegyek illesztése"
+      question: "Írj egy reguláris kifejezést, amely illeszkedik egyetlen számjegyre"
+      test_cases:
+        positive:
+          - text: "5"
+            description: "Egyetlen számjegy"
+            expected_matches: ["5"]
+          - text: "a7b"
+            description: "Számjegy szöveg közepén"
+            expected_matches: ["7"]
+          - text: "123"
+            description: "Több számjegy - mindegyikre külön-külön illeszkedjen"
+            expected_matches: ["1", "2", "3"]
+        negative:
+          - text: "abc"
+            description: "Csak betűk - ne illeszkedjen"
+          - text: "!@#"
+            description: "Csak szimbólumok - ne illeszkedjen"
+      solution: "\\d"
+      explanation: "A \\d rövidítés bármely számjegyre illeszkedik (0-9)"
+      hints:
+        - "Gondolj a számjegyek rövidítésére"
+        - "Van egy speciális karakter escape sequence számjegyekhez"
+    - id: "test-xpath-basic"
+      type: "xpath_sandbox"
+      order: 1
+      title: "Basic XPath Test"
+      question: "Select all li elements"
+      sample_document: |
+        <ul>
+          <li>Item 1</li>
+          <li>Item 2</li>
+        </ul>
+      solution: "//li"
+      explanation: "The //li selector finds all li elements"
+  summary: |
+    Megtanultad a karakterosztályok alapjait és használatukat.

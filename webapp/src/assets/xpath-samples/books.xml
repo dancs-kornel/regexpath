@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog>
+  <book id="bk101" category="programming">
+    <author>Gamma, Erich</author>
+    <title>Design Patterns</title>
+    <year>1994</year>
+    <price>54.95</price>
+  </book>
+  <book id="bk102" category="programming">
+    <author>Martin, Robert</author>
+    <title>Clean Code</title>
+    <year>2008</year>
+    <price>32.95</price>
+  </book>
+  <book id="bk103" category="fiction">
+    <author>Orwell, George</author>
+    <title>1984</title>
+    <year>1949</year>
+    <price>15.95</price>
+  </book>
+  <book id="bk104" category="fiction">
+    <author>Tolkien, J.R.R.</author>
+    <title>The Lord of the Rings</title>
+    <year>1954</year>
+    <price>29.95</price>
+  </book>
+</catalog>

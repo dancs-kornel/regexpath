@@ -1,0 +1,19 @@
+module: 
+  id: "predicates"
+  title: "Predikátumok"
+  description: "Egyszerűbb szűrések"
+  lessons:
+    - id: "xpath-predicates-intro"
+      title: "Első találkozás a predikátumokkal [...]"
+      description: "A szögletes zárójeles szűrés alapkoncepciója"
+      order: 1
+
+    - id: "xpath-index-filtering"
+      title: "Szűrés sorszám alapján ([1])"
+      description: "Adott sorszámú elem kiválasztása a találatok közül"
+      order: 2
+
+    - id: "xpath-attribute-filtering"
+      title: "Szűrés attribútumokkal"
+      description: "Elemek kiválasztása attribútumok szerint"
+      order: 3

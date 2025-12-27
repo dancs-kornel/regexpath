@@ -1,0 +1,62 @@
+<div class="regex-sandbox-container">
+  <!-- Pattern Input Section -->
+  <div class="pattern-input-section">
+    <label class="input-label">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1" />
+        <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1" />
+      </svg>
+      Reguláris kifejezésed
+    </label>
+    
+    <div class="input-wrapper">
+      <span class="regex-delimiter">/</span>
+      <input 
+        type="text"
+        class="pattern-input"
+        [(ngModel)]="pattern"
+        (ngModelChange)="onPatternChange()"
+        [disabled]="(submitted && !assignmentMode) || previewMode"
+        placeholder="Enter your regex pattern..."
+        spellcheck="false"
+        autocomplete="off" />
+      <span class="regex-delimiter">/</span>
+    </div>
+  </div>
+
+  <!-- Test Cases Table -->
+  <div class="test-cases-section">
+    <h4 class="section-title">Tesztesetek</h4>
+
+    <table class="test-cases-table">
+      <thead>
+        <tr>
+          <th class="col-type">Típus</th>
+          <th>Leírás</th>
+          <th class="col-text">Szöveg</th>
+          <th class="col-status"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let testCase of filteredTestCases" [class]="getTestCaseClass(testCase)">
+          <td class="type-column">
+            <span class="task-badge" [ngClass]="testCase.isPositive ? 'match' : 'skip'">
+              {{ testCase.isPositive ? 'MATCH' : 'SKIP' }}
+            </span>
+          </td>
+
+          <td class="task-column">
+            <div class="task-description">{{ testCase.description }}</div>
+          </td>
+
+          <td class="text-column" [innerHTML]="shouldHighlight ? (testCase.text | highlight:pattern) : testCase.text"></td>
+
+          <td class="status-column">
+            <span class="status-icon" [innerHTML]="getTestCaseIcon(testCase)"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

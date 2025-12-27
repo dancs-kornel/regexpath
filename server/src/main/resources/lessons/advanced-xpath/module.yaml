@@ -1,0 +1,19 @@
+module: 
+  id: "advanced-xpath"
+  title: "Haladó XPath"
+  description: "Operátorok és Függvények"
+  lessons:
+    - id: "logical-operators"
+      title: "Logikai operátorok (and, or)"
+      description: "Több feltétel összekapcsolása egy predikátumon belül"
+      order: 1
+
+    - id: "string-functions"
+      title: "A szövegkezelő függvények (contains(), starts-with())"
+      description: "Szűrés szövegrészlet vagy kezdeti rész alapján"
+      order: 2
+
+    - id: "numeric-functions"
+      title: "Numerikus függvények (count(), position())"
+      description: "Mennyiség és pozíció alapú szűrések"
+      order: 3

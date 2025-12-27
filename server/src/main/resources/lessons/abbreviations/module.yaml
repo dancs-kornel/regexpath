@@ -1,0 +1,19 @@
+module: 
+  id: "abbreviations"
+  title: "Pozíció és rövidítések"
+  description: "Speciális karakterosztályok és határok"
+  lessons:
+    - id: "shorthand-classes"
+      title: "Speciális karakterosztályok (\\d, \\w, \\s)"
+      description: "A leggyakoribb karakterkészletek rövidítései"
+      order: 1
+
+    - id: "anchors"
+      title: "Sor eleje (^) és sor vége ($)"
+      description: "Illeszkedés sorok elejére és végére horgonyok segítségével"
+      order: 2
+
+    - id: "word-boundaries"
+      title: "Szóhatárok (\\b és \\B)"
+      description: "Teljes szavak és szórészletek keresése szóhatár-horgonyokkal"
+      order: 3

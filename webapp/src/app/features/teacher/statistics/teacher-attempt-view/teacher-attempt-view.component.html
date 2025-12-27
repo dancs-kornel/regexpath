@@ -1,0 +1,100 @@
+<div class="teacher-attempt-view">
+  <button class="btn-back" (click)="goBack()">← Vissza</button>
+
+  @if (isLoading) { <p class="loading-state">Próbálkozás betöltése...</p> }
+  @if (error)     { <div class="error-message">{{ error }}</div> }
+
+  @if (!isLoading && attemptView) {
+
+    <!-- Header card -->
+    <div class="header-card section-card">
+      <div class="header-top">
+        <div class="student-info">
+          <h1>{{ attemptView.studentName }}</h1>
+          <p class="email">{{ attemptView.studentEmail }}</p>
+        </div>
+
+        <div class="score-card card-base flex-between" [class]="getScoreClass()">
+          <div class="score-main">
+            <span class="score-value">{{ attemptView.score }}</span>
+            <span class="score-divider">/</span>
+            <span class="score-max">{{ attemptView.maxScore }}</span>
+          </div>
+          <div class="score-percentage">{{ attemptView.percentageScore.toFixed(1) }}%</div>
+        </div>
+      </div>
+
+      <div class="assignment-line">
+        <h2 class="assignment-title">{{ attemptView.assignmentTitle }}</h2>
+        <div class="meta">
+          <span><strong>Próba:</strong> {{ attemptView.attemptNumber }}</span>
+          <span><strong>Kezdés:</strong> {{ attemptView.startedAt | date:'short' }}</span>
+          @if (attemptView.submittedAt) {
+            <span><strong>Beküldés:</strong> {{ attemptView.submittedAt | date:'short' }}</span>
+          }
+          <span><strong>Idő:</strong> {{ attemptView.timeSpentMinutes }} perc</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Answers -->
+    <div class="answers-section section-card">
+      <h2 class="section-title">Válaszok</h2>
+
+      @for (answer of attemptView.answers; track answer.answerId; let i = $index) {
+        <div class="answer-card card-hover-subtle"
+             [class.correct]="answer.correct === true"
+             [class.incorrect]="answer.correct === false">
+
+          <div class="answer-header flex-between">
+            <div class="answer-title">
+              <h3>{{ i + 1 }}. kérdés: {{ answer.exerciseTitle }}</h3>
+              <span class="result-icon" [class.ok]="answer.correct" [class.nope]="!answer.correct">
+                {{ answer.correct ? '✓' : '✗' }}
+              </span>
+            </div>
+            <div class="answer-points">
+              {{ answer.pointsEarned }} / {{ answer.pointsPossible }} pont
+            </div>
+          </div>
+
+          <div class="answer-content">
+            <p class="question">{{ answer.exerciseQuestion }}</p>
+
+            <div class="your-answer">
+              <strong>Adott válasz:</strong>
+
+              @if (answer.exerciseType === 'MULTIPLE_CHOICE' || answer.exerciseType === 'RADIO') {
+                @if (parseJson(answer.studentAnswerJson).selectedOptions; as selected) {
+                  <ul class="answer-list">
+                    @for (optKey of selected; track optKey) {
+                      <li>{{ getOptionText(answer.exerciseConfigJson, optKey) }}</li>
+                    }
+                  </ul>
+                } @else {
+                  <em>Nincs megadott válasz.</em>
+                }
+              } @else {
+                <code class="answer-code">{{ getUserAnswer(answer.studentAnswerJson, answer.exerciseType) }}</code>
+              }
+            </div>
+
+            @if (!answer.correct) {
+              <div class="correct-answer">
+                <strong>Helyes válasz:</strong>
+                <code class="answer-code">{{ getCorrectAnswer(answer.exerciseConfigJson, answer.exerciseType) }}</code>
+              </div>
+            }
+
+            @if (answer.validationResultJson) {
+              <div class="feedback">
+                <strong>Visszajelzés:</strong>
+                <p>{{ parseJson(answer.validationResultJson).message }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

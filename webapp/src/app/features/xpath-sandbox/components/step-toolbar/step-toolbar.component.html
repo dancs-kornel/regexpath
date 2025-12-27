@@ -1,0 +1,93 @@
+<div class="step-toolbar-row">
+  <div class="step-left-cluster">
+    <button
+      class="icon-btn"
+      (click)="reset.emit()"
+      title="Reset to first step">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+           fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round"
+           viewBox="0 0 24 24">
+        <polyline points="11 19 2 12 11 5 11 19"></polyline>
+        <path d="M22 19V5l-9 7 9 7z"></path>
+      </svg>
+    </button>
+
+    <button
+      class="icon-btn"
+      (click)="previous.emit()"
+      [disabled]="isFirstStep"
+      title="Previous step">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+           fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round"
+           viewBox="0 0 24 24">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <span class="step-counter-pill">
+      Lépés {{ currentStepIndex + 1 }} / {{ totalSteps }}
+    </span>
+
+    <button
+      class="icon-btn"
+      (click)="next.emit()"
+      [disabled]="isLastStep"
+      title="Next step">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+           fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round"
+           viewBox="0 0 24 24">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+
+    <button
+      class="icon-btn"
+      (click)="playPause.emit()"
+      [disabled]="isLastStep"
+      [title]="isPlaying ? 'Pause autoplay' : 'Play automatically'">
+      <ng-container *ngIf="!isPlaying; else pauseIcon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round"
+             viewBox="0 0 24 24">
+          <polygon points="9 7 20 12 9 17 9 7"></polygon>
+        </svg>
+      </ng-container>
+      <ng-template #pauseIcon>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round"
+             viewBox="0 0 24 24">
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+      </ng-template>
+    </button>
+
+    <span class="speed-label-text">Sebesség:</span>
+    <input
+      class="speed-slider"
+      type="range"
+      min="100"
+      max="2000"
+      step="100"
+      [value]="playbackSpeed"
+      (input)="onSpeedChange($event)"
+      title="Automatikus lejátszás (ms lépésenként)"
+    />
+    <span class="speed-badge">{{ speedMultiplier }}</span>
+  </div>
+
+  <div class="step-right-cluster">
+    <span class="step-explainer-text">
+      {{ currentStepDescription }}
+    </span>
+
+    <span class="match-count-badge" *ngIf="currentStepMatches">
+      {{ currentStepMatches }}
+    </span>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+lesson:
+  id: "xpath-node-tree"
+  title: "A Csomópontfa (Node Tree)"
+  description: "Az XML/HTML dokumentumok hierarchikus felépítésének megértése"
+  introduction: |
+    Az **XPath** egy speciális nyelv, amelyet XML vagy HTML dokumentumok **csomópontfáján** való navigálására és csomópontok (elemek, attribútumok, szövegek) kiválasztására fejlesztettek ki.
+
+    A legfontosabb csomóponttípusok:
+
+    - **Elem (element):** a leggyakoribb csomópont (például `<h1>`, `<p>`, `<div>`)
+    - **Attribútum (attribute):** név/érték párok, amelyek egy elem tulajdonságait adják meg (például `id="main"`, `href="link"`)
+    - **Gyökér (root):** a dokumentum legfelső szintű csomópontja
+
+    **Kapcsolatok a csomópontfában:**
+
+    - **Szülő (Parent):** egy elem közvetlenül fölötte lévő befoglaló eleme
+    - **Gyerek (Child):** egy elem közvetlenül benne lévő elemei
+    - **Testvér (Sibling):** olyan elemek, amelyeknek ugyanaz a szülőjük van
+
+  exercises:
+    - id: "relationships"
+      type: "multiple_choice"
+      order: 1
+      title: "Kapcsolatok"
+      question: |
+        Tekintsd a következő HTML kódrészletet:
+
+        `<ul id="lista">  
+        <li>Első elem</li>  
+        <li>Második elem</li>  
+        </ul>`
+
+        Mely állítások igazak az elemek viszonyára?
+      options:
+        - id: "a"
+          text: "Az ul elem az li elemek testvére"
+          correct: false
+        - id: "b"
+          text: "Az ul elem az li elemek szülője"
+          correct: true
+        - id: "c"
+          text: "Az li elemek egymás testvérei"
+          correct: true
+        - id: "d"
+          text: "Az id=”lista” egy különálló elem"
+          correct: false
+      explanation: "A szülő–gyerek kapcsolat közvetlen befoglalást jelent. A testvérek azonos szinten állnak. Az `id=\"lista\"` egy attribútum, nem külön elem."
+      hints:
+        - "A `<tag>` szögletes zárójelek között álló elemek maguk az elemek."
+        - "Gondold át: melyik elem foglalja magába a másikat?"
+
+    - id: "xpath-nodes"
+      type: "multiple_choice"
+      order: 2
+      title: "Fogalmak"
+      question: "Az alábbiak közül melyik tekinthető csomópontnak az XPath szempontjából?"
+      options:
+        - id: "a"
+          text: "A div tag maga"
+          correct: true
+        - id: "b"
+          text: "A class=\"menu\" érték"
+          correct: true
+        - id: "c"
+          text: "div class=\"menu\" (egész elem)"
+          correct: false
+        - id: "d"
+          text: "A div elemen belüli szöveg"
+          correct: true
+      explanation: "Az elem, az attribútum és a szöveges tartalom mind különálló csomópont. Az egész elem (tag + attribútum + szöveg) nem egyetlen csomópont, hanem több csomópont együttese."
+      hints:
+        - "Az XPath minden részegységet külön entitásként kezel."
+
+  summary: |
+    Az XPath egy **csomópontfán navigál**, amely hierarchikusan rendezi az XML/HTML dokumentum szerkezeti elemeit.  
+    Megismerted a legfontosabb csomóponttípusokat és a köztük lévő kapcsolatokat.

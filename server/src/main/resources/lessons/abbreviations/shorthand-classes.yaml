@@ -1,0 +1,72 @@
+lesson:
+  id: "shorthand-classes"
+  title: "Speciális karakterosztályok (\\d, \\w, \\s)"
+  description: "A leggyakoribb karakterkészletek rövidítései"
+  introduction: |
+    Vannak olyan karakterkészletek és tartományok, amelyeket olyan gyakran használunk, hogy a reguláris kifejezések **rövidített kifejezéseket** (shorthand character classes) biztosítanak rájuk.
+
+    Ezek a rövidítések visszaperjellel (`\`) kezdődnek, és jelentősen megkönnyítik a minták olvasását.  
+    Mindegyik rövidítésnek van egy **negált párja** (nagybetűs változat), amely az illesztés ellentétét keresi.
+
+    - **Számjegy:** `[0-9]` → `\d`  
+      Negált pár: `\D` (minden, ami nem számjegy)
+
+    - **Szó-karakter:** `[a-zA-Z0-9_]` → `\w`  
+      Negált pár: `\W`
+
+    - **Szóköz karakter:** szóköz, tab, újsor stb. → `\s`  
+      Negált pár: `\S`
+
+  exercises:
+    - id: "shorthand-understanding"
+      type: "multiple_choice"
+      order: 1
+      title: "Rövidítések megértése"
+      question: "Melyik karakterekre fog illeszkedni a `\\w` rövidítés?"
+      options:
+        - id: "a"
+          text: "A-Z"
+          correct: true
+        - id: "b"
+          text: "Szóköz"
+          correct: false
+        - id: "c"
+          text: "_"
+          correct: true
+        - id: "d"
+          text: "0-9"
+          correct: true
+      explanation: "A `\\w` a 'word character' rövidítése, ami az összes latin betűt, számjegyet és az aláhúzást (`_`) jelenti."
+      hints:
+        - "A `\\w` illeszkedik mindenre, amit egy változónévben használni lehet."
+
+    - id: "date-format"
+      type: "regex_sandbox"
+      order: 2
+      title: "Dátum formátum"
+      question: "Adj meg egy reguláris kifejezést, amely megtalálja a `YYYY-MM-DD` formátumú dátumokat."
+      test_cases:
+        positive:
+          - text: "2024-12-31"
+            description: "Érvényes formátum"
+            expected_matches: ["2024-12-31"]
+          - text: "2003-03-21"
+            description: "Érvényes dátumformátum"
+            expected_matches: ["2003-03-21"]
+        negative:
+          - text: "20241231"
+            description: "Hiányoznak a kötőjelek"
+          - text: "2003/03/21"
+            description: "Nem kötőjeleket használ"
+      solution: "\\d{4}-\\d{2}-\\d{2}"
+      explanation: "`\\d{4}` a négyjegyű év, majd a kötőjel literál, amit a hónap (`\\d{2}`), újabb kötőjel és a nap (`\\d{2}`) követ."
+      hints:
+        - "Használd a `{n}` kvantort a hossz megadására."
+
+  summary: |
+    Megismerted a három leggyakrabban használt karakterosztályt és negált párjaikat:
+    - `\\d` / `\\D` – számjegy / nem számjegy
+    - `\\w` / `\\W` – szó-karakter / nem szó-karakter
+    - `\\s` / `\\S` – szóköz karakter / nem szóköz karakter
+
+    Ezek nagyban egyszerűsítik a minták olvasását és írását.

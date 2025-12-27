@@ -1,0 +1,81 @@
+lesson:
+  id: "axes-intro"
+  title: "Tengely, a formális navigáció"
+  description: "A tengelyek koncepciója"
+  introduction: |
+    Eddig az XPath útvonalak **rövidített formáit** használtuk: például a `/` a közvetlen gyerekre, a `..` a szülőre való ugrást jelentette.  
+    Az XPath azonban ennél sokkal **formálisabb és erősebb módon** is leírhatja a navigációt a dokumentumfán: ez a **tengely (axis)**.
+
+    A tengely megadja a **navigáció irányát** az aktuális csomóponthoz képest, majd egy csomópontteszttel határozza meg, mely csomópontok kerülnek kiválasztásra.
+
+    **Általános szintaxis:**  
+    `tengely_neve::csomópont_teszt`
+
+    Példák:
+    - `child::p` → az aktuális csomópont **gyerek** elemei közül a `p` elemeket választja ki  
+    - `parent::*` → az aktuális csomópont **szülőjét** választja ki, bármilyen tagnevű legyen  
+
+    A korábban tanult rövid formák valójában a tengelyek **kényelmi rövidítései**.
+
+  exercises:
+    - id: "axis-syntax"
+      type: "multiple_choice"
+      order: 1
+      title: "Tengely szintaxis"
+      question: |
+        Tekintsük a `child::a[@class='nav']` kifejezést.  
+        Mely részek alkotják a formális tengely szintaxisát?
+      options:
+        - id: "a"
+          text: "A child szó"
+          correct: true
+        - id: "b"
+          text: "A :: kettőspontpár"
+          correct: true
+        - id: "c"
+          text: "A [@class='nav'] predikátum"
+          correct: false
+        - id: "d"
+          text: "A p csomópontteszt"
+          correct: false
+      explanation: "A tengely szintaxisa a tengelynévből (`child`), a `::` jelből és a csomóponttesztből (`a`) áll. A predikátum csak utólagos szűrésre szolgál."
+      hints:
+        - "A tengelyt a név + :: + csomópontteszt hármasa alkotja."
+
+    - id: "formal-child-selection"
+      type: "xpath_sandbox"
+      order: 2
+      title: "Formális tengely használata"
+      question: "Válaszd ki az összes `<p>` elemet, amelyek a `<body>` elem közvetlen gyerekei."
+      sample_document: |
+        <html>
+        <body>
+          <p>Első</p>
+          <p>Második</p>
+          <div><p>Beágyazott</p></div>
+        </body>
+        </html>
+      solution: "/html/body/child::p"
+      explanation: "A /html/body navigál a body elemhez, a child::p pedig a közvetlen gyerek p elemeket választja ki."
+      hints:
+        - "A rövid /p valójában child::p formális alakja."
+
+    - id: "parent-axis"
+      type: "xpath_sandbox"
+      order: 3
+      title: "Szülő keresése tengellyel"
+      question: "Válaszd ki az összes `<li>` elem szülőjét a formális tengely használatával."
+      sample_document: |
+        <ul>
+          <li>Item 1</li>
+          <li>Item 2</li>
+        </ul>
+      solution: "//li/parent::*"
+      explanation: "A //li kiválasztja az összes listaelemet, a parent::* pedig visszalép a szülő elemhez, függetlenül a tag nevétől."
+      hints:
+        - "Használd a parent:: tengelyt a szülő csomópontra lépéshez."
+
+  summary: |
+    A tengelyek adják az XPath valódi erejét: pontosan meghatározható velük a navigáció **irány**a és **hatóköre**.
+    A rövidített alakok (/, //, ..) mind a tengelyek kényelmi formái.  
+    A formális tengelyszintaxis használatával sokkal összetettebb, mégis átlátható lekérdezések hozhatók létre.

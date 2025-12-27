@@ -1,0 +1,53 @@
+
+<div class="pattern-input-section flex-column gap-sm">
+  <!-- Input + Builder -->
+  <div class="input-and-builder flex-column gap-sm">
+    <!-- Pattern input -->
+    <div class="input-wrapper input-container" [class.invalid]="!isValidPattern">
+      <span class="regex-delimiter font-monospace">/</span>
+
+      <input #patternInputField class="pattern-input font-monospace" type="text" [ngModel]="pattern"
+        (ngModelChange)="handlePatternInput($event)" [class.error]="!isValidPattern"
+        [attr.aria-invalid]="!isValidPattern" placeholder="Pl. \\d+" />
+
+      <span class="regex-delimiter font-monospace">/</span>
+    </div>
+
+    <!-- Builder row -->
+    <div class="builder-row">
+      <app-regex-builder (insertToken)="handleInsertToken($event)">
+      </app-regex-builder>
+    </div>
+  </div>
+
+  <!-- Flags -->
+  <div class="flags">
+    <label class="flag-option">
+      <input type="checkbox" class="flag-checkbox-native" [checked]="flagI"
+        (change)="handleToggleFlag('i', $any($event.target).checked)" />
+      <div class="checkbox-custom checkbox-custom-sm">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <span class="flag-label">Kis-/nagybetűtől független (i)</span>
+    </label>
+
+    <label class="flag-option">
+      <input type="checkbox" class="flag-checkbox-native" [checked]="flagM"
+        (change)="handleToggleFlag('m', $any($event.target).checked)" />
+      <div class="checkbox-custom checkbox-custom-sm">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <span class="flag-label">Többsoros mód (m)</span>
+    </label>
+  </div>
+
+  <div class="pattern-error" *ngIf="!isValidPattern">
+    Érvénytelen regex minta
+  </div>
+</div>

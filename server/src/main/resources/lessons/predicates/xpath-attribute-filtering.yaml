@@ -1,0 +1,79 @@
+lesson:
+  id: "xpath-attribute-filtering"
+  title: "Szűrés attribútumokkal"
+  description: "Elemek kiválasztása attribútumok szerint"
+  introduction: |
+    A dokumentumfa elemei gyakran tartalmaznak attribútumokat (például `id`, `class`, `href`), amelyek kulcsfontosságúak az elemek azonosításához.  
+    A predikátumok segítségével a kiválasztást **attribútumok alapján is szűkíthetjük**.
+
+    Az attribútumokra való hivatkozáshoz az `@` jel használatos, amelyet az attribútum neve követ.  
+    Például: `div[@id]` kiválaszt minden olyan `<div>` elemet, amelynek **van `id` attribútuma**, függetlenül annak értékétől.
+
+    Ha az attribútum **konkrét értékére** szeretnénk szűrni, akkor az `=` operátort használjuk, és az értéket **idézőjelek közé** írjuk:  
+    `//a[@target='​_blank']` → minden olyan link elem, amely új lapon nyílik meg.
+
+  exercises:
+    - id: "attribute-reference"
+      type: "radio"
+      order: 1
+      title: "Hivatkozás"
+      question: "Melyik karakter használatos az XPath predikátumon belül, ha egy elem attribútumára hivatkozunk?"
+      options:
+        - id: "a"
+          text: "#"
+          correct: false
+        - id: "b"
+          text: "&"
+          correct: false
+        - id: "c"
+          text: "@"
+          correct: true
+      explanation: "A `@` jelzi az XPath számára, hogy a következő név egy attribútumot jelöl."
+      hints:
+        - "Gondolj az attribútumokra úgy, mint címzettekre – `@`."
+
+    - id: "match-warning-class"
+      type: "multiple_choice"
+      order: 2
+      title: "Illeszkedés"
+      question: |
+        Melyik elemre illeszkedik a `//p[@class='warning']` kifejezés?
+
+        ```html
+        <p class="warning">Figyelem!</p>
+        <p>Normál szöveg.</p>
+        <div class="warning">Div figyelmeztetés</div>
+        ```
+      options:
+        - id: "a"
+          text: "A <p class='warning'>Figyelem!</p> elemre"
+          correct: true
+        - id: "b"
+          text: "Mindkét p elemre"
+          correct: false
+        - id: "c"
+          text: "A <div class='warning'>Div figyelmeztetés</div> elemre"
+          correct: false
+      explanation: "A predikátum két feltételt ír elő: az elemnek `<p>` tagnak kell lennie, és a `class` attribútum értékének pontosan `'warning'`-nak kell lennie."
+      hints:
+        - "A predikátum **mindig az előtte álló elemre** vonatkozik, és azt szűkíti."
+
+    - id: "filter-footer-div"
+      type: "xpath_sandbox"
+      order: 3
+      title: "Szűrés"
+      question: "Válaszd ki azt a `<div>` elemet, amelynek az `id` attribútuma `footer` értékű."
+      sample_document: |
+        <body>
+          <div id="header">Felső rész</div>
+          <div class="content">Tartalom</div>
+          <div id="footer">Alsó rész</div>
+        </body>
+      solution: "//div[@id='footer']"
+      explanation: "A `//div` kiválasztja az összes `<div>` elemet, majd a predikátum a `@id` értéke alapján szűkít."
+      hints:
+        - "Szintaxis: `//elem_neve[@attribútum_neve='érték']`"
+
+  summary: |
+    Az attribútumok alapján történő szűrés az XPath egyik leggyakoribb feladata.  
+    Az `@` jel után az attribútum nevét, az `=` után pedig az értékét kell megadni idézőjelek között, hogy pontosan meghatározhassuk a keresett elemet.

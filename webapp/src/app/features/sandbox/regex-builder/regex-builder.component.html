@@ -1,0 +1,5 @@
+<div class="sandbox-token-row">
+    <button *ngFor="let token of tokens" (mousedown)="handleMouseDown($event, token.value)" [title]="token.title" class="sandbox-token-btn">
+        {{token.label}}
+    </button>
+</div>

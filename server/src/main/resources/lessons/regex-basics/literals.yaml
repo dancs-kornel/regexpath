@@ -1,0 +1,83 @@
+lesson:
+  id: "literals"
+  title: "Bevezetés a literálokba"
+  description: "Fix szövegrészek keresése a legegyszerűbb módszerrel"
+  introduction: |
+    A reguláris kifejezések elsajátításának első és legfontosabb lépése a literálok megértése.
+    A literál egy nagyon egyszerű ötletet takar: Amit leírsz, azt keresed.
+    Ha a keresőmintád egyszerűen alma, akkor a rendszer pontosan az ’’a-l-m-a’’ karaktersorozatot fogja megkeresni a szövegben.
+    Ez a reguláris kifejezések legegyszerűbb, de egyben leggyakrabban használt formája.
+
+  exercises:
+    - id: "literal-definition"
+      type: "radio"
+      order: 1
+      title: "Mi az a literál?"
+      question: "Mit jelent, ha egy reguláris kifejezés mintája ’macska’?"
+      options:
+        - id: "a"
+          text: "A minta a ’m’,’a’,’c’,’s’,’k’ betűk bármelyikére illeszkedik"
+          correct: false
+        - id: "b"
+          text: "A minta pontosan a ’macska’ karaktersorozatot keresi"
+          correct: true
+        - id: "c"
+          text: "A minta bármilyen 6 betűs szóra illeszkedik"
+          correct: false
+      explanation: "A literál a megadott karakterek pontos sorrendben való előfordulását keresi. A macska minta csak és kizárólag a macska szóra fog illeszkedni"
+      hints:
+        - "Gondolj a literálra úgy, mintha egy szövegszerkesztőben keresnél egy konkrét szót"
+        - "Ha egy mintában nincsenek speciális karakterek (pl. [], *, +), akkor az szinte mindig literálként viselkedik"
+
+    - id: "literal-sandbox"
+      type: "regex_sandbox"
+      order: 2
+      title: "Első gyakorlat - Regex sandbox"
+      question: "Írj egy reguláris kifejezést, amely megtalálja a ’regex’ szót az alábbi szövegekben"
+      test_cases:
+        positive:
+          - text: "A regex egy eszköz"
+            description: "Egyszerű találat"
+            expected_matches: ["regex"]
+          - text: "learnrregexfast"
+            description: "A szó részeként is illeszkedik"
+            expected_matches: ["regex"]
+          - text: "regexregex"
+            description: "Többszörös előfordulás"
+            expected_matches: ["regex", "regex"]
+        negative:
+          - text: "reg ex"
+            description: "Szóköz megszakítja a mintát"
+          - text: "rege"
+            description: "Hiányzó karakter"
+          - text: "Regex"
+            description: "Nagybetűs verzió - nem egyezik"
+      solution: "regex"
+      explanation: "A ’regex’ literál pontosan az r,e,g,e,x karakterek egymás utáni előfordulását találja meg. Figyeld meg, hogy a literális keresés alapértelmezetten kis- és nagybetűkre érzékeny."
+      hints:
+        - "A karakterek sorrendje és a kis-/nagybetűk is számítanak"
+        - "Egyszerűen csak írd be a keresett szót"
+
+    - id: "literal-nem-talalat"
+      type: "radio"
+      order: 3
+      title: "Melyik NEM találat?"
+      question: "Ha a ’hiba’ mintát keresed, melyik sorban NEM fogsz találatot kapni?"
+      options:
+        - id: "a"
+          text: "programhiba"
+          correct: false
+        - id: "b"
+          text: "h i b a"
+          correct: true
+        - id: "c"
+          text: "hibahiba"
+          correct: false
+      explanation: "A „hiba” minta a karakakterek közvetlen egymásutániságát keresi. A „h i b a” szövegben a szóközök megszakítják ezt a sorozatot."
+      hints:
+        - "A literálok nem hagyhatnak ki karaktereket"
+        - "A szóközök is karakternek számítanak"
+
+  summary: |
+    Ebben a leckében megtanultad a reguláris kifejezések alapjait: A literálokat.
+    Most már tudod, hogy ha egy konkrét szövegrészletet keresel, a legegyszerűbb, ha egyszerűen begépeled a keresett szöveget mintaként.

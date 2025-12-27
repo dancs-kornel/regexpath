@@ -1,0 +1,20 @@
+
+.view-toggles {
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+.view-toggles label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.view-toggles input[type="checkbox"] {
+  cursor: pointer;
+}

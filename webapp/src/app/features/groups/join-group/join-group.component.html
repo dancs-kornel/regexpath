@@ -1,0 +1,84 @@
+<div class="join-group-container">
+    @if (!joinedGroup) {
+    <section class="join-card card-base" role="form" aria-labelledby="join-title">
+        <header class="join-header">
+            <div class="join-title-wrap">
+                <svg class="join-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 5 17 10"></polyline>
+                    <line x1="12" y1="5" x2="12" y2="15"></line>
+                </svg>
+                <h1 id="join-title">Csatlakozz egy csapathoz</h1>
+            </div>
+            <p class="instruction">Írd be a tanárodtól kapott 6 karakteres kódot</p>
+        </header>
+
+        <form [formGroup]="joinGroupForm" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-group">
+                <label for="inviteCode">Meghívókód *</label>
+
+                <input id="inviteCode" class="code-input" type="text" inputmode="latin" autocomplete="one-time-code"
+                    formControlName="inviteCode" placeholder="ABC123" maxlength="6" (input)="formatInviteCode($event)"
+                    [attr.aria-invalid]="joinGroupForm.get('inviteCode')?.invalid && joinGroupForm.get('inviteCode')?.touched"
+                    [attr.aria-describedby]="(joinGroupForm.get('inviteCode')?.invalid && joinGroupForm.get('inviteCode')?.touched) ? 'code-error' : null"
+                    required />
+
+                @if (joinGroupForm.get('inviteCode')?.invalid && joinGroupForm.get('inviteCode')?.touched) {
+                <span id="code-error" class="error-text" role="alert">
+                    A meghívó 6 alfanumerikus karakterből áll
+                </span>
+                }
+            </div>
+
+            @if (errorMessage) {
+            <p class="error" role="alert">{{ errorMessage }}</p>
+            }
+
+            <div class="form-actions">
+                <button type="button" class="btn-ghost" (click)="cancel()">Mégse</button>
+                <button type="submit" class="btn-primary" [disabled]="joinGroupForm.invalid || isLoading">
+                    {{ isLoading ? 'Csatlakozás...' : 'Csatlakozás' }}
+                </button>
+            </div>
+        </form>
+
+        <div class="help-text">
+            <p><strong>Nincs meghívókódod?</strong></p>
+            <p>Kérdd meg az oktatódat, hogy ossza meg veled a csoport meghívóját.</p>
+        </div>
+    </section>
+    }
+
+    @if (joinedGroup) {
+    <section class="success-card card-success" role="status" aria-live="polite">
+        <div class="success-head">
+            <div class="success-icon-wrap">
+                <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h1>Sikeres csatlakozás!</h1>
+        </div>
+
+        <div class="group-details">
+            <h2>{{ joinedGroup.name }}</h2>
+            @if (joinedGroup.description) {
+            <p class="group-desc">{{ joinedGroup.description }}</p>
+            }
+            <div class="group-info">
+                <p><strong>Oktató:</strong> {{ joinedGroup.teacherName }}</p>
+                <p><strong>Tagok:</strong> {{ joinedGroup.memberCount }}</p>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn-ghost" (click)="joinAnother()">Csatlakozás másik csoporthoz</button>
+            <button class="btn-primary" (click)="goToGroups()">Saját csoportjaim</button>
+        </div>
+    </section>
+    }
+</div>

@@ -1,0 +1,54 @@
+
+.tree-node {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.tree-node.highlighted {
+  background-color: yellow;
+}
+
+.tree-node.hovered {
+  background-color: lightblue;
+}
+
+.expand-icon {
+  display: inline-block;
+  width: 16px;
+  cursor: pointer;
+  font-size: 10px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.expand-icon:hover {
+  color: #4a90e2;
+}
+
+.expand-placeholder {
+  display: inline-block;
+  width: 16px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.node-label {
+  color: #333;
+}
+
+.node-index {
+  color: #666;
+  font-size: 11px;
+}
+
+.node-id {
+  color: #0066cc;
+  margin-left: 4px;
+  font-size: 11px;
+}

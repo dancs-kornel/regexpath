@@ -1,0 +1,170 @@
+
+.xpath-sandbox {
+  padding: 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+.controls-section {
+  margin-bottom: 15px;
+}
+
+.controls-section label {
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.controls-section select,
+.controls-section input[type="text"] {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.controls-section input[type="text"] {
+  width: 500px;
+  max-width: 100%;
+}
+
+.sample-description {
+  color: #666;
+  font-size: 14px;
+}
+
+
+.token-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+
+pre[class*="language-"] {
+  background: #f5f5f5;
+  padding: 1em;
+  margin: 0;
+  overflow: auto;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+
+code[class*="language-"] {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+.code-line {
+  display: block;
+  width: 100%;
+  min-height: 1.5em;
+}
+
+
+.code-line.highlighted {
+  background: yellow;
+}
+
+.code-line.highlighted-hover {
+  background: lightblue;
+}
+
+
+.results-section {
+  margin-top: 20px;
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+.results-section h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.error-message {
+  padding: 12px;
+  background: #fee;
+  border-left: 4px solid #c33;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.execution-time {
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.matches-container {
+  margin-top: 12px;
+}
+
+.matches-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.match-item {
+  padding: 12px;
+  margin: 8px 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.match-item:hover {
+  background-color: #e3f2fd;
+  border-color: #90caf9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.match-item .node-type {
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.match-item .tag-name {
+  color: #666;
+}
+
+
+.match-item .xpath-path {
+  display: inline-block;
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  margin: 4px 0;
+}
+
+.match-item .text-content {
+  color: #555;
+  font-style: italic;
+}
+
+.no-matches {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  background: white;
+  border-radius: 4px;
+}
+
+
+.loading-state {
+  padding: 20px;
+}
+
+
+body.resizing {
+  user-select: none;
+  cursor: col-resize !important;
+}

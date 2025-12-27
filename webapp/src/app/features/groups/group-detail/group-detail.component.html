@@ -1,0 +1,225 @@
+<!-- features/groups/group-detail/group-detail.component.html -->
+
+<div class="group-detail-container flex-column">
+    <button class="btn-back" (click)="goBack()">← Vissza a csoportokhoz</button>
+
+    @if (isLoading) {
+    <p>Csoport adatok betöltése...</p>
+    }
+
+    @if (errorMessage) {
+    <p class="error-message">{{ errorMessage }}</p>
+    }
+
+    @if (!isLoading && group) {
+    <div class="group-header card-wrapper card-interactive">
+        <div class="group-info">
+            <h1>{{ group.name }}</h1>
+
+            @if (group.description) {
+            <p class="description">{{ group.description }}</p>
+            }
+
+            <div class="meta-info">
+                @if (isStudent) {
+                <span><strong>Oktató:</strong> {{ group.teacherName }}</span>
+                }
+                <span><strong>Tagok:</strong> {{ group.memberCount }}</span>
+                <span><strong>Létrehozva:</strong> {{ group.createdAt | date:'short' }}</span>
+            </div>
+
+            @if (isTeacher) {
+            <div class="invite-code-section">
+                <strong>Meghívó:</strong>
+                <span class="invite-code font-monospace">{{ group.inviteCode }}</span>
+                <p class="hint">Oszd meg ezt a kódot a tanulóiddal</p>
+            </div>
+            }
+        </div>
+
+        @if (isStudent && assignments.length > 0) {
+        <div class="stats-card">
+            <h3>Összpontszám:</h3>
+            <div class="points-display">
+                <span class="earned">{{ totalPointsEarned }}</span>
+                <span class="separator">/</span>
+                <span class="possible">{{ totalPointsPossible }}</span>
+            </div>
+            <div class="percentage">
+                ({{ percentageGrade.toFixed(1) }}%)
+            </div>
+        </div>
+        }
+
+        <div class="actions">
+            @if (isTeacher && group.teacherId === currentUserId) {
+            <button class="btn-primary" (click)="openAssignModal()">Feladat kiosztása</button>
+            <button class="btn-primary" (click)="viewGroupStatistics()">Statisztikák</button>
+            }
+            @if (isStudent) {
+            <button class="danger-button btn-secondary" (click)="leaveGroup()">Kilépés</button>
+            }
+            @if (isTeacher && group.teacherId === currentUserId) {
+            <button class="danger-button btn-secondary" (click)="deleteGroup()">Csapat törlése</button>
+            }
+        </div>
+    </div>
+
+    <!-- Assignments Section -->
+    <div class="assignments-section section-card">
+        <h2 class="section-title">Feladatok</h2>
+
+        @if (assignments.length === 0) {
+        <p class="empty-state">
+            @if (isTeacher) {
+            Ennek a csoportnak még nincs feladat kiosztva. Kattints a "Feladat kiosztása" gombra az első feladat
+            hozzáadásához.
+            } @else {
+            Ennek a csoportnak még nincs feladat kiosztva.
+            }
+        </p>
+        } @else {
+        <table class="assignments-table">
+            <thead>
+                <tr>
+                    <th>Cím</th>
+                    <th>Beadási határidő</th>
+                    <th>Pontszám</th>
+                    @if (isStudent) {
+                    <th>Próbálkozások</th>
+                    <th>Státusz</th>
+
+                    }
+                    <th>Műveletek</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (assignment of assignments; track assignment.id) {
+                <tr class="list-row-hover">
+                    <td>{{ assignment.title }}</td>
+                    <td>{{ assignment.dueDate ? (assignment.dueDate | date:'short') : 'Nincs határidő' }}</td>
+                    <td>{{ assignment.totalPoints }}</td>
+                    @if (isStudent) {
+                    <td>
+                        {{ assignment.attemptsUsed ?? 0}} / {{ assignment.maxAttempts ?? '∞' }}
+                    </td>
+                    <td>
+                        <span class="status-badge" [class]="getAssignmentStatusClass(assignment)">
+                            {{ getAssignmentStatusText(assignment) }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            @if (canStartNew(assignment)) {
+                            <button class="btn-start btn-primary" (click)="startAssignment(assignment.id)">
+                                Kezdés
+                            </button>
+                            }
+
+                            @if (canContinue(assignment)) {
+                            <button class="btn-continue btn-primary" (click)="startAssignment(assignment.id)">
+                                Folytatás
+                            </button>
+                            }
+
+                            @if (canViewAttempts(assignment)) {
+                            <button class="btn-view btn-secondary" (click)="viewAttempts(assignment.id)">
+                                Próbálkozások
+                            </button>
+                            }
+
+                            @if (!canStartNew(assignment) && !canContinue(assignment) && !canViewAttempts(assignment)) {
+                            <span class="no-action">—</span>
+                            }
+                        </div>
+                    </td>
+                    }
+                    @if (isTeacher) {
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-preview btn-primary" (click)="previewAssignment(assignment.id)">
+                                Előnézet
+                            </button>
+                            <button class="btn-unassign btn-secondary" (click)="unassignAssignment(assignment.id)">
+                                ✕ Törlés
+                            </button>
+                        </div>
+                    </td>
+                    }
+                </tr>
+                }
+            </tbody>
+        </table>
+        }
+    </div>
+
+    <!-- Members Section -->
+    <div class="members-section section-card">
+        <h2 class="section-title">Tagok ({{ members.length }})</h2>
+
+        @if (members.length === 0) {
+        <p class="empty-state">Még nincsenek tagok. Oszd meg a meghívókódot, hogy a diákok csatlakozhassanak!</p>
+        }
+
+        @if (members.length > 0 && isTeacher) {
+        <div class="table-wrap">
+            <table class="members-table">
+                <thead>
+                    <tr>
+                        <th>Felhasználónév</th>
+                        <th>Email</th>
+                        <th>Csatlakozás</th>
+                        <th class="col-actions">Műveletek</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (member of members; track member.id) {
+                    <tr>
+                        <td class="cell-name">
+                            <div class="user">
+                                <div class="avatar"
+                                    [attr.data-initials]="(member.username || 'U').slice(0,1).toUpperCase()"></div>
+                                <span class="user-name">{{ member.username }}</span>
+                            </div>
+                        </td>
+                        <td class="cell-email">
+                            <a class="email-link" href="mailto:{{ member.email }}">{{ member.email }}</a>
+                        </td>
+                        <td class="cell-joined">{{ member.joinedAt | date:'short' }}</td>
+                        <td class="cell-actions">
+                            <button class="btn-chip" (click)="viewStudentProgress(member.userId)">
+                                Haladás
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+        @if (members.length > 0 && isStudent) {
+        <div class="members-list">
+            @for (member of members; track member.id) {
+            <div class="member-card flex-between">
+                <div class="member-left">
+                    <div class="avatar" [attr.data-initials]="(member.username || 'U').slice(0,1).toUpperCase()"></div>
+                    <div class="member-info flex-column">
+                        <strong class="user-name">{{ member.username }}</strong>
+                        <a class="email-link" href="mailto:{{ member.email }}">{{ member.email }}</a>
+                    </div>
+                </div>
+                <div class="member-meta">
+                    <span class="joined">Csatlakozás: {{ member.joinedAt | date:'short' }}</span>
+                </div>
+            </div>
+            }
+        </div>
+        }
+
+    </div>
+
+    @if (assignModal.show) {
+    <app-assign-assignment-modal [assignmentId]="0" [assignmentTitle]="''" [preselectedGroupId]="assignModal.groupId"
+        [selectAssignmentMode]="true" (closeModal)="closeAssignModal()" (assignmentAssigned)="onAssignmentAssigned()" />
+    }
+    }

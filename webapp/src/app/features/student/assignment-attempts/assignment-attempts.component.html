@@ -1,0 +1,91 @@
+<!-- app/features/student/assignment-attempts/assignment-attempts.component.html -->
+
+<div class="attempts-container">
+    <button class="btn-back" (click)="goBack()">← Vissza a csoporthoz</button>
+
+    @if (isLoading) {
+        <div class="loading-state">Próbálkozások betöltése...</div>
+    }
+
+    @if (error) {
+        <div class="error-message">{{ error }}</div>
+    }
+
+    @if (!isLoading && assignment) {
+        <div class="assignment-header section-card card-wrapper card-interactive">
+            <h1>{{ assignment.title }}</h1>
+            
+            @if (assignment.description) {
+                <p class="description">{{ assignment.description }}</p>
+            }
+
+            <div class="assignment-info">
+                <span><strong>Összpontszám:</strong> {{ assignment.totalPoints }}</span>
+                <span><strong>Feladatok száma:</strong> {{ assignment.exerciseCount }}</span>
+                <span><strong>Próbálkozások:</strong> {{ assignment.attemptsUsed }} / {{ assignment.maxAttempts ?? '∞' }}</span>
+                @if (assignment.dueDate) {
+                    <span><strong>Határidő:</strong> {{ assignment.dueDate | date:'short' }}</span>
+                }
+            </div>
+
+            @if (canRetake()) {
+                <button class="btn-retake btn-primary" (click)="retakeAssignment()">
+                    Új próbálkozás
+                </button>
+            } @else if (assignment.isExpired) {
+                <div class="expired-notice">
+                    Ez a feladat lejárt
+                </div>
+            } @else if (assignment.hasActiveAttempt) {
+                <button class="btn-continue btn-secondary" (click)="retakeAssignment()">
+                    Folyamatban lévő próbálkozás folytatása
+                </button>
+            } @else {
+                <div class="no-attempts-notice">
+                    Minden próbálkozás felhasználva
+                </div>
+            }
+        </div>
+
+        <div class="attempts-section section-card card-wrapper card-interactive">
+            <h2>Próbálkozásaid ({{ attempts.length }})</h2>
+
+            @if (attempts.length === 0) {
+                <p class="empty-state">Még nem próbáltad meg egyszer sem.</p>
+            } @else {
+                <div class="attempts-list">
+                    @for (attempt of attempts; track attempt.id) {
+                        <div class="attempt-card card-hover-subtle card-wrapper" [class.best-attempt]="isBestAttempt(attempt.id)">
+                            <div class="attempt-header flex-between border-bottom">
+                                <div class="attempt-number">
+                                    <h3>Próba #{{ attempt.attemptNumber }}</h3>
+                                    @if (isBestAttempt(attempt.id)) {
+                                        <span class="badge-best badge-primary">Legjobb</span>
+                                    }
+                                </div>
+                                <div class="attempt-score" [class]="getScoreClass(attempt.percentageScore)">
+                                    {{ attempt.score }} / {{ attempt.maxScore }}
+                                    <span class="percentage">({{ attempt.percentageScore | number:'1.0-1' }}%)</span>
+                                </div>
+                            </div>
+
+                            <div class="attempt-meta">
+                                <span><strong>Elkezdve:</strong> {{ attempt.startedAt | date:'short' }}</span>
+                                @if (attempt.submittedAt) {
+                                    <span><strong>Beadva:</strong> {{ attempt.submittedAt | date:'short' }}</span>
+                                }
+                                @if (!attempt.completed) {
+                                    <span class="status-incomplete">Nem teljesített</span>
+                                }
+                            </div>
+
+                            <button class="btn-view-details btn-secondary" (click)="viewAttempt(attempt.id)">
+                                Részletek
+                            </button>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

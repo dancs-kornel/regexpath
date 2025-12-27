@@ -1,0 +1,71 @@
+<div class="container">
+    <div class="register-card card-base">
+        <header>
+            <h1>Fiók létrehozása</h1>
+            <p class="subtitle">Csatlakozz még ma</p>
+        </header>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="username">Felhasználónév</label>
+                <input 
+                    id="username" 
+                    type="text" 
+                    formControlName="username" 
+                    required
+                    placeholder="Válassz egy felhasználónevet"
+                    [class.error]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email-cím</label>
+                <input 
+                    id="email" 
+                    type="email" 
+                    formControlName="email" 
+                    required
+                    placeholder="Add meg az email-címedet"
+                    [class.error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Jelszó</label>
+                <input 
+                    id="password" 
+                    type="password" 
+                    formControlName="password" 
+                    required
+                    placeholder="Hozz létre egy jelszót"
+                    [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            </div>
+
+            <div class="form-group">
+                <label for="role">Szerepkör</label>
+                <select 
+                    id="role" 
+                    formControlName="role" 
+                    required
+                    [class.error]="registerForm.get('role')?.invalid && registerForm.get('role')?.touched">
+                    @for (role of roles; track role) {
+                        <option [value]="role">{{ role }}</option>
+                    }
+                </select>
+            </div>
+
+            @if (errorMessage) {
+                <div class="error-message">
+                    <span class="error-icon">⚠</span>
+                    {{ errorMessage }}
+                </div>
+            }
+
+            <button type="submit" [disabled]="registerForm.invalid || isLoading" class="btn-primary">
+                {{ isLoading ? 'Regisztráció folyamatban...' : 'Regisztráció' }}
+            </button>
+        </form>
+
+        <div class="auth-link">
+            Már van fiókod? <a routerLink="/login">Jelentkezz be</a>
+        </div>
+    </div>
+</div>

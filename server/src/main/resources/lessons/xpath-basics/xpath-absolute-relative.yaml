@@ -1,0 +1,78 @@
+lesson:
+  id: "xpath-absolute-relative"
+  title: "Abszolút és Relatív útvonalak (/, //)"
+  description: "Két alapvető útvonal-kijelölő megismerése"
+  introduction: |
+    Az XPath útvonalak a fájlrendszerekhez hasonlóan működnek, segítve a navigációt a dokumentumfán.  
+    A keresés **hatókörét** az útvonal kezdete határozza meg.
+
+    **Abszolút útvonal (`/`):**  
+    A keresés a **gyökértől** indul, és teljes, pontos útvonalat vár.  
+    A `/html/body/p` útvonal azokat a `<p>` elemeket választja ki, amelyek a `<body>` közvetlen gyerekei a `<html>` gyökérelemen belül.
+
+    **Relatív útvonal (`//`):**  
+    A keresés **bárhol** indulhat a dokumentumban, megkerülve a gyökértől induló kötöttséget.  
+    A `//h1` minta kiválasztja az összes `<h1>` elemet, bárhol legyenek a dokumentumban.
+
+    A kettő **kombinálható** is:  
+    A `/html//a` minta a `<html>` gyökérelemen belül **minden `<a>` elemet** megtalál.
+
+  exercises:
+    - id: "relative-path"
+      type: "multiple_choice"
+      order: 1
+      title: "Relatív útvonal"
+      question: |
+        Mely elemet választja ki a `//book` kifejezés?
+
+        ```
+        <bookstore>
+          <book>
+            <title>The Iliad</title>
+          </book>
+          <book>
+            <author>Homer</author>
+          </book>
+        </bookstore>
+        ```
+      options:
+        - id: "a"
+          text: "Csak az első book elemet"
+          correct: false
+        - id: "b"
+          text: "Az első book elemet"
+          correct: true
+        - id: "c"
+          text: "A második book elemet"
+          correct: true
+        - id: "d"
+          text: "Hibás lekérdezés"
+          correct: false
+      explanation: "A `//book` relatív útvonal, amely **minden** `<book>` elemet kiválaszt a dokumentumból."
+      hints:
+        - "A `//` az egész dokumentumban keres, bárhol."
+        - "Nem szükséges megadni a gyökértől induló útvonalat."
+
+    - id: "absolute-search"
+      type: "xpath_sandbox"
+      order: 2
+      title: "Abszolút keresés"
+      question: "Válaszd ki a dokumentum head elem alatti title elemét."
+      sample_document: |
+        <html>
+          <head>
+            <title>Főoldal</title>
+          </head>
+          <body>
+            <h1>Üdvözlet</h1>
+          </body>
+        </html>
+      solution: "//head/title"
+      explanation: "A `//head` megtalálja a `<head>` elemet, majd a `/title` kiválasztja annak közvetlen `<title>` gyermekét."
+
+  summary: |
+    Megismerted az XPath két alapvető útvonaltípusát:
+    - `/` – abszolút útvonal, amely a gyökértől indul  
+    - `//` – relatív útvonal, amely bárhol kereshet a dokumentumban
+
+    Ezek segítségével pontosan meghatározhatod, honnan induljon a keresés, és hol találhatóak az általad keresett elemek.

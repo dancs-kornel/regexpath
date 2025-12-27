@@ -1,0 +1,62 @@
+
+<div class="modal-backdrop" (click)="close()">
+    <div class="modal flex-column" (click)="$event.stopPropagation()">
+        <div class="modal-header flex-between border-bottom">
+            <h2>Feladatsor kiosztása</h2>
+            <button class="close-btn" (click)="close()">&times;</button>
+        </div>
+
+        <div class="modal-body">
+            @if (selectAssignmentMode || assignmentId === 0) {
+            <div class="assignment-selection">
+                <label><strong>Feladatsor:</strong></label>
+                <select [(ngModel)]="selectedAssignmentId" [disabled]="isSubmitting" class="checkbox-custom-md">
+                    @for (assignment of assignments; track assignment.id) {
+                    <option [value]="assignment.id">
+                        {{ assignment.title }} ({{ assignment.totalPoints }} pont)
+                    </option>
+                    }
+                </select>
+            </div>
+            } @else {
+            <p><strong>Feladatsor:</strong> {{ assignmentTitle }}</p>
+            }
+
+            @if (error) {
+            <div class="error">{{ error }}</div>
+            }
+
+            @if (isLoading) {
+            <p>Csoportok betöltése...</p>
+            } @else if (groups.length === 0) {
+            <div class="empty-state">
+                <p>Még nincsenek csoportjaid.</p>
+                <p>Hozd létre az első csoportod a feladatsor kiosztásához.</p>
+            </div>
+            } @else {
+            <div class="groups-selection">
+                <p>Válaszd ki a csoportokat:</p>
+                <div class="groups-list flex-column">
+                    @for (group of groups; track group.id) {
+                    <label class="group-checkbox">
+                        <input class="checkbox-custom-md"type="checkbox" [checked]="isGroupSelected(group.id)" (change)="toggleGroup(group.id)"
+                            [disabled]="isSubmitting" />
+                        <span class="group-info flex-column">
+                            <strong>{{ group.name }}</strong>
+                            <span class="group-meta">{{ group.memberCount }} tag</span>
+                        </span>
+                    </label>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="close()" [disabled]="isSubmitting">Mégse</button>
+            <button class="btn-primary" (click)="assignToGroups()" [disabled]="selectedGroupIds.length === 0 || isSubmitting">
+                {{ isSubmitting ? 'Kiosztás...' : 'Feladatsor kiosztása' }}
+            </button>
+        </div>
+    </div>
+</div>

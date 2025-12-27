@@ -1,0 +1,82 @@
+lesson:
+  id: "optional-quantifier"
+  title: "Opcionális karakterek (?)"
+  description: "A ’nulla vagy egy’ előfordulást leíró kvantor működése"
+  introduction: |
+    A csillag `*` és plusz `+` mellett a harmadik alapvető kvantor a kérdőjel `?`, amely **nulla vagy egy** előfordulást jelent.  
+    Ez tesz egy karaktert vagy csoportot **opcionálissá**.
+
+    A `?` illeszkedik az előtte álló elem legfeljebb egyszeri előfordulására.  
+    A `colou?r` minta például illeszkedik a brit **colour** és az amerikai **color** szóra is.
+
+  exercises:
+    - id: "question-mark-quantifier"
+      type: "radio"
+      order: 1
+      title: "A ? kvantor"
+      question: "A kérdőjel `?` kvantor az előtte álló mintára hányszori ismétlődés esetén illeszkedik?"
+      options:
+        - id: "a"
+          text: "Pontosan egyszer"
+          correct: false
+        - id: "b"
+          text: "Nulla vagy egy alkalommal"
+          correct: true
+        - id: "c"
+          text: "Egy vagy több alkalommal"
+          correct: false
+      explanation: "A `?` azt jelenti, hogy az előtte álló elemnek legfeljebb egyszer szabad megjelennie."
+      hints:
+        - "Gondolj az ’opcionális’ szóra."
+
+    - id: "suffix-optional"
+      type: "regex_sandbox"
+      order: 2
+      title: "Toldalékok"
+      question: "Írj egy reguláris kifejezést, amely megtalálja a ’házba’ és a ’házban’ szót is."
+      test_cases:
+        positive:
+          - text: "Visszamegyek a házba"
+            description: "Tartalmazza a házba formát"
+            expected_matches: ["házba"]
+          - text: "A szomszéd házban lakik"
+            description: "Tartalmazza a házban formát"
+            expected_matches: ["házban"]
+        negative:
+          - text: "Kijöttem a házból"
+            description: "Más toldalék, nem illeszkedik"
+          - text: "Holnap házasodnak"
+            description: "Más szótő, nem illeszkedik"
+          - text: "ház"
+            description: "Nincs toldalék"
+      solution: "házban?"
+      explanation: "A minta a `ház` literálból és a `ban?` részből áll. A `?` a végső `n` betűt opcionálissá teszi, így a minta illeszkedik mindkét toldalékra."
+      hints:
+        - "A két rag csupán egy betűben különbözik."
+
+    - id: "url-protocol"
+      type: "regex_sandbox"
+      order: 3
+      title: "URL-protokoll"
+      question: "Írj egy reguláris kifejezést, amely illeszkedik a weboldalak URL-protokolljára: `http` vagy `https`."
+      test_cases:
+        positive:
+          - text: "http://example.com"
+            description: "Illeszkedik a http protokoll"
+            expected_matches: ["http"]
+          - text: "https://secure.net"
+            description: "Illeszkedik a https protokoll"
+            expected_matches: ["https"]
+        negative:
+          - text: "httpz://hiba"
+            description: "Az s helyett z szerepel"
+          - text: "htts://hiba"
+            description: "A t és s sorrendje hibás"
+      solution: "https?"
+      explanation: "A `https?` minta a `http` literálra illeszkedik, majd az `s?` teszi az `s` betűt opcionálissá."
+      hints:
+        - "A két protokoll csak egyetlen `s` betűben különbözik."
+
+  summary: |
+    Megtanultad, hogy a kérdőjel `?` kvantor **nulla vagy egy** előfordulásra illeszkedik, és ezzel opcionálissá tehet egy elemet.  
+    Gyakran használják nyelvi eltérések, választható paraméterek vagy opcionális karakterek kezelésére.

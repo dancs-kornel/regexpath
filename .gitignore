@@ -1,0 +1,53 @@
+# OS / Misc
+.DS_Store
+Thumbs.db
+*.log
+
+# Git / tooling
+.git/
+.env
+*.env
+.env.*
+!.env.example
+
+# VS Code / IDE
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+.sts4-cache/
+.springBeans
+.apt_generated
+.factorypath
+
+# Angular / Node (webapp/)
+webapp/node_modules/
+webapp/dist/
+webapp/out-tsc/
+webapp/.angular/cache/
+webapp/tmp/
+webapp/coverage/
+webapp/.sass-cache/
+webapp/npm-debug.log*
+webapp/yarn-error.log*
+webapp/pnpm-debug.log*
+webapp/.history/
+
+
+# Java / Spring (server/)
+server/target/
+server/build/
+server/.gradle/
+server/.classpath
+server/.project
+
+
+target/
+dist/
+out-tsc/
+node_modules/
+.angular/cache/

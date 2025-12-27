@@ -1,0 +1,66 @@
+lesson:
+  id: "neighbor-axes"
+  title: "Szomszédos tengelyek (preceding::, following::)"
+  description: "Az aktuális elem előtt vagy után elhelyezkedő elemek"
+  introduction: |
+    A családi tengelyek a hierarchiában való **fel-le mozgást** tették lehetővé.  
+    A szomszédos tengelyek ezzel szemben a dokumentumon belüli **vízszintes mozgást** támogatják:  
+    azt, hogy mely elemek vannak **az aktuális elem előtt vagy után** a forráskódban.
+
+    - **`following::`**  
+      Kiválaszt **minden** olyan elemet, amely **az aktuális elem után** található a dokumentumban,  
+      függetlenül a hierarchia szintjétől.
+
+    - **`preceding::`**  
+      Ennek ellentéte: az aktuális elem **előtt** lévő összes elemet választja ki.
+
+    Ezek a tengelyek gyakran túl nagy találati halmazt adnak.  
+    Ha csak az **azonos szinten lévő** elemek között akarunk navigálni, akkor használjuk:
+
+    - **`following-sibling::`** → az aktuális elem után lévő testvérelemek  
+    - **`preceding-sibling::`** → az aktuális elemet megelőző testvérelemek  
+
+  exercises:
+    - id: "following-scope"
+      type: "radio"
+      order: 1
+      title: "A following:: hatóköre"
+      question: "A `following::` tengely az aktuális elemhez viszonyítva melyik elemeket választja ki?"
+      options:
+        - id: "a"
+          text: "Kizárólag a testvéreket"
+          correct: false
+        - id: "b"
+          text: "Az összes olyan elemet, amely a dokumentumban az aktuális elem után jelenik meg"
+          correct: true
+        - id: "c"
+          text: "Az összes leszármazott elemet"
+          correct: false
+      explanation: "A `following::` tengely globális: a dokumentumban az aktuális elem UTÁN következő összes elemet kiválasztja."
+      hints:
+        - "A `following::` nem csak a testvérekre korlátozódik."
+
+    - id: "following-sibling-paragraphs"
+      type: "xpath_sandbox"
+      order: 2
+      title: "Utána lévő bekezdések"
+      question: "Válaszd ki az aktuális `<h2>` elem után lévő összes `<p>` testvérelemet."
+      sample_document: |
+        <article>
+          <p>Előzmény</p>
+          <h2 id="start">Kezdőpont</h2>
+          <p>1. bekezdés</p>
+          <p>2. bekezdés</p>
+          <div><p>Beágyazott bekezdés</p></div>
+        </article>
+      solution: "//h2[@id='start']/following-sibling::p"
+      explanation: "A `//h2[@id='start']` kijelöli a kiindulási pontot, a `following-sibling::p` pedig az utána következő testvér szintű `<p>` elemeket választja ki."
+      hints:
+        - "A feladat testvéreket kér, ezért a `-sibling` tengelyt kell használnod."
+
+  summary: |
+    A szomszédos tengelyekkel az aktuális elemhez viszonyítva **jobbra vagy balra** mozoghatsz a dokumentumban:
+    - `preceding::` / `following::` → az aktuális elem előtt/után lévő minden csomópont
+    - `preceding-sibling::` / `following-sibling::` → az aktuális elem testvérei között mozog
+
+    Ezek a tengelyek különösen hasznosak a **relatív, vízszintes navigációhoz**.

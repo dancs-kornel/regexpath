@@ -1,0 +1,30 @@
+<div class="source-editor-container">
+  <div class="character-counter" *ngIf="showCharacterCount">
+    <span [class]="getCharacterCountClass()">
+      {{ characterCount }} / {{ maxCharacters }} characters
+    </span>
+    <span *ngIf="isOverLimit" class="error-message">
+      ({{ characterCount - maxCharacters }} over limit)
+    </span>
+  </div>
+
+  <div class="overlay-editor">
+    <pre id="highlighting" class="highlight-layer" aria-hidden="true"><code id="highlighting-content" class="language-markup"></code></pre>
+
+    <textarea
+      #textarea
+      id="editing"
+      class="source-textarea"
+      [(ngModel)]="sourceText"
+      (ngModelChange)="onTextChange()"
+      (input)="onTextInput()"
+      (scroll)="onScroll()"
+      (keydown)="onKeyDown($event)"
+      [placeholder]="placeholder"
+      [readonly]="readOnly"
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"></textarea>
+  </div>
+</div>

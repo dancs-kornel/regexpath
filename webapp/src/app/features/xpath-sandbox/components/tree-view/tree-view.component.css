@@ -1,0 +1,23 @@
+
+.tree-view {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.tree-viewport {
+  width: 100%;
+  height: 100%;
+}
+
+.tree-node-wrapper {
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}

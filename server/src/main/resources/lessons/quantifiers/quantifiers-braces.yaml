@@ -1,0 +1,104 @@
+lesson:
+  id: "quantifiers-braces"
+  title: "Darabszámok {n,m}"
+  description: "Pontos számú ismétlések megadása kapcsos zárójeles kvantorokkal"
+  introduction: |
+    A `*`, `+`, `?` kvantorok a leggyakoribb ismétlődéseket fedik le.  
+    Ha azonban **pontos darabszámot**, vagy egy **tartományt** szeretnénk meghatározni, a kapcsos zárójeles kvantorokat használjuk.
+
+    A kvantor mindig az előtte álló elemre vonatkozik, és többféleképpen alkalmazható:
+
+    - **Pontosan n alkalommal:** `{n}` – például `a{5}` pontosan 5 darab `a` betűt jelent  
+    - **Legalább n alkalommal:** `{n,}` – például `[a-z]{5,}` legalább 5 kisbetűből álló sorozat  
+    - **n és m alkalom között:** `{n,m}` – például `a{2,4}` illeszkedik az `aa`, `aaa`, `aaaa` mintákra
+
+  exercises:
+    - id: "range-definition"
+      type: "radio"
+      order: 1
+      title: "Tartomány megadása"
+      question: "Mit jelent a `{3,5}` kvantor az előtte álló minta tekintetében?"
+      options:
+        - id: "a"
+          text: "Pontosan 3 vagy pontosan 5 ismétlés"
+          correct: false
+        - id: "b"
+          text: "3, 4, vagy 5 alkalommal történő ismétlés"
+          correct: true
+      explanation: "A `{n,m}` forma magába foglalja a minimum és maximum értéket is, így a `{3,5}` pontosan 3, 4 vagy 5 előfordulást engedélyez."
+      hints:
+        - "A tartomány mindkét végpontja beleértendő az illeszkedésbe."
+
+    - id: "exact-count"
+      type: "multiple_choice"
+      order: 2
+      title: "Pontos szám"
+      question: "Melyik szövegre illeszkedik a `[0-9]{2}` reguláris kifejezés?"
+      options:
+        - id: "a"
+          text: "1"
+          correct: false
+        - id: "b"
+          text: "12"
+          correct: true
+        - id: "c"
+          text: "123"
+          correct: false
+        - id: "d"
+          text: "07"
+          correct: true
+      explanation: "A minta pontosan 2 számjegyet vár."
+      hints:
+        - "A `{2}` pontosan két karaktert vár az előtte lévő karakterkészletből."
+
+    - id: "year-matching"
+      type: "regex_sandbox"
+      order: 3
+      title: "Évszám keresése"
+      question: "Írj egy reguláris kifejezést, amely megtalálja a szövegben lévő összes pontosan 4 számjegyből álló évet."
+      test_cases:
+        positive:
+          - text: "1984, 2025"
+            description: "Mindkettő 4 számjegy"
+            expected_matches: ["1984", "2025"]
+          - text: "A dátum 2025.03.21"
+            description: "Tartalmaz 4 számjegyet egyben"
+            expected_matches: ["2025"]
+        negative:
+          - text: "123"
+            description: "Csak 3 számjegy"
+          - text: "aaaa"
+            description: "Nem számjegyek"
+      solution: "[0-9]{4}"
+      explanation: "A `[0-9]` illeszkedik a számjegyekre, a `{4}` pedig biztosítja, hogy pontosan négy ismétlést keressünk."
+      hints:
+        - "Határozd meg a karakterkészletet, majd a pontos darabszámot."
+
+    - id: "password-length"
+      type: "regex_sandbox"
+      order: 4
+      title: "Jelszóhossz"
+      question: "Adj meg egy olyan reguláris kifejezést, amely megtalálja azokat a szavakat (csak kisbetűkből állnak), amelyek hossza legalább 6 karakter."
+      test_cases:
+        positive:
+          - text: "jelszo"
+            description: "Pontosan 6 kisbetű"
+            expected_matches: ["jelszo"]
+          - text: "hosszujelszo"
+            description: "Hosszabb, mint 6 karakter"
+            expected_matches: ["hosszujelszo"]
+        negative:
+          - text: "rovid"
+            description: "Csak 5 karakter"
+          - text: "hiba"
+            description: "Túl rövid"
+      solution: "[a-z]{6,}"
+      explanation: "Az `[a-z]` karakterkészlet illeszkedik az összes kisbetűre, a `{6,}` pedig biztosítja, hogy legalább hatszor előforduljon."
+      hints:
+        - "Ne adj meg felső határt, csak a minimumot."
+
+  summary: |
+    A kapcsos zárójeles kvantorok segítségével meghatározhatod az ismétlődések pontos számát vagy tartományát:
+    - `{n}`: **Pontosan n alkalom**
+    - `{n,}`: **Legalább n alkalom**
+    - `{n,m}`: **Minimum n és maximum m alkalom**

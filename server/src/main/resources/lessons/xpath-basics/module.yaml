@@ -1,0 +1,19 @@
+module: 
+  id: "xpath-basics"
+  title: "XPath alapok"
+  description: "XPath lekérdezések alapjai"
+  lessons:
+    - id: "xpath-node-tree"
+      title: "A Csomópontfa (Node Tree)"
+      description: "Az XML/HTML dokumentumok hierarchikus felépítésének megértése"
+      order: 1
+
+    - id: "xpath-absolute-relative"
+      title: "Abszolút és Relatív útvonalak (/, //)"
+      description: "Két alapvető útvonal-kijelölő megismerése"
+      order: 2
+
+    - id: "xpath-navigation-and-wildcard"
+      title: "Navigáció (. és ..) és a helyettesítő karakter (*)"
+      description: "Kontextushoz képesti mozgás és általános elemválasztás"
+      order: 3

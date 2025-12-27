@@ -1,0 +1,81 @@
+
+<div class="statistics-container">
+    <button class="btn-back" (click)="goBack()">← Vissza a csapathoz</button>
+
+    @if (isLoading) {
+        <p>Statisztikák betöltése...</p>
+    }
+
+    @if (error) {
+        <div class="error-message">{{ error }}</div>
+    }
+
+    @if (!isLoading && statistics) {
+        <div class="header flex-between">
+            <h1>{{ statistics.groupName }} - Statisztikák</h1>
+            <button (click)="exportStatistics()" class="export-btn">Mentés CSV-be</button>
+        </div>
+
+        <div class="overview-cards">
+            <div class="stat-card">
+                <h3>Tanulók száma</h3>
+                <p class="stat-number">{{ statistics.totalStudents }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Feladatok száma</h3>
+                <p class="stat-number">{{ statistics.totalAssignments }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Feladatkitöltési arány</h3>
+                <p class="stat-number">{{ statistics.overallCompletionRate.toFixed(1) }}%</p>
+            </div>
+        </div>
+
+        <div class="assignments-section section-card">
+            <h2 class="section-title">Feladatsorok</h2>
+
+            @if (statistics.assignmentSummaries.length === 0) {
+                <p class="empty-state">Ennek a csoportnak még nem volt feladatsor kiosztva.</p>
+            } @else {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Feladatsor</th>
+                            <th>Határidő</th>
+                            <th>Teljesített</th>
+                            <th>Folyamatban</th>
+                            <th>Nem kitöltött</th>
+                            <th>Átlagos pontszám</th>
+                            <th>Kitöltési arány</th>
+                            <th>Részletek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (assignment of statistics.assignmentSummaries; track assignment.assignmentId) {
+                            <tr>
+                                <td>{{ assignment.assignmentTitle }}</td>
+                                <td>{{ assignment.dueDate ? (assignment.dueDate | date:'short') : '-' }}</td>
+                                <td>{{ assignment.studentsCompleted }}</td>
+                                <td>{{ assignment.studentsInProgress }}</td>
+                                <td>{{ assignment.studentsNotStarted }}</td>
+                                <td>{{ assignment.averageScore.toFixed(1) }} / {{ assignment.totalPoints }}</td>
+                                <td>
+                                    <span [style.color]="getCompletionColor(assignment.completionRate)">
+                                        {{ assignment.completionRate.toFixed(1) }}%
+                                    </span>
+                                </td>
+                                <td>
+                                    <button (click)="viewAssignmentStatistics(assignment.assignmentId)">
+                                        Részletek
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    }
+</div>

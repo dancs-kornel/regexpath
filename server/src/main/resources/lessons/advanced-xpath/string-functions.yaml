@@ -1,0 +1,85 @@
+lesson:
+  id: "string-functions"
+  title: "A szövegkezelő függvények (contains(), starts-with())"
+  description: "Szűrés szövegrészlet vagy kezdeti rész alapján"
+  introduction: |
+    Már tudjuk, hogyan lehet attribútumok pontos értékére szűrni.  
+    A valóságban azonban sokszor **részleges egyezésre** van szükség — például amikor egy elemnek több osztálya van, vagy az attribútumérték csak részben ismert.
+
+    Ezért használjuk a szövegkezelő függvényeket:
+
+    - **`contains(szöveg, keresett_rész)`**  
+      Akkor igaz, ha a szöveg tartalmazza a megadott részletet.  
+      Például: `//div[contains(@class, 'active')]`  
+      → minden olyan `<div>` elemre illeszkedik, amelynek class attribútuma **tartalmazza** az `active` szót.
+
+    - **`starts-with(szöveg, kezdet)`**  
+      Akkor igaz, ha a szöveg a megadott résszel kezdődik.  
+      Például: `//p[starts-with(@id, 'intro-')]`  
+      → illeszkedik minden olyan `<p>` elemre, amelynek id-ja `intro-` kezdetű.
+
+    Mindkét függvény **kis- és nagybetű érzékeny**.
+
+  exercises:
+    - id: "contains-purpose"
+      type: "radio"
+      order: 1
+      title: "contains() célja"
+      question: |
+        Mi lehet az oka, hogy a `//div[contains(@class, 'grid')]` kifejezést használjuk a `//div[@class='grid']` helyett?
+      options:
+        - id: "a"
+          text: "A contains() gyorsabb szűrést eredményez"
+          correct: false
+        - id: "b"
+          text: "A contains() illeszkedik azokra az elemekre is, amelyek class attribútuma több osztályt tartalmaz"
+          correct: true
+      explanation: "A `@class='grid'` csak akkor illeszkedne, ha az attribútum pontosan `grid`. A `contains()` viszont működik több osztály esetén is."
+      hints:
+        - "A HTML class attribútum gyakran szóközökkel elválasztott több értéket tartalmaz."
+
+    - id: "starts-with-matching"
+      type: "multiple_choice"
+      order: 2
+      title: "Kezdő illesztés"
+      question: |
+        Melyik elemekre illeszkedik a `//div[starts-with(@id, 'item')]` kifejezés?
+
+        ```html
+        <div id="item-main">1</div>
+        <div id="main-item">2</div>
+        <div id="ITEM-X">3</div>
+        ```
+      options:
+        - id: "a"
+          text: "A <div id=\"item-main\">1</div> elemre"
+          correct: true
+        - id: "b"
+          text: "A <div id=\"main-item\">2</div> elemre"
+          correct: false
+        - id: "c"
+          text: "A <div id=\"ITEM-X\">3</div> elemre"
+          correct: false
+      explanation: "Csak az első div `id` értéke kezdődik `item`-mel, és a függvény kis- és nagybetű érzékeny."
+      hints:
+        - "A `starts-with()` nem tekinti ugyanannak az `item` és `ITEM` szöveget."
+
+    - id: "id-starts-with"
+      type: "xpath_sandbox"
+      order: 3
+      title: "id kezdés"
+      question: "Válaszd ki az összes olyan elemet (bármilyen tag), amelynek az id-ja 'user' kezdetű."
+      sample_document: |
+        <li id="user-123">User A</li>
+        <p id="group-456">Group B</p>
+        <div id="user-456">User C</div>
+      solution: "//*[starts-with(@id, 'user')]"
+      explanation: "A `//*` az összes elemet kiválasztja, a `starts-with()` pedig ellenőrzi, hogy az id attribútum `user`-rel kezdődik-e."
+      hints:
+        - "A `*` helyettesítővel bármely elem neve megengedett."
+
+  summary: |
+    A szövegkezelő függvények rendkívül hasznosak valós dokumentumokban, ahol az attribútumértékek gyakran több részből állnak, vagy csak részben egyeznek.
+    - `contains()` → részleges szövegegyezés
+    - `starts-with()` → kezdeti szövegegyezés
+    Mindkettő hatékonyan segít elkerülni a túl szigorú, pontos egyezést igénylő szűréseket.

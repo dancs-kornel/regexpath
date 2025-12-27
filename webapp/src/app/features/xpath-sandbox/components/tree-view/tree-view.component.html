@@ -1,0 +1,14 @@
+<div class="tree-view">
+  <cdk-virtual-scroll-viewport 
+    itemSize="24" 
+    class="tree-viewport">
+    <div 
+      *cdkVirtualFor="let node of flattenedNodes; trackBy: trackByNode"
+      class="tree-node-wrapper">
+      <app-tree-node 
+        [node]="node"
+        (nodeToggled)="onNodeToggle()">
+      </app-tree-node>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>

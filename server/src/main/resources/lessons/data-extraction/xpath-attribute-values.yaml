@@ -1,0 +1,73 @@
+lesson:
+  id: "xpath-attribute-values"
+  title: "Attribútumok kinyerése (@)"
+  description: "Egy elem attribútumának értéklekérdezése"
+  introduction: |
+    A 2. modulban megtanultuk, hogyan használhatjuk szűrésre az attribútumokat.  
+    Most megnézzük, hogyan lehet **kinyerni magát az attribútum értékét**.
+
+    Ha egy keresési útvonalat egy attribútumjelöléssel (`@attribútum_neve`) fejezzük be, az XPath a teljes elem helyett a kijelölt attribútum **string értékét** adja vissza.
+
+    - `//a` → az összes `<a>` elemet választja ki  
+    - `//a/@href` → az összes `<a>` elem `href` attribútumának értékét adja vissza
+
+    Fontos különbség:  
+    - ha a `@` **az útvonal végén** szerepel, akkor **attribútum értéket nyerünk ki**,  
+    - ha **predikátum belsejében** (`[...]`) használjuk, akkor **szűrésre** szolgál.
+
+  exercises:
+    - id: "attr-extraction-vs-filtering"
+      type: "radio"
+      order: 1
+      title: "Kinyerés vs szűrés"
+      question: "Mi a funkciója a `@href` kifejezésnek a `//a/@href` útvonalban?"
+      options:
+        - id: "a"
+          text: "Az <a> elemeket szűri az alapján, hogy van-e href attribútumuk"
+          correct: false
+        - id: "b"
+          text: "Hibás lekérdezés"
+          correct: false
+        - id: "c"
+          text: "Az <a> elemek href attribútumának értékét nyeri ki"
+          correct: true
+      explanation: "Ha a `@` az útvonal **végén** áll, akkor az attribútum **értékét** nyerjük ki. Szűrésre csak predikátum (`[...]`) belsejében használjuk."
+      hints:
+        - "Figyeld meg, hogy a `@href` nem predikátum belsejében szerepel."
+
+    - id: "image-sources"
+      type: "xpath_sandbox"
+      order: 2
+      title: "Kép források"
+      question: "Gyűjtsd ki az összes kép `<img>` `src` attribútumának értékét."
+      sample_document: |
+        <body>
+          <p><img src="kep1.jpg" alt="Első kép"></p>
+          <div>
+            <img src="/img/kep2.png" alt="Második kép">
+          </div>
+        </body>
+      solution: "//img/@src"
+      explanation: "A `//img` kiválasztja az összes `<img>` elemet, a hozzáfűzött `/@src` pedig a talált elemek `src` attribútumának értékét adja vissza."
+      hints:
+        - "A kinyeréshez az elem útvonala után használd a `@` jelet."
+
+    - id: "external-link-targets"
+      type: "xpath_sandbox"
+      order: 3
+      title: "Link célok"
+      question: "Válaszd ki azon linkek `<a>` `href` értékét, amelyek az `external` osztályba tartoznak."
+      sample_document: |
+        <nav>
+          <a href="#home">Belső link</a>
+          <a href="https://example.com" class="external">Külső link</a>
+          <a href="/doc.pdf">Fájl</a>
+        </nav>
+      solution: "//a[@class='external']/@href"
+      explanation: "Először a `[@class='external']` predikátummal szűrjük a megfelelő `<a>` elemeket, majd a szűrt linkek `href` attribútumának értékét nyerjük ki a `/@href` segítségével."
+      hints:
+        - "Gondolkodj két lépésben: először szűrés predikátummal, majd attribútum-kinyerés."
+
+  summary: |
+    A `@` jel az útvonal **végén** kulcsfontosságú az attribútumok **értékének kinyeréséhez**.  
+    Így az XPath nemcsak navigációs, hanem hatékony **adatkinyerő eszközzé** is válik: előbb szűrhetsz, majd ugyanabban az útvonalban lekérheted az attribútumok értékét.

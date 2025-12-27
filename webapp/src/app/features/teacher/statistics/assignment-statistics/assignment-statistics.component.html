@@ -1,0 +1,124 @@
+
+<div class="statistics-container">
+    <button class="btn-back" (click)="goBack()">← Vissza a csoportstatisztikákhoz</button>
+
+    @if (isLoading) {
+        <p>Statisztikák betöltése...</p>
+    }
+
+    @if (error) {
+        <div class="error-message">{{ error }}</div>
+    }
+
+    @if (!isLoading && statistics) {
+        <div class="header">
+            <h1>{{ statistics.assignmentTitle }} - Eredmények</h1>
+            <div class="meta">
+                <span>{{ statistics.totalPoints }} pont</span>
+                @if (statistics.dueDate) {
+                    <span>Határidő: {{ statistics.dueDate | date:'short' }}</span>
+                }
+            </div>
+        </div>
+
+        <div class="overview-cards">
+            <div class="stat-card">
+                <h3>Tanulók száma</h3>
+                <p class="stat-number">{{ statistics.totalStudents }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Teljesített</h3>
+                <p class="stat-number" style="color: #2e7d32;">{{ statistics.studentsCompleted }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Folyamatban</h3>
+                <p class="stat-number" style="color: #ef6c00;">{{ statistics.studentsInProgress }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Nem kezdte el</h3>
+                <p class="stat-number" style="color: #1565c0;">{{ statistics.studentsNotStarted }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Átlagos pontszám</h3>
+                <p class="stat-number">{{ statistics.averageScore.toFixed(1) }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Kitöltési arány</h3>
+                <p class="stat-number">{{ statistics.completionRate.toFixed(1) }}%</p>
+            </div>
+        </div>
+
+        <div class="students-section section-card">
+            <h2 class="section-title">Egyéni eredmények</h2>
+
+            @if (statistics.studentStats.length === 0) {
+                <p class="empty-state">No students in this group.</p>
+            } @else {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tanuló</th>
+                            <th>Email</th>
+                            <th>Státusz</th>
+                            <th>Próbálkozások</th>
+                            <th>Legjobb pontszám</th>
+                            <th>Százalék</th>
+                            <th>Eredmény</th>
+                            <th>Befejezte</th>
+                            <th>Műveletek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (student of statistics.studentStats; track student.studentId) {
+                            <tr>
+                                <td>{{ student.studentName }}</td>
+                                <td>{{ student.studentEmail }}</td>
+                                <td>
+                                    <span 
+                                        class="status-badge" 
+                                        [class]="getStatusClass(student.status)"
+                                        [style.color]="getStatusColor(student.status)"
+                                    >
+                                        {{ student.status.replace('_', ' ') }}
+                                    </span>
+                                </td>
+                                <td>{{ student.attemptsUsed }}</td>
+                                <td>
+                                    @if (student.bestScore !== null) {
+                                        {{ student.bestScore }} / {{ statistics.totalPoints }}
+                                    } @else {
+                                        -
+                                    }
+                                </td>
+                                <td>
+                                    @if (student.percentageScore !== null) {
+                                        {{ student.percentageScore.toFixed(1) }}%
+                                    } @else {
+                                        -
+                                    }
+                                </td>
+                                <td>{{ student.firstStartedAt ? (student.firstStartedAt | date:'short') : '-' }}</td>
+                                <td>{{ student.lastSubmittedAt ? (student.lastSubmittedAt | date:'short') : '-' }}</td>
+                                <td>
+                                    @if (student.bestAttemptId) {
+                                        <button (click)="viewAttempt(student.bestAttemptId)">
+                                            Legjobb
+                                        </button>
+                                    }
+                                    <button (click)="viewStudentProgress(student.studentId)">
+                                        Haladás
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    }
+</div>

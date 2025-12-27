@@ -1,0 +1,91 @@
+lesson:
+  id: "star-plus-quantifiers"
+  title: "A Csillag (*) és a Plusz (+)"
+  description: "A ’nulla vagy több’ és az ’egy vagy több’ ismétlődés kvantorai"
+  introduction: |
+    A karakterkészletek és a negáció lehetővé teszik, hogy eldöntsük, melyik karakter illeszkedhet egy adott pozícióra.  
+    A **kvantorok** (quantifiers) segítségével azt határozhatjuk meg, hogy az előtte álló karakter vagy csoport hányszor ismétlődhet.
+
+    **A Csillag (`*`):**  
+    A `*` illeszkedik az előtte álló elem **nulla, egy, vagy több** előfordulására.  
+    Tehát az `ab*c` minta illeszkedik az `ac`-re, `abc`-re és az `abbbc`-re is.
+
+    **A Plusz (`+`):**  
+    A `+` illeszkedik az előtte álló elem **egy vagy több** előfordulására.  
+    Az `ab+c` minta illeszkedik az `abc`-re és az `abbbc`-re is, de **nem** illeszkedik az `ac`-re, mert legalább egy `b` karaktert megkövetel.
+
+  exercises:
+    - id: "plus-quantifier"
+      type: "radio"
+      order: 1
+      title: "A plusz (+) kvantor"
+      question: "A `+` kvantor az előtte álló mintára hányszori ismétlődés esetén illeszkedik?"
+      options:
+        - id: "a"
+          text: "pontosan egyszer"
+          correct: false
+        - id: "b"
+          text: "nulla vagy több alkalommal"
+          correct: false
+        - id: "c"
+          text: "egy vagy több alkalommal"
+          correct: true
+      explanation: "A `+` jel azt jelenti, hogy az előtte álló elemnek legalább egyszer meg kell jelennie, de tetszőleges számú ismétlődés megengedett."
+      hints:
+        - "A plusz kvantor szigorúbb megszorítás, mint a csillag."
+
+    - id: "star-matching"
+      type: "multiple_choice"
+      order: 2
+      title: "Csillag illeszkedés"
+      question: "Melyik szövegre illeszkedik az `x y* z` reguláris kifejezés? (A szóköz is literál!)"
+      options:
+        - id: "a"
+          text: "x z"
+          correct: true
+        - id: "b"
+          text: "x y z"
+          correct: true
+        - id: "c"
+          text: "xz"
+          correct: false
+        - id: "d"
+          text: "x yyy z"
+          correct: true
+      explanation: "A minta részei: `x` literál, szóköz literál, `y` nulla vagy több alkalommal, majd újabb szóköz és `z`. Az `xz` nem illeszkedik, mert a szóköz literál."
+      hints:
+        - "A csillag nulla ismétlést is megenged."
+        - "A minta minden karaktere fontos, beleértve a szóközt is."
+
+    - id: "regex-sandbox"
+      type: "regex_sandbox"
+      order: 3
+      title: "Gyakorlat - Regex sandbox"
+      question: "Adj meg egy olyan reguláris kifejezést, amely illeszkedik az ’a’-val kezdődő, ’c’-vel záródó szavakra, amelyek tartalmazhatnak `b` karaktereket a kettő között."
+      test_cases:
+        positive:
+          - text: "aaaabcc"
+            description: "Illeszkedik, mert több a és b is lehet a c előtt"
+            expected_matches: ["aaaabcc"]
+          - text: "aabbbbc"
+            description: "Illeszkedik, mert az a-k és b-k ismétlődhetnek"
+            expected_matches: ["aabbbbc"]
+          - text: "ac"
+            description: "Illeszkedik, mert b opcionális"
+            expected_matches: ["ac"]
+        negative:
+          - text: "a"
+            description: "Nem illeszkedik, mert nincs c a végén"
+          - text: "bbbc"
+            description: "Nem illeszkedik, mert nem a-val kezdődik"
+      solution: "a+b*c+"
+      explanation: "Az `a+` legalább egy `a`-t kér, a `b*` opcionálissá teszi a b-t, a `c+` pedig legalább egy `c`-t követel a végén."
+      hints:
+        - "Az `a` és `c` kötelező legalább egyszer."
+        - "A `b` opcionális és ismétlődhet."
+
+  summary: |
+    Megtanultad a reguláris kifejezések alapvető ismétlő kvantorait:
+    - `*`: **nulla vagy több** ismétlés
+    - `+`: **egy vagy több** ismétlés  
+    Ezek a kvantorok mindig a közvetlenül előttük álló elemre vonatkoznak.

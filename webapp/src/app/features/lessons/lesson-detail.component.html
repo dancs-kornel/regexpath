@@ -1,0 +1,177 @@
+<div class="lesson-detail-container flex-column">
+    @if (loading) {
+    <p class="loading-state">Lecke betöltése...</p>
+    }
+
+    @if (error) {
+    <div class="error-message">{{ error }}</div>
+    }
+
+    @if (!loading && !error && lesson) {
+    <!-- Lesson Header -->
+    <header class="lesson-header">
+        <div class="header-content flex-column gap-md">
+            <button routerLink="/lessons" class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Vissza a leckékhez
+            </button>
+
+            <div class="title-wrapper">
+                <h1>{{ lesson.title }}</h1>
+                @if (isAuthenticated && isCompleted) {
+                <div class="completion-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Teljesítve
+                </div>
+                }
+            </div>
+
+            <p class="lesson-description">{{ lesson.description }}</p>
+        </div>
+    </header>
+
+     @if (isAuthenticated) {
+    <div class="difficulty-selector-container card-base">
+        <label for="difficulty-select" class="difficulty-label">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            Nehézségi szint:
+        </label>
+        <select 
+            id="difficulty-select"
+            class="difficulty-select" 
+            [(ngModel)]="currentDifficulty" 
+            (change)="onDifficultyChange()"
+            [disabled]="loadingDifficulty">
+            <option [value]="DifficultyLevel.EASY">Könnyű</option>
+            <option [value]="DifficultyLevel.MEDIUM">Közepes</option>
+            <option [value]="DifficultyLevel.HARD">Nehéz</option>
+        </select>
+        @if (loadingDifficulty) {
+            <span class="spinner-small spinner"></span>
+        }
+    </div>
+    }
+
+    <!-- Introduction Section -->
+    @if (lesson.introduction) {
+    <section class="content-section card-wrapper card-wrapper-lg mb-lg">
+        <h2>Bevezetés</h2>
+        <div class="content-text" [innerHTML]="lesson.introduction"></div>
+
+    </section>
+    }
+
+    <!-- Exercises Section -->
+    @if (lesson.exercises && lesson.exercises.length > 0) {
+    <section class="exercises-section card-wrapper card-wrapper-lg mb-lg card-interactive">
+        <div class="exercises-header flex-between mb-lg border-bottom">
+            <h2>Feladatok</h2>
+            <div class="exercise-counter">
+                <span class="current">{{ currentExerciseIndex + 1 }}</span>
+                <span class="separator">/</span>
+                <span class="total">{{ lesson.exercises.length }}</span>
+            </div>
+        </div>
+
+        <!-- Exercise Progress Bar -->
+        <div class="exercise-progress-bar">
+            <div class="progress-bar-container">
+                <div class="progress-bar"
+                    [style.width.%]="((currentExerciseIndex + 1) / lesson.exercises.length) * 100">
+                </div>
+            </div>
+            <span class="progress-text">
+                {{ currentExerciseIndex + 1 }} / {{ lesson.exercises.length }} feladat teljesítve
+            </span>
+        </div>
+
+        <!-- Current Exercise -->
+        <div class="exercise-container">
+            <app-exercise [exercise]="getCurrentExercise()" [lessonId]="lesson.id" [difficulty]="currentDifficulty" (exerciseComplete)="nextExercise()"
+                (difficultyPrompt)="onDifficultyPrompt($event)">
+            </app-exercise>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="exercise-navigation flex-between gap-md">
+            <button class="nav-button btn-secondary prev" (click)="previousExercise()" [disabled]="currentExerciseIndex === 0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Előző
+            </button>
+
+            <button class="nav-button btn-secondary next" (click)="nextExercise()"
+                [disabled]="currentExerciseIndex >= lesson.exercises.length - 1">
+                Következő
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Complete Lesson Card -->
+        @if (isAuthenticated && isLastExercise() && !isCompleted) {
+        <div class="complete-lesson-card flex-column">
+            <div class="complete-content">
+                <svg class="trophy-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                    <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                    <path d="M4 22h16"></path>
+                    <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                    <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                    <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                </svg>
+                <div>
+                    <h3>Ez az utolsó feladat!</h3>
+                    <p>Befejezed a leckét?</p>
+                </div>
+            </div>
+            <button class="btn-complete btn-primary" (click)="markAsComplete()" [disabled]="markingComplete">
+                @if (markingComplete) {
+                <span class="spinner"></span>
+                Mentés...
+                } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Lecke teljesítése
+                }
+            </button>
+        </div>
+        }
+    </section>
+    }
+
+    <!-- Summary Section -->
+    @if (lesson.summary) {
+    <section class="content-section card-wrapper card-wrapper-lg mb-lg">
+        <h2>Összefoglaló</h2>
+        <div class="content-text">{{ lesson.summary }}</div>
+    </section>
+    }
+    }
+    <!-- Difficulty prompt modal-->
+    @if (showDifficultyModal && difficultyPromptData) {
+    <app-difficulty-prompt-modal [promptType]="difficultyPromptData.promptType!"
+        [currentLevel]="difficultyPromptData.currentLevel!" [suggestedLevel]="difficultyPromptData.suggestedLevel!"
+        [message]="difficultyPromptData.message!" (accept)="onAcceptDifficultyChange()"
+        (dismiss)="onDismissDifficultyPrompt()">
+    </app-difficulty-prompt-modal>
+    }
+</div>

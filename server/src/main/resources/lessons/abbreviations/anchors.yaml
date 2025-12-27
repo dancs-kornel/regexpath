@@ -1,0 +1,91 @@
+lesson:
+  id: "anchors"
+  title: "Sor eleje (^) és sor vége ($)"
+  description: "Illeszkedés sorok elejére és végére horgonyok segítségével"
+  introduction: |
+    A metakaraktereket általában a tényleges tartalom meghatározására használjuk.  
+    Ezzel szemben a **horgonyok** (anchors) az illesztés *pozícióját* határozzák meg, anélkül hogy bármilyen karakterre illeszkednének.
+
+    A két leggyakrabban használt horgony:
+
+    **Sor eleje (`^`):**  
+    A `^` karakter a reguláris kifejezés elején azt jelöli, hogy a minta illeszkedése **a sor elején** kell, hogy kezdődjön.  
+    A `^` csak akkor jelent negációt, ha szögletes zárójelen belül, annak első helyén áll: `[^...]`.  
+    Minden más esetben a **sor elejét** jelöli.
+
+    A `^macska` minta illeszkedik a „macska vadászik” szövegre, de nem illeszkedik az „a macska vadászik” szövegre.
+
+    **Sor vége (`$`):**  
+    A `$` karakter azt jelenti, hogy a minta illeszkedése **a sor végén** kell, hogy befejeződjön.  
+    A `vadászik$` így illeszkedik az „a macska vadászik” szövegre, de nem illeszkedik az „a macska vadászik tovább” szövegre.
+
+  exercises:
+    - id: "anchor-meaning"
+      type: "radio"
+      order: 1
+      title: "Horgony jelentése"
+      question: "Mire illeszkedik a `^$` minta?"
+      options:
+        - id: "a"
+          text: "Egyetlen szóközre"
+          correct: false
+        - id: "b"
+          text: "Bármely sor elejére"
+          correct: false
+        - id: "c"
+          text: "Minden sorra"
+          correct: false
+        - id: "d"
+          text: "Üres sorokra"
+          correct: true
+      explanation: "A `^` és `$` horgonyok között nincs semmilyen tartalom, így a minta egy teljesen üres sort jelöl."
+      hints:
+        - "A horgonyok nem karakterekre, hanem pozíciókra illeszkednek."
+
+    - id: "line-start-filter"
+      type: "multiple_choice"
+      order: 2
+      title: "Sor eleje szűrés"
+      question: "Az alábbiak közül mire illeszkedik a `^\\d{3}` minta?"
+      options:
+        - id: "a"
+          text: "1234"
+          correct: true
+        - id: "b"
+          text: "987"
+          correct: true
+        - id: "c"
+          text: "456_"
+          correct: true
+        - id: "d"
+          text: "_456"
+          correct: false
+      explanation: "A minta azt követeli meg, hogy a sor elején három számjegy szerepeljen."
+      hints:
+        - "Használd a `\\d` rövidítést."
+        - "Ne felejtsd el, hogy a `^` a sor elejét jelöli!"
+
+    - id: "empty-lines"
+      type: "regex_sandbox"
+      order: 3
+      title: "Üres sorok törlése"
+      question: "Írj egy reguláris kifejezést, amely megtalálja az összes üres sort egy több soros szövegben."
+      test_cases:
+        positive:
+          - text: "Első sor\n\nHarmadik sor"
+            description: "A középső sor üres"
+            expected_matches: [""]
+        negative:
+          - text: "Első sor\nMásodik sor"
+            description: "Nincs üres sor"
+      solution: "^$"
+      explanation: "A `^$` minta akkor illeszkedik, ha a sor teljesen üres — vagyis a sor eleje közvetlenül a sor végével találkozik."
+      hints:
+        - "A horgonyokat közvetlenül egymás után használva nulla karaktert fedünk le."
+
+  summary: |
+    A reguláris kifejezésekben a horgonyok a **pozíció meghatározására** szolgálnak:
+    - `^` – a sor elejét jelöli  
+    - `$` – a sor végét jelöli  
+
+    Segítségükkel meghatározható, hogy a minta pontosan hol helyezkedjen el a szövegben, ami elengedhetetlen a validáláshoz és a precíz szűréshez.

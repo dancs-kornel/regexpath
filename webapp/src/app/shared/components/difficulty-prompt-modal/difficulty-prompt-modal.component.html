@@ -1,0 +1,55 @@
+<div class="modal-overlay modal-backdrop" (click)="onDismiss()">
+  <div class="modal-content modal flex-column" (click)="$event.stopPropagation()">
+    <div class="modal-header flex-between border-bottom">
+      <h2>Nehézségi szint módosítása</h2>
+      <button class="close-btn" (click)="onDismiss()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <div
+        class="icon-container"
+        [class.increase]="promptType === 'INCREASE'"
+        [class.decrease]="promptType === 'DECREASE'">
+        <svg *ngIf="promptType === 'INCREASE'" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+          <path d="M4 22h16"></path>
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+        </svg>
+
+        <svg *ngIf="promptType === 'DECREASE'" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+          <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path>
+          <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+          <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+        </svg>
+      </div>
+
+      <p class="modal-message">{{ message }}</p>
+
+      <div class="difficulty-comparison">
+        <div class="level-box current card-base">
+          <span class="label">Jelenlegi</span>
+          <span class="level">{{ currentLevel }}</span>
+        </div>
+
+        <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+
+        <div class="level-box suggested card-base">
+          <span class="label">Javasolt</span>
+          <span class="level">{{ suggestedLevel }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="onDismiss()">Nem, köszönöm</button>
+      <button class="btn-primary" (click)="onAccept()">Igen, módosítom</button>
+    </div>
+  </div>
+</div>

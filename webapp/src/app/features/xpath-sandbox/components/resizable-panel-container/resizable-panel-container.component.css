@@ -1,0 +1,88 @@
+
+.view-container {
+  display: flex;
+  gap: 0;
+  height: 50vh;
+  min-height: 400px;
+  max-height: 50vh;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+
+.view-panel {
+  min-width: 200px;
+  position: relative;
+  background: white;
+  border-right: 1px solid #ddd;
+}
+
+.view-panel:last-child {
+  border-right: none;
+}
+
+.view-panel h3 {
+  margin: 0;
+  padding: 12px 16px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.scrollable-content {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  position: relative;
+}
+
+
+.resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: transparent;
+  cursor: col-resize;
+  z-index: 10;
+  transition: background-color 0.2s ease;
+}
+
+.resize-handle:hover {
+  background: #4a90e2;
+}
+
+.resize-handle:active {
+  background: #357abd;
+}
+
+
+.code-view .scrollable-content {
+  padding: 0;
+}
+
+.code-view pre {
+  margin: 0;
+  height: 100%;
+}
+
+.code-view code {
+  display: block;
+  height: 100%;
+}
+
+
+.tree-view-container .scrollable-content {
+  padding: 8px;
+}
+
+
+.rendered-view-container .scrollable-content {
+  padding: 0;
+  background: white;
+}

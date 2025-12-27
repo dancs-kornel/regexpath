@@ -1,0 +1,66 @@
+lesson:
+  id: "xpath-predicates-intro"
+  title: "Első találkozás a predikátumokkal [...]"
+  description: "A szögletes zárójeles szűrés alapkoncepciója"
+  introduction: |
+    Megismertük, hogyan kell navigálni a dokumentumfán és kiválasztani bizonyos elemeket.  
+    A **predikátumok** lehetővé teszik, hogy a kiválasztott elemek halmazát **feltételek alapján szűkítsük**.
+
+    A predikátumokat **szögletes zárójelekkel** jelöljük (`[...]`), és mindig közvetlenül az elem mögé írjuk, amelyre a szűrés vonatkozik.
+
+    **Általános szintaxis:**  
+    `//elem_neve[feltétel]`
+
+    A predikátumokban többek között szűrhetünk:
+    - **pozícióra** (`[1]`, `[last()]`)
+    - **attribútumokra** (`[@id='main']`)
+    - **szöveges tartalomra** (például `contains(text(), 'alma')`)
+
+  exercises:
+    - id: "predicate-syntax"
+      type: "radio"
+      order: 1
+      title: "Szűrés szintaxisa"
+      question: "Hogyan nevezzük az XPath-ben azt a módszert, amikor a kiválasztott elemeket szögletes zárójellel (`[...]`) megadott feltételek alapján szűrjük?"
+      options:
+        - id: "a"
+          text: "Kvantor"
+          correct: false
+        - id: "b"
+          text: "Predikátum"
+          correct: true
+        - id: "c"
+          text: "Tengely"
+          correct: false
+      explanation: "A predikátum olyan igaz/hamis értékű feltétel, amellyel az XPath a kiválasztott elemeket szűkíti."
+      hints:
+        - "A predikátum a logikában is feltételt jelent."
+
+    - id: "predicate-target-element"
+      type: "radio"
+      order: 2
+      title: "Melyik elemre vonatkozik a predikátum?"
+      question: |
+        Az alábbi útvonalban melyik elemre vonatkozik a `[feltétel]` predikátum?
+
+        `html/body/div[feltétel]/p`
+      options:
+        - id: "a"
+          text: "A html elemre"
+          correct: false
+        - id: "b"
+          text: "A body elemre"
+          correct: false
+        - id: "c"
+          text: "A div elemre"
+          correct: true
+        - id: "d"
+          text: "A p elemre"
+          correct: false
+      explanation: "A predikátum mindig az **előtte álló elemre** (vagy tengelyre) vonatkozik. Ebben az esetben a `div` elem halmazát szűkíti."
+      hints:
+        - "A predikátum az előtte álló elem kiválasztását finomítja."
+
+  summary: |
+    A predikátumok az XPath célzott és pontos szűrésének kulcsai.  
+    Mindig az előtte álló elem **kiválasztott halmazát** szűkítik a szögletes zárójelben megadott feltétel alapján.

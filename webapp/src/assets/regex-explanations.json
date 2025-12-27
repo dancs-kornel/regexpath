@@ -1,0 +1,67 @@
+{
+  "escapes": {
+    "\\d": "Számjegy (0-9)",
+    "\\D": "Nem számjegy",
+    "\\w": "Betű, szám vagy aláhúzás",
+    "\\W": "Nem betű, nem szám, nem aláhúzás",
+    "\\s": "Szóköz karakter (szóköz, tab, új sor)",
+    "\\S": "Nem szóköz karakter",
+    "\\t": "Tabulátor",
+    "\\n": "Új sor",
+    "\\r": "Kocsi vissza",
+    "\\v": "Függőleges tabulátor",
+    "\\f": "Oldal törlés",
+    "\\0": "Null karakter",
+    "\\b": "Szó határ",
+    "\\B": "Nem szó határ",
+    "\\.": "Pont karakter",
+    "\\\\": "Backslash karakter",
+    "\\^": "Hatvány jel karakter",
+    "\\$": "Dollár jel karakter",
+    "\\*": "Csillag karakter",
+    "\\+": "Plusz karakter",
+    "\\?": "Kérdőjel karakter",
+    "\\|": "Függőleges vonal karakter",
+    "\\[": "Szögletes zárójel nyitó karakter",
+    "\\]": "Szögletes zárójel záró karakter",
+    "\\(": "Zárójel nyitó karakter",
+    "\\)": "Zárójel záró karakter",
+    "\\{": "Kapcsos zárójel nyitó karakter",
+    "\\}": "Kapcsos zárójel záró karakter"
+  },
+  "quantifiers": {
+    "+": "Előző elem 1 vagy több alkalommal",
+    "*": "Előző elem 0 vagy több alkalommal",
+    "?": "Előző elem opcionális (0 vagy 1 alkalommal)",
+    "{": "Ismétlési kvantor kezdete",
+    "}": "Ismétlési kvantor vége"
+  },
+  "groups": {
+    "[]": "Karakterosztály, megadott karakterek közül választható",
+    "()": "Csoportosítás, al-minta",
+    "(?:)": "Nem rögzítő csoport",
+    "(?=)": "Pozitív előretekintés",
+    "(?!)": "Negatív előretekintés",
+    "(?<=)": "Pozitív visszatekintés",
+    "(?<!)": "Negatív visszatekintés"
+  },
+  "anchors": {
+    "^": "Sor kezdete",
+    "$": "Sor vége"
+  },
+  "special": {
+    ".": "Bármilyen karakter (kivéve új sor)",
+    "|": "Vagy operátor (alternatíva)"
+  },
+  "ranges": {
+    "a-z": "Kisbetűk a-tól z-ig",
+    "A-Z": "Nagybetűk A-tól Z-ig",
+    "0-9": "Számjegyek 0-tól 9-ig"
+  },
+  "numbers": {
+    "generic": "Szám"
+  },
+  "characters": {
+    "generic": "Sima karakter"
+  }
+}

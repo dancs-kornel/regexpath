@@ -1,0 +1,91 @@
+<div class="step-controls-wrapper">
+  <div class="step-toggle-row">
+    <button
+      (click)="toggleMode.emit()"
+      class="step-toggle-btn"
+      [class.on]="enabled"
+      [class.off]="!enabled"
+      title="Toggle step-by-step evaluation"
+    >
+      <span class="icon" *ngIf="!enabled">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          viewBox="0 0 24 24">
+          <polygon points="9 7 20 12 9 17 9 7"></polygon>
+        </svg>
+      </span>
+
+      <span class="icon" *ngIf="enabled">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          viewBox="0 0 24 24">
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+      </span>
+
+      <span class="label">
+        Részletes kiértékelés:
+        <strong>{{ enabled ? 'BE' : 'KI' }}</strong>
+      </span>
+    </button>
+  </div>
+
+  <div *ngIf="enabled && state" class="step-controls-bar">
+    <div class="step-controls-container">
+      <button 
+        class="control-btn"
+        (click)="previous.emit()"
+        [disabled]="isFirstStep"
+        title="Previous step">
+        ◀ Előző
+      </button>
+
+      <span class="step-counter">
+        Lépés {{ currentStepIndex + 1 }} / {{ totalSteps }}
+      </span>
+
+      <button 
+        class="control-btn"
+        (click)="next.emit()"
+        [disabled]="isLastStep"
+        title="Next step">
+        Következő ▶
+      </button>
+
+      <button 
+        class="control-btn play-btn"
+        (click)="playPause.emit()"
+        [disabled]="isLastStep"
+        title="{{ isPlaying ? 'Megállítás' : 'Lejátszás' }}">
+        {{ isPlaying ? 'Megállítás' : 'Lejátszás' }}
+      </button>
+
+      <button 
+        class="control-btn"
+        (click)="reset.emit()"
+        title="Vissza az első lépéshez">
+        Visszaállítás
+      </button>
+
+      <div class="speed-control">
+        <label for="speed-slider">Sebesség:</label>
+        <input 
+          id="speed-slider"
+          type="range" 
+          min="250" 
+          max="2000" 
+          step="250"
+          [value]="playbackSpeed"
+          (input)="onSpeedChange($event)"
+          title="Playback speed">
+        <span class="speed-label">{{ speedMultiplier }}</span>
+      </div>
+
+      <div class="step-description">
+        <strong>{{ currentStepDescription }}</strong>
+        <span class="match-count">{{ currentStepMatches }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+lesson:
+  id: "xpath-navigation-and-wildcard"
+  title: "Navigáció (. és ..) és a helyettesítő karakter (*)"
+  description: "Kontextushoz képesti mozgás és általános elemválasztás"
+  introduction: |
+    Már tudjuk, hogy a `//` bármely pontról indíthat keresést.  
+    Ez a lecke a **kontextuson belüli navigációt** mutatja be speciális rövidítésekkel, valamint azt, hogyan lehet bármilyen nevű elemet kiválasztani a **helyettesítő karakterrel**.
+
+    A `.` illeszkedik a **jelenlegi csomópontra**.  
+    Gyakran a relatív keresés kontextusának megerősítésére vagy predikátumokban való hivatkozásra használjuk.  
+    A `./p` kiválasztja az aktuális csomópont összes közvetlen gyermek `<p>` elemét.
+
+    A `..` a jelenlegi csomópont **közvetlen szülőjére** ugrik.  
+    A `//li/..` kiválasztja az összes `<li>` elem szülőjét, jellemzően `<ul>` vagy `<ol>` elemeket.
+
+    A `*` bármelyik elemre illeszkedik a dokumentumfa adott szintjén.  
+    A `//div/*` kiválasztja az összes `<div>` elem **összes közvetlen gyerek-elemét**, azok nevétől függetlenül.
+
+  exercises:
+    - id: "parent-navigation"
+      type: "radio"
+      order: 1
+      title: "Szülő navigáció"
+      question: |
+        Egy adott `<tr>` (táblázat sor) csomópontból szeretnénk kiválasztani a sor közvetlen szülőjét.  
+        Melyik XPath kifejezés a legmegfelelőbb erre?
+
+        - `//tr`
+        - `tr/..`
+        - `tr/parent`
+        - `tr/.`
+      options:
+        - id: "a"
+          text: "//tr"
+          correct: false
+        - id: "b"
+          text: "tr/.."
+          correct: true
+        - id: "c"
+          text: "tr/parent"
+          correct: false
+        - id: "d"
+          text: "tr/."
+          correct: false
+      explanation: "A `..` egy szinttel feljebb, a szülő elemre ugrik. A `tr/..` így a `tr` elem közvetlen szülőjét választja ki."
+      hints:
+        - "A `..` a felfelé irányuló navigáció rövidítése az XPath fa struktúrájában."
+
+    - id: "wildcard-usage"
+      type: "multiple_choice"
+      order: 2
+      title: "Helyettesítő használata"
+      question: |
+        Tekintsd az alábbi HTML-részletet:
+
+        ```html
+        <header>
+          <h1>Cím</h1>
+          <p>Bekezdés</p>
+          <img src="logo.png">
+        </header>
+        ```
+
+        Mely elemeket választja ki a `//header/*` kifejezés?
+      options:
+        - id: "a"
+          text: "A <h1> elemet"
+          correct: true
+        - id: "b"
+          text: "A <p> elemet"
+          correct: true
+        - id: "c"
+          text: "Az <img> elemet"
+          correct: true
+        - id: "d"
+          text: "Csak a <h1> elemet"
+          correct: false
+      explanation: "A `//header` megtalálja a `<header>` elemet, a `/*` pedig bármely közvetlen gyerek-elemre illeszkedik, ezért az összes `<h1>`, `<p>` és `<img>` gyereket kiválasztja."
+      hints:
+        - "A `*` a megadott szinten **bármely** elem nevét helyettesíti."
+
+    - id: "select-li-parents"
+      type: "xpath_sandbox"
+      order: 3
+      title: "Szülő kiválasztása"
+      question: "Válaszd ki az összes `<li>` elem közvetlen szülőjét."
+      sample_document: |
+        <div id="wrapper">
+          <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+          </ul>
+          <ol>
+            <li>Item 3</li>
+          </ol>
+        </div>
+      solution: "//li/.."
+      explanation: "A `//li` kiválasztja az összes `<li>` elemet, majd a `..` minden egyes `<li>` elemnél visszaugrik a szülő csomópontra (`<ul>` vagy `<ol>`)."
+
+  summary: |
+    A kontextusos navigáció és a helyettesítés elengedhetetlenek a rugalmas XPath útvonalakhoz:
+
+    - `.` – az **aktuális csomópontra** hivatkozik  
+    - `..` – a **szülő csomópontra** hivatkozik  
+    - `*` – **bármely elemre** illeszkedik a dokumentum adott szintjén
+
+    Ezek kombinálásával könnyedén tudsz fel-le mozogni a csomópontfában, és tetszőleges nevű elemeket kiválasztani.

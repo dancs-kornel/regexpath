@@ -1,0 +1,65 @@
+lesson:
+  id: "word-boundaries"
+  title: "Szóhatárok (\\b és \\B)"
+  description: "Teljes szavak és szórészletek keresése szóhatár-horgonyokkal"
+  introduction: |
+    A `^` és `$` a sorok elejét és végét rögzítik, de gyakran előfordul, hogy egy mintát **szóként** szeretnénk megtalálni, függetlenül annak pozíciójától.  
+    Erre szolgálnak a **szóhatár horgonyok**.
+
+    **`\\b` (Boundary):**  
+    A `\\b` jelöli a szó kezdetét vagy végét.  
+    A `\\bnap\\b` minta pontosan illeszkedik a „nap” szóra, de nem illeszkedik a „munkanap” vagy „napnyugta” szavakra.
+
+    **`\\B` (Non-Boundary):**  
+    A `\\B` minden olyan pozícióra illeszkedik, ami **nem szóhatár**.  
+    A `\\Bkő\\B` nem illeszkedik a „kő” szóra, de illeszkedik a „macskakőfal” szó belsejében lévő „kő” részre.
+
+  exercises:
+    - id: "non-boundary-matching"
+      type: "multiple_choice"
+      order: 1
+      title: "Szóhatár kizárása"
+      question: "Melyik mintára illeszkedik a `cat\\B` minta?"
+      options:
+        - id: "a"
+          text: "cat"
+          correct: false
+        - id: "b"
+          text: "caterpillar"
+          correct: true
+        - id: "c"
+          text: "concat"
+          correct: true
+      explanation: "A `cat\\B` akkor illeszkedik, ha a `cat` után **nem** szóhatár következik, vagyis a `cat` nem lehet a szó vége."
+      hints:
+        - "Gondolj a `\\B` jelentésére: nem szóhatár."
+
+    - id: "whole-word-meg"
+      type: "regex_sandbox"
+      order: 2
+      title: "Teljes szavak"
+      question: "Írj egy reguláris kifejezést, amely megtalálja a ’meg’ szót, de csak akkor, ha az teljes szónak minősül."
+      test_cases:
+        positive:
+          - text: "egy meg egy"
+            description: "A 'meg' külön szóként szerepel"
+            expected_matches: ["meg"]
+          - text: "edd meg!"
+            description: "A 'meg' külön áll, utána írásjel"
+            expected_matches: ["meg"]
+        negative:
+          - text: "megy"
+            description: "Csak szórészlet, nem teljes szó"
+          - text: "megoldás"
+            description: "A 'meg' nem önálló szó"
+      solution: "\\bmeg\\b"
+      explanation: "A `\\b` jelöli a szóhatárt. Ha mindkét oldalán szóhatár áll, a minta csak a teljes ’meg’ szóra illeszkedik."
+      hints:
+        - "Használd a szóhatár horgonyt a szó mindkét oldalán."
+
+  summary: |
+    A szóhatárok a finomhangolt kereséshez használt horgonyok:
+    - `\\b` a **szó elejére vagy végére** illeszkedik, így teljes szavak pontos keresését teszi lehetővé.  
+    - `\\B` minden **nem szóhatárra** illeszkedik, így szórészletek keresésére használható.
+
+    Ezek segítségével pontosabban szabályozhatod, milyen kontextusban szeretnéd megtalálni a mintákat.

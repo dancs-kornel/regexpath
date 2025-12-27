@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="login-card card-base">
+        <header>
+            <h1>Üdv újra<span class="accent">!</span></h1>
+            <p class="subtitle">Jelentkezz be a fiókodba</p>
+        </header>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="emailOrUsername">Email-cím vagy felhasználónév</label>
+                <input 
+                    id="emailOrUsername" 
+                    type="text" 
+                    formControlName="emailOrUsername" 
+                    required
+                    placeholder="Add meg az email-címedet vagy a felhasználónevedet"
+                    [class.error]="loginForm.get('emailOrUsername')?.invalid && loginForm.get('emailOrUsername')?.touched">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Jelszó</label>
+                <input 
+                    id="password" 
+                    type="password" 
+                    formControlName="password" 
+                    required
+                    placeholder="Add meg a jelszavadat"
+                    [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            </div>
+
+            @if (errorMessage) {
+                <div class="error-message">
+                    <span class="error-icon">⚠</span>
+                    {{ errorMessage }}
+                </div>
+            }
+
+            <button type="submit" [disabled]="loginForm.invalid || isLoading" class="btn-primary">
+                {{ isLoading ? 'Bejelentkezés folyamatban...' : 'Bejelentkezés' }}
+            </button>
+        </form>
+
+        <div class="auth-link">
+            Nincs még fiókod? <a routerLink="/register">Hozz létre egyet</a>
+        </div>
+    </div>
+</div>

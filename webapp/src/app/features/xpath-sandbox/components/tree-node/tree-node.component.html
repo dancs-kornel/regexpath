@@ -1,0 +1,15 @@
+
+<div class="tree-node" 
+     [class.highlighted]="node.isHighlighted"
+     [class.hovered]="node.isHovered"
+     [style.padding-left.px]="depth * 20">
+  <span class="expand-icon" (click)="toggleExpand()" *ngIf="node.hasChildren">
+    {{ node.isExpanded ? '▼' : '▶' }}
+  </span>
+  <span class="expand-placeholder" *ngIf="!node.hasChildren"></span>
+  
+  <span class="node-label">
+    &lt;{{ node.tagName }}<span class="node-index">[{{ node.siblingIndex }}]</span>&gt;
+    <span class="node-id" *ngIf="node.id">id="{{ node.id }}"</span>
+  </span>
+</div>

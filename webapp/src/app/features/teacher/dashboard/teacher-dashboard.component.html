@@ -1,0 +1,83 @@
+<div class="teacher-dashboard flex-column">
+    <h1>Tanári irányítópult</h1>
+
+    @if (isLoading) {
+        <p>Betöltés...</p>
+    } @else {
+        @if (error) {
+            <div class="error">{{ error }}</div>
+        }
+
+        <div class="stats-grid">
+            <div class="stat-card card-base card-wrapper flex-column">
+                <h3>Feladatsorok száma</h3>
+                <p class="stat-number">{{ totalAssignments }}</p>
+                <div class="stat-detail flex-column">
+                    <span>{{ publishedAssignments }} Publikálva</span>
+                    <span>{{ draftAssignments }} Vázlat</span>
+                </div>
+            </div>
+
+
+            <div class="stat-card card-base card-wrapper flex-column">
+                <h3>Csoportok</h3>
+                <p class="stat-number">{{ totalGroups }}</p>
+            </div>
+
+            <div class="stat-card card-base card-wrapper flex-column">
+                <h3>Tanulók száma</h3>
+                <p class="stat-number">{{ totalStudents }}</p>
+            </div>
+
+            <div class="stat-card card-base card-wrapper flex-column">
+                <h3>Gyorsműveletek</h3>
+                <a routerLink="/teacher/assignments/create" class="button btn-primary">Feladatsor létrehozása</a>
+                <a routerLink="/groups/create" class="button btn-primary">Csoport létrehozása</a>
+            </div>
+        </div>
+
+
+        @if (upcomingDueDates.length > 0) {
+            <div class="upcoming-section card-base card-wrapper">
+                <h2>Közelgő határidők</h2>
+                <ul>
+                    @for (assignment of upcomingDueDates; track assignment.id) {
+                        <li>
+                            <a [routerLink]="['/teacher/assignments', assignment.id, 'edit']">
+                                {{ assignment.title }}
+                            </a>
+                            <span>Határidő: {{ assignment.dueDate | date:'short' }}</span>
+                            <span class="badge" [class]="getStatusBadgeClass(assignment.status)">
+                                {{ assignment.status }}
+                            </span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+
+
+        <div class="recent-section card-base card-wrapper">
+            <h2>Legutóbbi feladatsorok</h2>
+            @if (assignments.length === 0) {
+                <p>Még nincsenek feladatsorok. <a routerLink="/teacher/assignments/create">Hozd létre az elsőt!</a></p>
+            } @else {
+                <ul>
+                    @for (assignment of assignments.slice(0, 5); track assignment.id) {
+                        <li>
+                            <a [routerLink]="['/teacher/assignments', assignment.id, 'edit']">
+                                {{ assignment.title }}
+                            </a>
+                            <span>{{ assignment.exerciseCount }} feladat</span>
+                            <span>{{ assignment.totalPoints }} pont</span>
+                            <span class="badge" [class]="getStatusBadgeClass(assignment.status)">
+                                {{ assignment.status }}
+                            </span>
+                        </li>
+                    }
+                </ul>
+                <a routerLink="/teacher/assignments">Összes feladatsor megtekintése →</a>
+            }
+        </div>
+    }
+</div>

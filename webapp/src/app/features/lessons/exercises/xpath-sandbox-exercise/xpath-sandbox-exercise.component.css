@@ -1,0 +1,289 @@
+.xpath-sandbox-container {
+    gap: 20px;
+}
+
+.document-section {
+    gap: 12px;
+}
+
+.document-header {
+    align-items: center;
+}
+
+.document-header h4 {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.loading-overlay {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    color: var(--color-text-secondary);
+}
+
+.loading-text {
+    font-weight: 500;
+}
+
+.document-wrapper {
+    position: relative;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-medium);
+    overflow: hidden;
+}
+
+.sample-document {
+    margin: 0;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 0.9em;
+    line-height: 1.5;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.sample-document code {
+}
+
+::ng-deep .code-line {
+  text-indent: 5px;
+}
+::ng-deep .sample-document .code-line {
+    padding: 2px 0;
+}
+
+::ng-deep .sample-document .highlight-green {
+  background: rgba(255, 115, 180, 0.15);
+  position: relative;
+}
+::ng-deep .sample-document .highlight-blue {
+  background: rgba(180, 160, 255, 0.10);
+  position: relative;
+}
+::ng-deep .sample-document .highlight-yellow {
+  background: rgba(255, 115, 180, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+::ng-deep .sample-document .highlight-yellow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  --stripe-angle: 135deg;                            
+  --stripe-light: rgba(250, 115, 180, 0.25);           
+  --stripe-gap: 6px;                                  
+  --stripe-thick: 4px;                               
+
+  background-image: repeating-linear-gradient(
+    var(--stripe-angle),
+    transparent 0 calc(var(--stripe-gap)),
+    var(--stripe-light) calc(var(--stripe-gap)) calc(var(--stripe-gap) + var(--stripe-thick))
+  );
+
+  -webkit-backdrop-filter: blur(0.001px);
+  backdrop-filter: blur(0.001px);
+  transition: opacity 320ms linear;
+}
+
+::ng-deep .document-wrapper:hover .sample-document .highlight-yellow::after,
+::ng-deep .document-wrapper:focus-within .sample-document .highlight-yellow::after {
+  opacity: 0.3;                                
+}
+
+::ng-deep .sample-document .highlight-green::before,
+::ng-deep .sample-document .highlight-blue::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;                              
+  transform-origin: left center;
+  transform: scaleX(1);                    
+  transition: transform 320ms ease-in-out;
+  pointer-events: none;
+}
+
+
+::ng-deep .sample-document .highlight-green::before { background: var(--color-primary); }
+::ng-deep .sample-document .highlight-blue::before  { background: rgb(140, 120, 255); }
+
+::ng-deep .document-wrapper:hover .sample-document .highlight-green::before,
+::ng-deep .document-wrapper:hover .sample-document .highlight-blue::before {
+  transform: scaleX(2);                     
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::ng-deep .sample-document .highlight-green::before,
+  ::ng-deep .sample-document .highlight-blue::before {
+    transition: none !important;
+  }
+  ::ng-deep .sample-document .highlight-yellow::after {animation: none !important; }
+}
+
+
+.results-section {
+    margin-top: 8px;
+}
+
+.result-card {
+    padding: 20px;
+    border-radius: var(--border-radius-medium);
+    border: 2px solid;
+}
+
+.result-card.correct {
+    background: rgba(76, 175, 80, 0.08);
+    border-color: #4caf50;
+}
+
+.result-card.incorrect {
+    background: rgba(244, 67, 54, 0.08);
+    border-color: #f44336;
+}
+
+.result-header {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.result-icon {
+    flex-shrink: 0;
+}
+
+.result-card.correct .result-icon {
+    color: #4caf50;
+}
+
+.result-card.incorrect .result-icon {
+    color: #f44336;
+}
+
+.result-content {
+    flex: 1;
+}
+
+.result-content h4 {
+    font-size: 1.15em;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+}
+
+.result-card.correct .result-content h4 {
+    color: #2e7d32;
+}
+
+.result-card.incorrect .result-content h4 {
+    color: #c62828;
+}
+
+.result-content p {
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.node-comparison {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.comparison-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.stat-item {
+    gap: 4px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: var(--border-radius-medium);
+}
+
+.stat-label {
+    font-size: 0.85em;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.node-details {
+    gap: 12px;
+}
+
+.node-disclosure {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: var(--border-radius-medium);
+    padding: 12px;
+}
+
+.node-disclosure summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    user-select: none;
+    list-style: none;
+}
+
+.node-disclosure summary::-webkit-details-marker {
+    display: none;
+}
+
+.node-disclosure summary svg {
+    flex-shrink: 0;
+    transition: transform var(--transition-standard);
+}
+
+.node-disclosure[open] summary svg {
+    transform: rotate(180deg);
+}
+
+.node-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0 0;
+}
+
+.node-list li {
+    padding: 8px 12px;
+    margin-top: 6px;
+    background: var(--color-white);
+    border-radius: 6px;
+    font-size: 0.9em;
+    color: var(--color-text-primary);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 768px) {
+    .comparison-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .result-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sample-document {
+        font-size: 0.85em;
+        max-height: 300px;
+    }
+}

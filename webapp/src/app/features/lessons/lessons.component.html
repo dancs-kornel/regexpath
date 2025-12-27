@@ -1,0 +1,112 @@
+<div class="lessons-container flex-column">
+  <header class="lessons-header flex-between">
+    <h1>Leckék</h1>
+    <button routerLink="/" class="btn-back">← Vissza a főoldalra</button>
+  </header>
+
+  @if (loading) {
+  <p class="loading-state">Modulok betöltése...</p>
+  }
+
+  @if (error) {
+  <div class="error-message">{{ error }}</div>
+  }
+
+  @if (!loading && !error) {
+  <div class="modules-list flex-column">
+    @if (isAuthenticated && continueLesson && !loadingContinue) {
+    <div class="continue-card card-base card-wrapper flex-between" role="region" aria-labelledby="continue-title">
+      <div class="continue-left">
+        <div class="continue-icon" aria-hidden="true">
+          <!-- Play / resume ikon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="10,8 16,12 10,16"></polygon>
+          </svg>
+        </div>
+        <div class="continue-info">
+          <h3 id="continue-title" class="continue-title">Folytasd, ahol abbahagytad</h3>
+          <p class="continue-meta">
+            <span class="continue-lesson">{{ continueLesson.lessonTitle }}</span>
+            <span class="continue-dot">•</span>
+            <span class="continue-module">{{ continueLesson.moduleTitle }}</span>
+          </p>
+        </div>
+      </div>
+
+      <button class="btn-continue btn-primary" (click)="continueLearning()"
+        aria-label="Folytatás a megkezdett leckével">
+        Folytatás
+      </button>
+    </div>
+    }
+
+    @for (module of modules; track module.id) {
+    <div class="module-card card-base card-wrapper">
+      <div class="module-header flex-between">
+        <h2>{{ module.title }}</h2>
+        <span class="estimated-time">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          {{ module.estimatedTime }}
+        </span>
+      </div>
+      <p class="module-description">{{ module.description }}</p>
+
+      @if (isAuthenticated) {
+      <div class="progress-section">
+        <div class="progress-bar-container">
+          <div class="progress-bar" [style.width.%]="getProgressPercentage(module.id)">
+          </div>
+        </div>
+        <span class="progress-text">
+          {{ getCompletedCount(module.id) }} teljesítve
+          <span class="progress-percentage">({{ getProgressPercentage(module.id) }}%)</span>
+        </span>
+      </div>
+      }
+
+      @if (module.lessons && module.lessons.length > 0) {
+      <div class="lessons-section">
+        <h3>Leckék</h3>
+        <ul class="lessons-list">
+          @for (lesson of module.lessons; track lesson.id) {
+          <li class="lesson-item" [class.completed]="isAuthenticated && isLessonCompleted(lesson.id)"
+            (click)="onLessonClick(lesson.id, lesson.title, $event)"
+            (keydown.enter)="onLessonClick(lesson.id, lesson.title, $event)"
+            (keydown.space)="onLessonClick(lesson.id, lesson.title, $event); $event.preventDefault()" tabindex="0"
+            role="link">
+            <div class="lesson-content">
+              @if (isAuthenticated && isLessonCompleted(lesson.id)) {
+              <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              } @else {
+              <div class="lesson-bullet"></div>
+              }
+
+              <div class="lesson-info">
+                <span class="lesson-link">{{ lesson.title }}</span>
+                <p class="lesson-description">{{ lesson.description }}</p>
+              </div>
+            </div>
+          </li>
+
+          }
+        </ul>
+      </div>
+      }
+    </div>
+    }
+  </div>
+  }
+  <!-- Prerequisite Warning Modal -->
+  <app-prerequisite-warning-modal *ngIf="showPrerequisiteModal && prerequisiteCheckResult"
+    [prerequisites]="prerequisiteCheckResult.unmetPrerequisites" [lessonTitle]="pendingLessonTitle"
+    (continueAnyway)="onContinueAnyway()" (close)="onCloseModal()"></app-prerequisite-warning-modal>
+</div>

@@ -1,0 +1,133 @@
+<div class="attempt-results-container">
+  <button class="btn-back" (click)="goBack()">← Vissza a csoporthoz</button>
+
+  @if (isLoading) { <p class="loading-state">Eredmények betöltése...</p> }
+  @if (error)     { <div class="error-message">{{ error }}</div> }
+
+  @if (!isLoading && attempt && assignment) {
+
+    <!-- Header card -->
+    <div class="results-header section-card card-wrapper card-interactive">
+      <h1>{{ assignment.title }}</h1>
+
+      <!-- Score block -->
+      <div class="score-card card-base flex-between" [class]="getScoreClass()">
+        <div class="score-main">
+          <span class="score-value">{{ attempt.score }}</span>
+          <span class="score-divider">/</span>
+          <span class="score-max">{{ attempt.maxScore }}</span>
+        </div>
+        <div class="score-percentage">{{ attempt.percentageScore?.toFixed(1) }}%</div>
+      </div>
+
+      <div class="attempt-meta">
+        <span><strong>Próba:</strong> {{ attempt.attemptNumber }}</span>
+        <span><strong>Beadva:</strong> {{ attempt.submittedAt | date:'short' }}</span>
+        @if (attempt.completed) { <span class="status-badge completed">Teljesítve</span> }
+        @else if (attempt.expired) { <span class="status-badge expired">Lejárt</span> }
+      </div>
+    </div>
+
+    <!-- Answers -->
+    <div class="answers-section section-card card-wrapper card-interactive">
+      <h2 class="section-title">Válaszaid</h2>
+
+      @for (answer of (attempt.answers ?? []); track answer.exerciseId; let i = $index) {
+        @if (getExerciseById(answer.exerciseId); as exercise) {
+          <div class="answer-card card-hover-subtle card-wrapper"
+               [class.correct]="answer.correct === true"
+               [class.incorrect]="answer.correct === false">
+            <div class="answer-header flex-between border-bottom">
+              <div class="answer-title">
+                <h3>Kérdés {{ i + 1 }}</h3>
+                @if (attempt.canViewAnswers && answer.correct !== undefined) {
+                  <span class="result-icon" [class.ok]="answer.correct" [class.nope]="!answer.correct">
+                    {{ answer.correct ? '✓' : '✗' }}
+                  </span>
+                }
+              </div>
+              <div class="answer-points">{{ answer.pointsEarned }} / {{ exercise.points }} pont</div>
+            </div>
+
+            <div class="answer-content">
+              <p class="question">{{ exercise.question }}</p>
+
+              <div class="your-answer">
+                <strong>Válaszod:</strong>
+                @if ((exercise.type === 'MULTIPLE_CHOICE' || exercise.type === 'RADIO') && (exercise?.options?.length ?? 0) > 0) {
+                  @if (parseAnswerJson(answer.answerJson).selectedOptions; as selected) {
+                    <ul class="answer-list">
+                      @for (optKey of selected; track optKey) { <li>{{ getOptionText(exercise, optKey) }}</li> }
+                    </ul>
+                  } @else { <em>Nincs megadva.</em> }
+                } @else {
+                  <code class="answer-code font-monospace">{{ getUserAnswer(answer.answerJson, exercise.type) }}</code>
+                }
+              </div>
+
+              @if (attempt.canViewAnswers && answer.validationResultJson) {
+                <div class="correct-answer">
+                  <strong>Visszajelzés:</strong>
+                  <p>{{ (parseAnswerJson(answer.validationResultJson)?.message) ?? '' }}</p>
+                </div>
+              }
+
+              @if (!attempt.canViewAnswers) {
+                <p class="info">A helyes válaszok a feladat lejárta után, vagy az összes próbálkozás felhasználása után lesznek láthatóak.</p>
+              }
+            </div>
+          </div>
+        } @else {
+          <div class="answer-card card-hover-subtle card-wrapper">
+            <div class="answer-header flex-between border-bottom"><div class="answer-title"><h3>Kérdés {{ i + 1 }}</h3></div></div>
+            <div class="answer-content"><em>Feladat nem elérhető.</em></div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- History -->
+    @if (allAttempts.length > 1) {
+      <div class="history-section section-card card-wrapper card-interactive">
+        <h2>Korábbi próbálkozások</h2>
+          <table class="table attempts-table">
+            <thead>
+              <tr>
+                <th>Próba</th><th>Eredmény</th><th>Százalék</th><th>Beadva</th><th>Műveletek</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (att of allAttempts; track att.id) {
+                <tr [class.current]="att.id === attemptId" [class.best]="isHighestScore(att.id)">
+                  <td>
+                    Próba {{ att.attemptNumber }}
+                    @if (att.id === attemptId)     { <span class="badge">Jelenlegi</span> }
+                    @if (isHighestScore(att.id))   { <span class="badge best badge-primary">Legjobb</span> }
+                  </td>
+                  <td>{{ att.score }} / {{ att.maxScore }}</td>
+                  <td>{{ att.percentageScore?.toFixed(1) }}%</td>
+                  <td>{{ att.submittedAt | date:'short' }}</td>
+                  <td>
+                    @if (att.id !== attemptId) {
+                      <button class="btn-secondary view-btn" (click)="viewAttempt(att.id)">Megtekintés</button>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+      </div>
+    }
+
+    <!-- Actions -->
+    <div class="actions-section">
+      @if (!assignment.isExpired && (!assignment.maxAttempts || assignment.attemptsUsed < assignment.maxAttempts)) {
+        <button class="btn-primary retake-btn" (click)="retakeAssignment()">Újabb próba</button>
+      } @else {
+        <p class="info">
+          @if (assignment.isExpired) { Ez a feladat lejárt. } @else { Felhasználtad az összes próbát. }
+        </p>
+      }
+    </div>
+  }
+</div>

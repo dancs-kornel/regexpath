@@ -1,0 +1,86 @@
+lesson:
+  id: "xpath-text-content"
+  title: "Szöveges tartalom kinyerése"
+  description: "Egy elem közvetlen szöveges tartalmának kinyerése"
+  introduction: |
+    Az előző leckében megtanultuk, hogyan kell attribútumértékeket kinyerni.  
+    Most azt nézzük meg, hogyan férhetünk hozzá egy elem **szöveges tartalmához**.
+
+    Egy elem szöveges tartalma **text node** típusként szerepel a dokumentumfában, és a `text()` függvénnyel érjük el egy adott elem **közvetlen szöveges csomópontjait**.
+
+    - `//h1/text()` → a `<h1>` elemek szöveges tartalmát adja vissza.
+
+    Fontos: a `text()` **csak a közvetlen szöveges tartalmat** adja vissza.  
+    Példa:  
+    `<h1>Cím<small>alcím</small></h1>`  
+    Ekkor a `text()` csak a **„Cím”** részt adja vissza, az *„alcím”*-et nem.
+
+  exercises:
+    - id: "text-node-type"
+      type: "radio"
+      order: 1
+      title: "Szöveg csomópont"
+      question: "Milyen típusú csomópontra illeszkedik a `text()` függvény?"
+      options:
+        - id: "a"
+          text: "Bármely elemre"
+          correct: false
+        - id: "b"
+          text: "A közvetlen szöveges csomópontokra"
+          correct: true
+        - id: "c"
+          text: "Attribútum csomópontokra"
+          correct: false
+      explanation: "A `text()` kifejezetten az elemek közvetlen szöveges tartalmát reprezentáló szövegcsomópontokra illeszkedik."
+      hints:
+        - "A függvény neve magáért beszél."
+
+    - id: "direct-text-content"
+      type: "multiple_choice"
+      order: 2
+      title: "Közvetlen tartalom"
+      question: |
+        Melyik szövegre illeszkedik a `//div/text()` kifejezés?
+
+        ```html
+        <div>
+          A szöveg 1.
+          <span>Beágyazott.</span>
+          A szöveg 2.
+        </div>
+        ```
+      options:
+        - id: "a"
+          text: "A szöveg 1."
+          correct: true
+        - id: "b"
+          text: "Beágyazott."
+          correct: false
+        - id: "c"
+          text: "A szöveg 2."
+          correct: true
+      explanation: "A `text()` csak a `<div>` **közvetlen** szöveges csomópontjaira illeszkedik. A `<span>` belsejében lévő „Beágyazott.” nem közvetlen szöveg, ezért nem része a találatoknak."
+      hints:
+        - "A `text()` nem lát bele más elemek tartalmába."
+
+    - id: "list-items-text"
+      type: "xpath_sandbox"
+      order: 3
+      title: "Lista elemek tartalma"
+      question: "Gyűjtsd ki az összes listaelem `<li>` szöveges tartalmát."
+      sample_document: |
+        <ul>
+          <li>Első termék</li>
+          <li>Második termék</li>
+        </ul>
+        <ol>
+          <li>Harmadik termék</li>
+        </ol>
+      solution: "//li/text()"
+      explanation: "A `//li` kiválasztja az összes listaelemet, majd a `text()` függvény ezek közvetlen szöveges tartalmát adja vissza."
+      hints:
+        - "A `text()` függvényt az útvonal **végére** kell tenni."
+
+  summary: |
+    A `text()` függvény biztosítja, hogy az elem helyett annak **közvetlen szöveges tartalma** kerüljön kinyerésre.  
+    Így az XPath segítségével közvetlenül hozzáférhetsz a dokumentum szöveges adataihoz, és nemcsak az elemeket vagy attribútumokat választhatod ki.

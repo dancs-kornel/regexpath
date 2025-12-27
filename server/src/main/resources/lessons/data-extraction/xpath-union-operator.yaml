@@ -1,0 +1,68 @@
+lesson:
+  id: "xpath-union-operator"
+  title: "Útvonalak egyesítése ( | )"
+  description: "Több lekérdezés eredményének együttes megjelenítése"
+  introduction: |
+    Gyakran előfordul, hogy több, logikailag különböző elemet szeretnénk kiválasztani a dokumentumból egyetlen lekérdezésben.  
+    Erre szolgál a `|` operátor (Union Operator), amely **két vagy több teljes XPath kifejezés eredményét egyesíti**.
+
+    A `|` két különálló útvonalat köt össze, és az általuk kiválasztott **összes csomópontot** egy egyesített találati halmazban adja vissza.  
+    Úgy működik, mint a logikai **VAGY (OR)** operátor, csak XPath útvonalakra alkalmazva.
+
+    **Szintaxis:**  
+    `xpath_kifejezés_1 | xpath_kifejezés_2`
+
+    Példa:  
+    `//h1 | //h2` → kiválasztja a dokumentum **összes `<h1>` és összes `<h2>` elemét**.
+
+  exercises:
+    - id: "union-node-set"
+      type: "multiple_choice"
+      order: 1
+      title: "Egyesített halmaz"
+      question: |
+        Az alábbiak közül mely csomópontokra illeszkedik a `//p/text() | //a/@href` kifejezés?
+
+        ```html
+        <p>Szöveg</p>
+        <a href="/link1"></a>
+        <p>Még szöveg</p>
+        ```
+      options:
+        - id: "a"
+          text: "A <p>Szöveg</p> elemre"
+          correct: false
+        - id: "b"
+          text: "A 'Szöveg' stringre"
+          correct: true
+        - id: "c"
+          text: "A '/link1' attribútum értékre"
+          correct: true
+        - id: "d"
+          text: "A <p>Még szöveg</p> elemre"
+          correct: false
+      explanation: "A `//p/text()` a `<p>` elemek közvetlen szöveges tartalmát adja vissza, míg a `//a/@href` a linkek `href` attribútumának értékét. A `|` egyesíti ezeket a különböző típusú találatokat."
+      hints:
+        - "A `|` csak a két lekérdezés eredményhalmazát egyesíti."
+
+    - id: "select-h1-h3"
+      type: "xpath_sandbox"
+      order: 2
+      title: "Több címsor"
+      question: "Válaszd ki az összes `<h1>` és `<h3>` elemet a dokumentumból."
+      sample_document: |
+        <body>
+          <h1>Főcím</h1>
+          <h2>Alcím</h2>
+          <p>Szöveg</p>
+          <h3>Szó-cím</h3>
+          <h3>Még egy szó-cím</h3>
+        </body>
+      solution: "//h1 | //h3"
+      explanation: "A `//h1` kiválasztja a dokumentum minden `<h1>` elemét, a `//h3` pedig az összes `<h3>` elemet. A `|` operátor egyesíti a két találati halmazt."
+      hints:
+        - "Használd a `//elem_név` formát mindkét címsortípushoz, majd kösd össze őket `|` jellel."
+
+  summary: |
+    A Union Operátor (`|`) lehetővé teszi több, logikailag független XPath útvonal eredményének **egyesítését**.  
+    Ez különösen hasznos, ha különböző típusú elemeket szeretnénk egy lekérdezéssel kiválasztani.

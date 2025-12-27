@@ -1,0 +1,39 @@
+<!-- webapp/src/app/features/xpath-sandbox/components/document-workspace/document-workspace.component.html -->
+
+<!-- View Toggles -->
+<div class="controls-section">
+  <app-view-toggle-controls
+    [toggles]="viewToggles"
+    (toggleChanged)="onViewToggleChanged($event)">
+  </app-view-toggle-controls>
+</div>
+
+<!-- Templates for each panel -->
+<ng-template #sourceTemplate>
+  <app-source-editor
+    [sourceText]="editableSource"
+    [maxCharacters]="maxCharacters"
+    [showCharacterCount]="true"
+    [placeholder]="'Ide írd a HTML vagy XML tartalmat...'"
+    (sourceChange)="onSourceEdit($event)"
+    (textInput)="onSourceInput($event)">
+  </app-source-editor>
+</ng-template>
+
+<ng-template #treeTemplate>
+  <app-tree-view [treeNodes]="state.getTreeNodes()"></app-tree-view>
+</ng-template>
+
+<ng-template #renderedTemplate>
+  <app-rendered-view
+    [htmlContent]="state.getHtmlContent()"
+    (iframeLoaded)="onIframeLoaded()">
+  </app-rendered-view>
+</ng-template>
+
+<!-- Resizable Panel Container -->
+<app-resizable-panel-container
+  *ngIf="panelConfigs?.length"
+  [panels]="panelConfigs"
+  (widthsChanged)="onPanelWidthsChanged($event)">
+</app-resizable-panel-container>

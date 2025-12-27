@@ -1,0 +1,97 @@
+<div class="create-group-container">
+  @if (!createdGroup) {
+    <section class="create-card card-base" role="form" aria-labelledby="create-title">
+      <header class="create-header">
+        <div class="create-title-wrap">
+          <svg class="create-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="16"></line>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+          </svg>
+          <h1 id="create-title">Új csoport létrehozása</h1>
+        </div>
+        <p class="instruction">Adj meg egy egyértelmű nevet és rövid leírást, hogy a diákok könnyen felismerjék a csoportodat.</p>
+      </header>
+
+      <form [formGroup]="createGroupForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-group">
+          <label for="name">Csoport neve *</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="pl.: Haladó RegEx kurzus"
+            required
+            [attr.aria-invalid]="createGroupForm.get('name')?.invalid && createGroupForm.get('name')?.touched"
+          />
+          @if (createGroupForm.get('name')?.invalid && createGroupForm.get('name')?.touched) {
+            <span class="error-text" role="alert">A csoport neve legalább 3 és legfeljebb 100 karakter lehet</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="description">Leírás (opcionális)</label>
+          <textarea
+            id="description"
+            class="textarea"
+            formControlName="description"
+            rows="4"
+            placeholder="Írd le, miről szól a csoport..."
+            [attr.aria-invalid]="createGroupForm.get('description')?.invalid && createGroupForm.get('description')?.touched"
+          ></textarea>
+          @if (createGroupForm.get('description')?.invalid && createGroupForm.get('description')?.touched) {
+            <span class="error-text" role="alert">A leírás nem lehet hosszabb 500 karaktrenél</span>
+          }
+        </div>
+
+        @if (errorMessage) {
+          <p class="error" role="alert">{{ errorMessage }}</p>
+        }
+
+        <div class="form-actions">
+          <button type="button" class="btn-ghost" (click)="cancel()">Mégse</button>
+          <button type="submit" class="btn-primary" [disabled]="createGroupForm.invalid || isLoading">
+            {{ isLoading ? 'Csoport létrehozása...' : 'Csoport létrehozása' }}
+          </button>
+        </div>
+      </form>
+    </section>
+  }
+
+  @if (createdGroup) {
+    <section class="success-card card-success" role="status" aria-live="polite">
+      <div class="success-head">
+        <div class="success-icon-wrap">
+          <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h1>Csoport sikeresen létrehozva!</h1>
+      </div>
+
+      <div class="group-details">
+        <h2>{{ createdGroup.name }}</h2>
+        @if (createdGroup.description) {
+          <p class="group-desc">{{ createdGroup.description }}</p>
+        }
+
+        <div class="invite-code-box">
+          <h3>Oszd meg ezt a meghívókódot a diákjaiddal:</h3>
+          <div class="invite-code-row">
+            <div class="invite-code">{{ createdGroup.inviteCode }}</div>
+          </div>
+          <p class="hint">A diákok ezzel a kóddal tudnak csatlakozni a csoportodhoz</p>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-ghost" (click)="createAnother()">Újabb csoport létrehozása</button>
+        <button class="btn-primary" (click)="goToGroups()">Összes csoport</button>
+      </div>
+    </section>
+  }
+</div>

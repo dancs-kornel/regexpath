@@ -1,0 +1,19 @@
+module: 
+  id: "quantifiers"
+  title: "Kvantorok"
+  description: "Karakterek, minták ismétlése"
+  lessons:
+    - id: "star-plus-quantifiers"
+      title: "A Csillag (*) és a Plusz (+)"
+      description: "A 'nulla vagy több' és az 'egy vagy több' ismétlődés kvantorai"
+      order: 1
+
+    - id: "optional-quantifier"
+      title: "Opcionális karakterek (?)"
+      description: "A 'nulla vagy egy' előfordulást leíró kvantor működése"
+      order: 2
+    
+    - id: "quantifiers-braces"
+      title: "Darabszámok {n,m}"
+      description: "Pontos számú ismétlések megadása kapcsos zárójeles kvantorokkal"
+      order: 3

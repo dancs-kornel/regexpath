@@ -1,0 +1,80 @@
+lesson:
+  id: "negated-character-sets"
+  title: "Negált karakterrészletek ([^...])"
+  description: "Olyan karakterek keresése, amik nincsenek benne egy adott készletben"
+  introduction: |
+    Eddig olyan mintákat tanultunk, amelyek tartalmaznak bizonyos karaktereket.
+    Előfordul viszont, hogy ennek az ellenkezőjét szeretnénk: keresni minden karakterre, kivéve az adott készletet.
+    Erre szolgál a negált karakterkészlet, melyet a szögletes zárójel kezdetén álló `^` karakterrel jelölünk.
+    A `[^0-9]` minta tehát illeszkedik minden karakterre, ami nem számjegy.
+    A `macsk[^a]` illeszkedik minden olyan ötkarakteres szóra, ami 'macsk'-kal kezdődik, de nem a 'macska' szó.
+
+  exercises:
+    - id: "negation-definition"
+      type: "radio"
+      order: 1
+      title: "Negáció jelentése"
+      question: "Mit keres az `x[^yz]x` reguláris kifejezés?"
+      options:
+        - id: "a"
+          text: "Az xyx vagy xzx szavakra illeszkedik"
+          correct: false
+        - id: "b"
+          text: "Olyan háromkarakteres mintára illeszkedik, ami x-szel kezdődik és végződik, és a második karakter nem y és nem z"
+          correct: true
+        - id: "c"
+          text: "Bármilyen sorozatra illeszkedik, amely 'x'-szel kezdődik és végződik, és nem tartalmaz y vagy z betűt"
+          correct: false
+      explanation: "A `[^yz]` rész pontosan egy karakterhelyet jelent, ami bármi lehet, kivéve y vagy z karaktert."
+      hints:
+        - "A minta továbbra is pontosan egy karaktert vár a `[^yz]` helyén"
+        - "A `^` jel a szögletes zárójel elején tagadást jelent"
+
+    - id: "negation-matching"
+      type: "multiple_choice"
+      order: 2
+      title: "Mire illeszkedik?"
+      question: "Mely szavakra illeszkedik a `[^a-zA-Z]` reguláris kifejezés?"
+      options:
+        - id: "a"
+          text: "1"
+          correct: true
+        - id: "b"
+          text: "b"
+          correct: false
+        - id: "c"
+          text: "?"
+          correct: true
+        - id: "d"
+          text: "F"
+          correct: false
+      explanation: "A kifejezés negálja az összes kis- és nagybetűt, így minden olyan karakterre illeszkedik, ami nem betű."
+      hints:
+        - "`[a-zA-Z]` az összes betű tartománya"
+        - "A negált készlet azokat a karaktereket keresi, amik kívül esnek a tartományon"
+
+    - id: "negation-sandbox"
+      type: "regex_sandbox"
+      order: 3
+      title: "Karakterek szűrése - Regex sandbox"
+      question: "Adj meg egy olyan reguláris kifejezést, ami illeszkedik a 'bal' és 'fal' szavakra, de a 'hal'-ra nem"
+      test_cases:
+        positive:
+          - text: "bal"
+            description: "Illeszkedik, mert nem 'h'-val kezdődik"
+            expected_matches: ["bal"]
+          - text: "fal"
+            description: "Illeszkedik, mert nem 'h'-val kezdődik"
+            expected_matches: ["fal"]
+        negative:
+          - text: "hal"
+            description: "Nem illeszkedik, mert 'h'-val kezdődik"
+      solution: "[^h]al"
+      explanation: "A szavak csak az első karakterükben különböznek, és sokszor egyszerűbb arra szűrni, mit nem szeretnénk illeszteni, mint arra, hogy mit igen."
+      hints:
+        - "Figyeld meg, melyik betű változik a három szóban"
+        - "A `^` a szögletes zárójel elején mindig a tagadást jelenti"
+
+  summary: |
+    Megismerted a negált karakterkészleteket, amik lehetővé teszik, hogy könnyedén kizárj karaktereket a találatokból.
+    Ezzel a módszerrel rugalmasabban szabályozhatod, hogy pontosan milyen karaktereket szeretnél elkerülni a mintáidban.

@@ -1,0 +1,96 @@
+lesson:
+  id: "xpath-index-filtering"
+  title: "Szűrés sorszám alapján ([1])"
+  description: "Adott sorszámú elem kiválasztása a találatok közül"
+  introduction: |
+    A predikátumok egyik legegyszerűbb felhasználási módja az, hogy a kiválasztott elemek halmazából **adott sorszámú elemet** választunk ki.  
+    XPath-ben az indexelés **1-től indul**, nem 0-tól, mint sok programozási nyelvben.
+
+    - `[n]`: a kiválasztott elemek halmazának **n-edik elemét** adja vissza.  
+      Például: `//li[1]` kiválasztja **minden** lista **első** `<li>` elemét, mert a sorszámozás **minden szülőn belül újraindul**.
+
+    - `[last()]`: a találati halmaz **utolsó elemét** jelöli.  
+      Például: `//tr[last()]` az összes táblázat utolsó sorát választja ki.
+
+    A predikátumokban használhatunk matematikai műveleteket is:  
+    - `[last()-1]` → az utolsó előtti elem  
+    - `[position() < 3]` → az első két elem
+
+  exercises:
+    - id: "first-item-selection"
+      type: "multiple_choice"
+      order: 1
+      title: "Sorszám"
+      question: |
+        Mely elemet választja ki a `//li[1]` kifejezés?
+
+        ```html
+        <ul>
+          <li>1A</li>
+          <li>1B</li>
+        </ul>
+        <ol>
+          <li>2A</li>
+          <li>2B</li>
+        </ol>
+        ```
+      options:
+        - id: "a"
+          text: "Az <ul> listán belüli ’1A’ <li> elemet"
+          correct: true
+        - id: "b"
+          text: "Az <ul> listán belüli ’1B’ <li> elemet"
+          correct: false
+        - id: "c"
+          text: "Az <ol> listán belüli ’2A’ <li> elemet"
+          correct: true
+        - id: "d"
+          text: "Az <ol> listán belüli ’2B’ <li> elemet"
+          correct: false
+      explanation: "A `//li[1]` mindenhol kiválasztja az `<li>` elemek közül azt, amely az adott szülőn belül **első**."
+      hints:
+        - "A sorszámozás **szülőnként újraindul**."
+
+    - id: "third-paragraph"
+      type: "xpath_sandbox"
+      order: 2
+      title: "Harmadik elem"
+      question: "Válaszd ki a dokumentumban lévő harmadik `<p>` bekezdést."
+      sample_document: |
+        <body>
+          <p>Első bekezdés.</p>
+          <p>Második bekezdés.</p>
+          <p>Harmadik bekezdés.</p>
+          <p>Negyedik bekezdés.</p>
+        </body>
+      solution: "//p[3]"
+      explanation: "A `//p` kiválasztja az összes `<p>` bekezdést, majd a `[3]` predikátum a halmaz **harmadik** elemére szűkít."
+      hints:
+        - "A sorszámozás **1-gyel kezdődik**."
+
+    - id: "last-row"
+      type: "xpath_sandbox"
+      order: 3
+      title: "Utolsó sor"
+      question: "Válaszd ki a táblázat `<table>` utolsó `<tr>` sorát."
+      sample_document: |
+        <table>
+          <thead><tr><th>Fejléc</th></tr></thead>
+          <tbody>
+            <tr><td>Adat 1</td></tr>
+            <tr><td>Adat 2</td></tr>
+            <tr><td>Adat 3</td></tr>
+          </tbody>
+        </table>
+      solution: "//tr[last()]"
+      explanation: "A `//tr` kiválasztja az összes `<tr>` sort, a `[last()]` pedig biztosítja, hogy a találati halmaz **utolsó** eleme legyen a kiválasztott."
+      hints:
+        - "Használd a `last()` függvényt."
+
+  summary: |
+    A predikátumokat használhatod arra, hogy a kiválasztott elemhalmazt **sorszám alapján** szűrd:
+    - `[n]` → az **n-edik** elem  
+    - `[last()]` → az **utolsó** elem  
+    - matematikai kifejezésekkel további finomítást is végezhetsz
+
+    Ezek segítségével precízen vezérelheted, mely elemeket szeretnél kiválasztani a dokumentumból.

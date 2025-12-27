@@ -1,0 +1,190 @@
+
+.exercise-builder { padding: 24px; }
+
+
+textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  font-size: 15px;
+  font-family: inherit;
+  resize: none;
+  transition: all var(--transition-standard);
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(221, 42, 123, 0.2);
+}
+
+
+.type-specific-fields {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+.type-specific-fields h4 { margin: 0 0 12px 0; }
+
+
+.template-generation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin: 12px 0 16px;
+}
+.template-generation .gen-label { font-weight: 600; color: var(--color-text-primary); }
+
+
+.options-list, .test-cases-list { display: grid; gap: 10px; }
+.option-item, .test-case-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  padding: 10px;
+  align-items: center;
+  border-radius: var(--border-radius-medium);
+}
+.option-item input[type="text"],
+.test-case-item input[type="text"] { width: 100%; }
+
+
+.btn-danger-outline {
+  background: var(--color-white);
+  color: #d32f2f;
+  border: 1px solid rgba(211,47,47,.4);
+  border-radius: var(--border-radius-medium);
+  transition: all var(--transition-standard);
+  box-shadow: var(--shadow-small);
+}
+.btn-danger-outline:hover {
+  background: rgba(211,47,47,.04);
+  box-shadow: var(--shadow-medium);
+}
+.btn-danger-outline:disabled {
+  opacity: .5; cursor: not-allowed; box-shadow: none;
+}
+
+
+.add-btn { margin-top: 6px; }
+
+
+.solution-with-toggle { display: grid; gap: 10px; }
+.checkbox-label { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+
+.option-checkbox {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.45);
+  display: grid; place-items: center;
+  z-index: 1000;
+}
+.modal { max-width: 520px; width: min(520px, 92vw); }
+
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+
+
+.form-actions {
+  display: flex; gap: 10px; justify-content: flex-end;
+  margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--color-border);
+}
+
+
+@media (min-width: 768px) {
+  .solution-with-toggle { grid-template-columns: 1fr auto; align-items: center; }
+}
+
+
+
+
+
+.radio-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+input[type="radio"].option-radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+
+.radio-custom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-white);
+  transition: all var(--transition-standard);
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+
+.radio-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all var(--transition-standard);
+}
+
+
+input[type="radio"]:checked + .radio-custom {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(221, 42, 123, 0.12);
+}
+input[type="radio"]:checked + .radio-custom .radio-dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+label:hover .radio-custom {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(221, 42, 123, 0.08);
+}
+
+
+input[type="radio"]:focus + .radio-custom {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+
+.radio-custom.correct {
+  border-color: #4caf50;
+}
+.radio-custom.correct .radio-dot {
+  background: #4caf50;
+  opacity: 1;
+  transform: scale(1);
+}
+.radio-custom.incorrect {
+  border-color: #f44336;
+}
+.radio-custom.incorrect .radio-dot {
+  background: #f44336;
+  opacity: 1;
+  transform: scale(1);
+}

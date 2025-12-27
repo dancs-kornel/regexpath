@@ -1,0 +1,19 @@
+<div class="xpath-input-container flex-column">
+  <div class="xpath-input-row">
+    <div class="xpath-left-col flex-column">
+      <input #xpathInput id="xpath-input" name="xpath" type="text" class="xpath-text-input" [ngModel]="expression"
+        (ngModelChange)="onInputChange($event)" [disabled]="loading" placeholder="Írj be egy XPath kifejezést..." />
+    </div>
+
+    <div class="xpath-right-col">
+      <ng-content select="app-step-toggle"></ng-content>
+    </div>
+  </div>
+
+  <div class="sandbox-token-row">
+    <button *ngFor="let token of tokens" (click)="insertToken(token.value)" [disabled]="loading"
+      class="sandbox-token-btn" [title]="token.label">
+      {{ token.label }}
+    </button>
+  </div>
+</div>

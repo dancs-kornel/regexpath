@@ -1,0 +1,18 @@
+{
+    "samples": [
+        {
+            "id": "books",
+            "name": "Book Catalog",
+            "type": "xml",
+            "file": "books.xml",
+            "description": "A simple XML catalog of books"
+        },
+        {
+            "id": "simple-page",
+            "name": "Simple HTML Page",
+            "type": "html",
+            "file": "simple-page.html",
+            "description": "A basic HTML page structure"
+        }
+    ]
+}

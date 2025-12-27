@@ -1,0 +1,120 @@
+
+<div class="progress-container">
+    <button class="btn-back" (click)="goBack()">← Vissza a statisztikákhoz</button>
+
+    @if (isLoading) {
+        <p>Tanuló haladásának betöltése...</p>
+    }
+
+    @if (error) {
+        <div class="error-message">{{ error }}</div>
+    }
+
+    @if (!isLoading && progress) {
+        <div class="header">
+            <h1>{{ progress.studentName }}</h1>
+            <p class="email">{{ progress.studentEmail }}</p>
+            <p class="group-info">Csapat: {{ progress.groupName }}</p>
+        </div>
+
+        <div class="overview-cards">
+            <div class="stat-card">
+                <h3>Összes feladat</h3>
+                <p class="stat-number">{{ progress.totalAssignments }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Kitöltve</h3>
+                <p class="stat-number" style="color: #2e7d32;">{{ progress.assignmentsCompleted }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Folyamatban</h3>
+                <p class="stat-number" style="color: #ef6c00;">{{ progress.assignmentsInProgress }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Nem megkezdett</h3>
+                <p class="stat-number" style="color: #1565c0;">{{ progress.assignmentsNotStarted }}</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Összpontszám</h3>
+                <p class="stat-number">{{ progress.totalPointsEarned }} / {{ progress.totalPointsPossible }}</p>
+                <p class="percentage">{{ (progress.totalPointsEarned / progress.totalPointsPossible * 100).toFixed(1) }}%</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Kitöltési arány</h3>
+                <p class="stat-number">{{ progress.completionRate.toFixed(1) }}%</p>
+            </div>
+        </div>
+
+        <div class="assignments-section section-card">
+            <h2 class="section-title">Feladatsor haladás</h2>
+
+            @if (progress.assignmentProgress.length === 0) {
+                <p class="empty-state">No assignments yet.</p>
+            } @else {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Feladatsor</th>
+                            <th>Határidő</th>
+                            <th>Státusz</th>
+                            <th>Próbálkozások</th>
+                            <th>Legjobb eredmény</th>
+                            <th>Százalék</th>
+                            <th>Elkezdve</th>
+                            <th>Beadva</th>
+                            <th>Legjobb</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (assignment of progress.assignmentProgress; track assignment.assignmentId) {
+                            <tr>
+                                <td>{{ assignment.assignmentTitle }}</td>
+                                <td>{{ assignment.dueDate ? (assignment.dueDate | date:'short') : '-' }}</td>
+                                <td>
+                                    <span 
+                                        class="status-badge" 
+                                        [class]="getStatusClass(assignment.status)"
+                                        [style.color]="getStatusColor(assignment.status)"
+                                    >
+                                        {{ assignment.status.replace('_', ' ') }}
+                                    </span>
+                                </td>
+                                <td>{{ assignment.attemptsUsed }} / {{ assignment.maxAttempts ?? '∞' }}</td>
+                                <td>
+                                    @if (assignment.bestScore !== null) {
+                                        {{ assignment.bestScore }} / {{ assignment.totalPoints }}
+                                    } @else {
+                                        -
+                                    }
+                                </td>
+                                <td>
+                                    @if (assignment.percentageScore !== null) {
+                                        {{ assignment.percentageScore.toFixed(1) }}%
+                                    } @else {
+                                        -
+                                    }
+                                </td>
+                                <td>{{ assignment.firstStartedAt ? (assignment.firstStartedAt | date:'short') : '-' }}</td>
+                                <td>{{ assignment.lastSubmittedAt ? (assignment.lastSubmittedAt | date:'short') : '-' }}</td>
+                                <td>
+                                    @if (assignment.bestAttemptId) {
+                                        <button (click)="viewAttempt(assignment.bestAttemptId)">
+                                            Legjobb megtekintése
+                                        </button>
+                                    } @else {
+                                        -
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    }
+</div>

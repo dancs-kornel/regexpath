@@ -1,0 +1,146 @@
+<div class="assignment-list flex-column">
+    <div class="header page-header">
+        <h1>Feladatsoraim</h1>
+        <a routerLink="/teacher/assignments/create" class="create-button btn-primary">+ Új feladatsor létrehozása</a>
+    </div>
+
+    @if (error) {
+    <div class="error">{{ error }}</div>
+    }
+
+    <div class="filters card-wrapper">
+        <div class="filter-group">
+            <label>Státusz:</label>
+            <select [(ngModel)]="statusFilter" (change)="onFilterChange()">
+                <option value="all">Mind</option>
+                <option value="SUBMITTED">Publikálva</option>
+                <option value="DRAFT">Vázlat</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Keresés:</label>
+            <input type="text" [(ngModel)]="searchTerm" (input)="onFilterChange()" placeholder="Feladatsor keresése..." class="input-container">
+        </div>
+
+        <div class="filter-group">
+            <label>Rendezés:</label>
+            <select [(ngModel)]="sortBy" (change)="onFilterChange()">
+                <option value="createdAt">Létrehozás dátuma</option>
+                <option value="title">Cím</option>
+                <option value="dueDate">Határidő</option>
+                <option value="points">Összpontszám</option>
+            </select>
+            <button (click)="toggleSort(sortBy)" class="sort-order">
+                {{ sortOrder === 'asc' ? '↑' : '↓' }}
+            </button>
+        </div>
+    </div>
+
+    @if (isLoading) {
+    <p>Feladatsorok betöltése...</p>
+    } @else if (filteredAssignments.length === 0) {
+    <div class="no-assignments card-wrapper card-interactive">
+        @if (assignments.length === 0) {
+        <p>Még nem hoztál létre egyetlen feladatsort sem.</p>
+        <a routerLink="/teacher/assignments/create" class="button btn-primary">Első feladatsor létrehozása</a>
+        } @else {
+        <p>Egy feladatsor sem felel meg a szűrőknek.</p>
+        }
+    </div>
+    } @else {
+    <table class="assignments-table card-wrapper card-interactive">
+        <thead>
+            <tr>
+                <th (click)="toggleSort('title')">
+                    Cím {{ sortBy === 'title' ? (sortOrder === 'asc' ? '↑' : '↓') : '' }}
+                </th>
+                <th>Státusz</th>
+                <th>Feladatok</th>
+                <th (click)="toggleSort('points')">
+                    Pontszám {{ sortBy === 'points' ? (sortOrder === 'asc' ? '↑' : '↓') : '' }}
+                </th>
+                <th (click)="toggleSort('dueDate')">
+                    Határidő {{ sortBy === 'dueDate' ? (sortOrder === 'asc' ? '↑' : '↓') : '' }}
+                </th>
+                <th>Csoportok</th>
+                <th>Műveletek</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (assignment of filteredAssignments; track assignment.id) {
+            <tr class="list-row-hover">
+                <td>
+                    @if (assignment.status === 'DRAFT') {
+                    <a [routerLink]="['/teacher/assignments', assignment.id, 'edit']">
+                        {{ assignment.title }}
+                    </a>
+                    } @else {
+                    <span>{{ assignment.title }}</span>
+                    }
+                </td>
+                <td>
+                    <span class="badge badge-primary" [class]="getStatusBadgeClass(assignment.status)">
+                        {{ assignment.status === 'SUBMITTED' ? 'Published' : assignment.status }}
+                    </span>
+                </td>
+                <td>{{ assignment.exerciseCount }}</td>
+                <td>{{ assignment.totalPoints }}</td>
+                <td>
+                    {{ assignment.dueDate ? (assignment.dueDate | date:'short') : '-' }}
+                </td>
+                <td>{{ assignment.assignedGroupsCount }}</td>
+                <td class="actions flex-between">
+                    @if (assignment.status === 'SUBMITTED') {
+                    <div class="actions-left">
+                        <button (click)="openAssignModal(assignment)" class="action-btn btn-primary">
+                            Kiosztás
+                        </button>
+                        <button (click)="previewAssignment(assignment.id)" class="action-btn btn-secondary">
+                            Előnézet
+                        </button>
+                        <button (click)="revertToDraft(assignment.id, $event)" class="action-btn btn-secondary">
+                            Vázlat
+                        </button>
+                    </div>
+                    }
+
+                    @if (assignment.status === 'DRAFT') {
+                    <div class="actions-left">
+                        <a [routerLink]="['/teacher/assignments', assignment.id, 'edit']">Szerkesztés</a>
+                        <button (click)="publishAssignment(assignment.id, $event)" class="action-btn btn-secondary">
+                            Publikálás
+                        </button>
+                    </div>
+                    }
+
+                    <button (click)="confirmDelete(assignment)" class="action-btn delete btn-secondary">
+                        Törlés
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    }
+
+    @if (deleteConfirmation.show) {
+    <div class="modal-backdrop flex-center">
+        <div class="modal">
+            <h2>Törlés megerősítése</h2>
+            <p>Biztos törölni szeretnéd? "{{ deleteConfirmation.assignmentTitle }}"?</p>
+            <p>Ez a művelet nem visszafordítható.</p>
+            <div class="modal-actions flex">
+                <button (click)="deleteAssignment()" class="button danger">Törlés</button>
+                <button (click)="cancelDelete()" class="button">Mégse</button>
+            </div>
+        </div>
+    </div>
+    }
+
+    @if (assignModal.show) {
+    <app-assign-assignment-modal [assignmentId]="assignModal.assignmentId"
+        [assignmentTitle]="assignModal.assignmentTitle" (closeModal)="closeAssignModal()"
+        (assignmentAssigned)="onAssignmentAssigned()" />
+    }
+</div>

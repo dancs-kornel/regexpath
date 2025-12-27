@@ -1,0 +1,21 @@
+<div class="view-container">
+  <div
+    *ngFor="let panel of panels; let i = index"
+    [class]="panel.id + '-view view-panel flex-column'"
+    [style.width.%]="panel.visible ? panel.width : 0"
+    [style.display]="panel.visible ? 'flex' : 'none'">
+    
+    <h3>{{ panel.title }}</h3>
+    
+    <div class="scrollable-content">
+      <ng-container *ngTemplateOutlet="panel.contentTemplate || null"></ng-container>
+    </div>
+    
+    <!-- Resize handle -->
+    <div 
+      *ngIf="shouldShowResizeHandle(i)"
+      class="resize-handle"
+      (mousedown)="startResize($event, i)">
+    </div>
+  </div>
+</div>

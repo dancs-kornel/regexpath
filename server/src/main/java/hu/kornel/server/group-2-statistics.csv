@@ -1,0 +1,5 @@
+"Student Name","Email","Assignment","Started At","Submitted At","Attempts Used","Best Score","Max Score","Percentage","Status"
+"studentuser","studentuser@example.com","test assignment #2","","","0","","2","","NOT_STARTED"
+"studentuser","studentuser@example.com","assignment for testing purposes","2025-10-20 14:55","2025-10-20 15:38","4","4","4","100,00%","COMPLETED"
+"studentuser","studentuser@example.com","assignment with one attempt #2","2025-10-20 16:24","2025-10-20 16:24","1","1","1","100,00%","COMPLETED"
+"studentuser","studentuser@example.com","assignment that expires in 10 minutes from now","","","0","","0","","NOT_STARTED"

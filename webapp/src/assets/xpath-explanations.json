@@ -1,0 +1,77 @@
+{
+  "axes": {
+    "/": "Gyermek elem",
+    "//": "Leszármazott elem (bármilyen mélységben)",
+    ".": "Aktuális elem",
+    "..": "Szülő elem",
+    "@": "Attribútum",
+    "child::": "Gyermek tengely",
+    "descendant::": "Leszármazott tengely",
+    "parent::": "Szülő tengely",
+    "ancestor::": "Ős tengely",
+    "following-sibling::": "Következő testvér tengely",
+    "preceding-sibling::": "Előző testvér tengely",
+    "following::": "Következő elemek tengely",
+    "preceding::": "Előző elemek tengely",
+    "attribute::": "Attribútum tengely",
+    "descendant-or-self::": "Leszármazott-vagy-saját tengely",
+    "ancestor-or-self::": "Ős-vagy-saját tengely"
+  },
+  "nodeTests": {
+    "*": "Bármilyen elem",
+    "text()": "Szöveges csomópont",
+    "node()": "Bármilyen csomópont",
+    "comment()": "Megjegyzés csomópont",
+    "processing-instruction()": "Feldolgozási utasítás"
+  },
+  "operators": {
+    "=": "Egyenlő",
+    "!=": "Nem egyenlő",
+    "<": "Kisebb mint",
+    ">": "Nagyobb mint",
+    "<=": "Kisebb vagy egyenlő",
+    ">=": "Nagyobb vagy egyenlő",
+    "and": "És logikai operátor",
+    "or": "Vagy logikai operátor",
+    "+": "Összeadás",
+    "-": "Kivonás",
+    "*": "Szorzás",
+    "div": "Osztás",
+    "mod": "Maradékos osztás",
+    "|": "Unió (több útvonal egyesítése)"
+  },
+  "functions": {
+    "position()": "Elem pozíciója a kontextusban",
+    "last()": "Utolsó elem pozíciója",
+    "count()": "Elemek száma",
+    "contains()": "Tartalmaz-e szövegrészt",
+    "starts-with()": "Kezdődik-e szövegrésszel",
+    "string-length()": "Szöveg hossza",
+    "substring()": "Szövegrész kivágása",
+    "concat()": "Szövegek összefűzése",
+    "normalize-space()": "Szóközök normalizálása",
+    "translate()": "Karakterek cseréje",
+    "not()": "Logikai tagadás",
+    "true()": "Igaz érték",
+    "false()": "Hamis érték",
+    "sum()": "Számok összege",
+    "floor()": "Lefelé kerekítés",
+    "ceiling()": "Felfelé kerekítés",
+    "round()": "Kerekítés"
+  },
+  "predicates": {
+    "position": "Pozíció szerinti szűrés",
+    "attribute": "Attribútum szerinti szűrés",
+    "function": "Függvény szerinti szűrés",
+    "comparison": "Összehasonlítás szerinti szűrés"
+  },
+  "common": {
+    "/*": "Gyökér elem gyermekei",
+    "//*": "Minden elem a dokumentumban",
+    "//text()": "Minden szöveges csomópont",
+    "@*": "Minden attribútum",
+    ".[1]": "Első elem",
+    ".[last()]": "Utolsó elem",
+    ".[@id]": "Elemek amelyeknek van id attribútuma"
+  }
+}

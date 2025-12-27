@@ -1,0 +1,231 @@
+
+<div class="exercise-builder section-card">
+    <form [formGroup]="exerciseForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="type">Feladattípus *</label>
+            <select id="type" formControlName="type" (change)="onTypeChange($any($event.target).value)">
+                <option [value]="exerciseTypes.MULTIPLE_CHOICE">Feleletválasztó</option>
+                <option [value]="exerciseTypes.RADIO">Egy helyes válasz</option>
+                <option [value]="exerciseTypes.REGEX">RegEx</option>
+                <option [value]="exerciseTypes.XPATH">XPath</option>
+            </select>
+        </div>
+
+        <!-- Template Generation Controls -->
+        @if (canGenerateTemplate()) {
+        <div class="template-generation card-base">
+            @if (selectedType === exerciseTypes.RADIO || selectedType === exerciseTypes.MULTIPLE_CHOICE) {
+            <label class="gen-label">Nehézség:</label>
+            <select [(ngModel)]="selectedDifficulty" [ngModelOptions]="{standalone: true}">
+                <option [value]="difficultyLevels.EASY">Könnyű</option>
+                <option [value]="difficultyLevels.MEDIUM">Közepes</option>
+                <option [value]="difficultyLevels.HARD">Nehéz</option>
+            </select>
+            }
+            <button type="button" class="btn-secondary btn-small" (click)="requestGenerateTemplate()">
+                Sablon generálása
+            </button>
+        </div>
+        }
+
+        <!-- Confirmation Modal -->
+        @if (showGenerateConfirmation) {
+        <div class="modal-backdrop">
+            <div class="modal section-card">
+                <h2>Sablon generálás megerősítése</h2>
+                <p>Ez a művelet felülír minden adatot a feladatban.</p>
+                <p>Biztos, hogy folytatod?</p>
+                <div class="modal-actions">
+                    <button type="button" class="btn-primary btn-small"
+                        (click)="confirmGenerateTemplate()">Folytatás</button>
+                    <button type="button" class="btn-ghost btn-small" (click)="cancelGenerateTemplate()">Mégse</button>
+                </div>
+            </div>
+        </div>
+        }
+
+        <div class="form-group">
+            <label for="question">Kérdés/Leírás *</label>
+            <textarea id="question" formControlName="question" rows="4"
+                placeholder="Írd be a kérdést vagy leírást"></textarea>
+            @if (exerciseForm.get('question')?.invalid && exerciseForm.get('question')?.touched) {
+            <span class="field-error">Kérdés megadása kötelező (legalább 5 karakter)</span>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="points">Pont *</label>
+            <input id="points" type="number" formControlName="points" min="1" max="100" />
+            @if (exerciseForm.get('points')?.invalid && exerciseForm.get('points')?.touched) {
+            <span class="field-error">Pontszám 1 és 100 között lehet</span>
+            }
+        </div>
+
+        <!-- Multiple Choice -->
+        @if (selectedType === exerciseTypes.MULTIPLE_CHOICE) {
+        <div class="type-specific-field form-group">
+            <h4>Válaszok (Pipálj be minden helyes választ)</h4>
+            <div class="options-list">
+                @for (option of options.controls; track $index) {
+                <div class="option-item">
+                    <!-- inside .option-item -->
+                    <label class="option-check">
+                        <input type="checkbox" class="option-checkbox" [id]="'mc-correct-' + $index"
+                            [checked]="isCorrectAnswer($index)" (change)="toggleCorrectAnswer($index)" />
+                        <span class="checkbox-custom checkbox-custom-sm">
+                            <!-- tiny checkmark (uses your global stroke="currentColor") -->
+                            <svg class="checkmark" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                <path d="M20 6L9 17l-5-5" stroke-width="3" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                    </label>
+
+                    <input type="text" [formControl]="$any(option).get('text')" placeholder="Válasz megadása" />
+                    <button type="button" class="btn-danger-outline btn-small" (click)="removeOption($index)"
+                        [disabled]="options.length <= 2">✕</button>
+
+                </div>
+                }
+            </div>
+            <button type="button" class="add-btn btn-secondary btn-small" (click)="addOption()">+ Válasz
+                hozzáadása</button>
+            @if (!exerciseForm.get('correctAnswers')?.value?.length && exerciseForm.get('correctAnswers')?.touched) {
+            <span class="field-error">Válassz ki legalább egy helyes választ</span>
+            }
+        </div>
+        }
+
+        <!-- Radio -->
+        @if (selectedType === exerciseTypes.RADIO) {
+        <div class="type-specific-fields form-group">
+            <h4>Válaszok (Pipálj be egy helyes választ)</h4>
+            <div class="options-list">
+                @for (option of options.controls; track $index) {
+                <div class="option-item">
+                    <!-- Hidden native radio -->
+                    <label class="option-check">
+                        <input type="radio" class="option-radio" [name]="'radio-correct'"
+                            [id]="'radio-correct-' + $index" [value]="$index" [checked]="isCorrectAnswer($index)"
+                            (change)="exerciseForm.patchValue({ correctAnswer: $index })" />
+                        <span class="radio-custom">
+                            <span class="radio-dot"></span>
+                        </span>
+                    </label>
+
+                    <!-- Option text input -->
+                    <input type="text" [formControl]="$any(option).get('text')" placeholder="Válasz szövege" />
+
+                    <!-- Remove button -->
+                    <button type="button" class="btn-danger-outline btn-small" (click)="removeOption($index)"
+                        [disabled]="options.length <= 2">
+                        ✕
+                    </button>
+                </div>
+                }
+            </div>
+
+            <!-- Add new option -->
+            <button type="button" class="add-btn btn-secondary btn-small" (click)="addOption()">
+                + Válasz hozzáadása
+            </button>
+
+            @if (
+            exerciseForm.get('correctAnswer')?.value === null &&
+            exerciseForm.get('correctAnswer')?.touched
+            ) {
+            <span class="field-error">Válaszd ki a helyes választ</span>
+            }
+        </div>
+        }
+
+
+        <!-- RegEx -->
+        @if (selectedType === exerciseTypes.REGEX) {
+        <div class="type-specific-fields form-group">
+                <label for="solution">RegEx megoldás *</label>
+                <div class="solution-with-toggle">
+                    <input id="solution" type="text" formControlName="solution"
+                        placeholder="Írd be a helyes reguláris kifejezést">
+                    <label class="checkbox-label">
+                        <input type="checkbox" formControlName="enableRealTimeHighlighting"> Valós idejű kijelölés a
+                        diákoknak
+                    </label>
+                </div>
+                @if (exerciseForm.get('solution')?.invalid && exerciseForm.get('solution')?.touched) {
+                <span class="field-error">Megoldás megadása kötelező</span>
+                }
+
+            <div class="generate-examples-section">
+                <button type="button" class="btn-secondary" (click)="generateRegexExamples()"
+                    [disabled]="isGeneratingExamples">
+                    {{ isGeneratingExamples ? 'Generálás...' : 'Tesztesetek generálása a mintához' }}
+                </button>
+                @if (exampleGenerationError) { <span class="field-error">{{ exampleGenerationError }}</span> }
+            </div>
+
+            <h4>Pozitív tesztesetek (illeszkedjen)</h4>
+            <div class="test-cases-list card-base">
+                @for (testCase of positiveTestCases.controls; track $index) {
+                <div class="test-case-item">
+                    <input type="text" [formControl]="$any(testCase).get('text')" placeholder="Tesztszöveg">
+                    <input type="text" [formControl]="$any(testCase).get('description')"
+                        placeholder="Leírás (opcionális)">
+                    <button type="button" class="btn-danger-outline btn-small" (click)="removePositiveTestCase($index)"
+                        [disabled]="positiveTestCases.length <= 1">✕</button>
+                </div>
+                }
+            </div>
+            <button type="button" class="add-btn btn-secondary btn-small" (click)="addPositiveTestCase()">+ Pozitív
+                teszteset</button>
+
+            <h4>Negatív tesztesetek (ne illeszkedjen)</h4>
+            <div class="test-cases-list card-base">
+                @for (testCase of negativeTestCases.controls; track $index) {
+                <div class="test-case-item">
+                    <input type="text" [formControl]="$any(testCase).get('text')" placeholder="Tesztszöveg">
+                    <input type="text" [formControl]="$any(testCase).get('description')"
+                        placeholder="Leírás (opcionális)">
+                    <button type="button" class="btn-danger-outline btn-small"
+                        (click)="removeNegativeTestCase($index)">✕</button>
+                </div>
+                }
+            </div>
+            <button type="button" class="add-btn btn-secondary btn-small" (click)="addNegativeTestCase()">+ Negatív
+                teszteset</button>
+        </div>
+        }
+
+        <!-- XPath -->
+        @if (selectedType === exerciseTypes.XPATH) {
+        <div class="type-specific-fields">
+            <div class="form-group">
+                <label for="sampleDocument">Minta HTML/XML dokumentum *</label>
+                <textarea id="sampleDocument" formControlName="sampleDocument" rows="8"
+                    placeholder="Írd be az HTML/XML tartalmat amire a kiértékelés történjen"></textarea>
+                @if (exerciseForm.get('sampleDocument')?.invalid && exerciseForm.get('sampleDocument')?.touched) {
+                <span class="field-error">Mintadokumentum megadása kötelező</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="solution">Helyes XPath kifejezés *</label>
+                <div class="solution-with-toggle">
+                    <input id="solution" type="text" formControlName="solution"
+                        placeholder="Add meg a helyes xpath kifejezést">
+                    <label class="checkbox-label"><input type="checkbox" formControlName="enableRealTimeHighlighting">
+                        Valós idejű kijelölés a diákoknak</label>
+                </div>
+                @if (exerciseForm.get('solution')?.invalid && exerciseForm.get('solution')?.touched) {
+                <span class="field-error">Megoldás megadása kötelező</span>
+                }
+            </div>
+        </div>
+        }
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Feladat mentése</button>
+            <button type="button" class="btn-ghost" (click)="onCancel()">Mégse</button>
+        </div>
+    </form>
+</div>

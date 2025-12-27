@@ -1,0 +1,23 @@
+<nav>
+  <a routerLink="/">Home</a>
+  <a routerLink="/sandbox">RegEx Sandbox</a>
+  <a routerLink="/xpath-sandbox">XPath Sandbox</a>
+  <a routerLink="/lessons">Leckék</a>
+  
+  @if (currentUser) {
+    <a routerLink="/groups">Csoportok</a>
+  }
+
+  @if (authService.isTeacher()) {
+    <a routerLink="/teacher/dashboard">Irányítópult</a>
+    <a routerLink="/teacher/assignments">Feladatsorok</a>
+  }
+
+  @if (currentUser) {
+    <span>{{ currentUser.username }}</span>
+    <button (click)="logout()">Kilépés</button>
+  } @else {
+    <a routerLink="/login">Bejelentkezés</a>
+    <a routerLink="/register">Regisztráció</a>
+  }
+</nav>

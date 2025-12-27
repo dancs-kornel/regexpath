@@ -1,0 +1,106 @@
+.pattern-input-section {
+  max-width: 460px;
+}
+
+.input-and-builder {
+  max-width: 460px;
+}
+
+.input-wrapper {
+  position: relative;
+  padding: 10px 14px;
+}
+
+.input-wrapper.invalid {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.08);
+}
+
+.regex-delimiter {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--color-primary);
+  opacity: 0.85;
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+}
+
+.input-wrapper .regex-delimiter:first-child {
+  left: 12px;
+}
+
+.input-wrapper .regex-delimiter:last-child {
+  right: 12px;
+}
+
+.pattern-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1em;
+  color: var(--color-text-primary);
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.pattern-input::placeholder {
+  color: var(--color-text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.pattern-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.flags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 16px;
+  row-gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  max-width: 460px;
+
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+.flag-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-standard);
+  position: relative; 
+}
+
+.flag-checkbox-native {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.flag-label {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-standard);
+}
+
+.pattern-error {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--color-error);
+}

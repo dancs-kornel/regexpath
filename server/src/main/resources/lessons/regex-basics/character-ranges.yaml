@@ -1,0 +1,80 @@
+lesson:
+  id: "character-ranges"
+  title: "Karaktertartományok: [a-z]"
+  description: "A karakterkészletek hatékony definiálása tartományokkal"
+  introduction: |
+    Ha nagy karakterkészletet szeretnél definiálni, például az összes kisbetűt, a felsorolás szögletes zárójelek közt hosszadalmas lenne.
+    Erre a problémára kínál megoldást a tartomány jelölő: a kötőjel (`-`) használata karakterkészleten belül.
+    A kötőjel segítségével megadhatsz egy kezdő és záró karaktert, és így minden karakter, ami a két pont között van (ASCII vagy UNICODE táblában), bekerül a készletbe.
+    ` [a-z] `: Illeszkedik minden kisbetűre  
+    ` [A-Z] `: Illeszkedik minden nagybetűre  
+    ` [0-9] `: Illeszkedik minden számjegyre  
+    ` [a-zA-Z0-9] `: Illeszkedik minden kis- és nagybetűre és számjegyre
+
+  exercises:
+    - id: "ranges-definition"
+      type: "radio"
+      order: 1
+      title: "Melyik igaz?"
+      question: "Melyik állítás igaz a `[1-5]` karakterkészletre?"
+      options:
+        - id: "a"
+          text: "Illeszkedik az '1-5' karakterláncra"
+          correct: false
+        - id: "b"
+          text: "Illeszkedik az 1, 2, 3, 4 vagy 5 számjegyek közül pontosan egyre"
+          correct: true
+      explanation: "A karakterkészletek mindig egyetlen karakterre vonatkoznak. Az `[1-5]` minta az ASCII tábla '1' és '5' közötti karaktereit foglalja magába."
+      hints:
+        - "A szögletes zárójel továbbra is egyetlen karakterhely"
+        - "A kötőjel a tartomány határait jelöli"
+
+    - id: "ranges-digits-sandbox"
+      type: "regex_sandbox"
+      order: 2
+      title: "Gyakorlat - Regex sandbox"
+      question: "Írj reguláris kifejezést, ami megtalálja a számjegyeket (0-tól 9-ig) a szövegben"
+      test_cases:
+        positive:
+          - text: "2025.10.19"
+            description: "Dátum formátum - több szám is található"
+            expected_matches: ["2", "0", "2", "5", "1", "0", "1", "9"]
+          - text: "12345"
+            description: "Folyamatos számjegyek"
+            expected_matches: ["1", "2", "3", "4", "5"]
+        negative:
+          - text: "Hello World"
+            description: "Nincs számjegy"
+          - text: "nyolc"
+            description: "Számnevek, nem számjegyek"
+      solution: "[0-9]"
+      explanation: "A `[0-9]` tartomány magába foglalja az összes számjegyet 0-tól 9-ig."
+      hints:
+        - "A legkisebb számjegy a 0, legnagyobb a 9"
+        - "Használd a kötőjelet a tartomány jelölésére"
+
+    - id: "ranges-hex-sandbox"
+      type: "regex_sandbox"
+      order: 3
+      title: "Hexadecimális számjegyek - Regex sandbox"
+      question: "Írj egy reguláris kifejezést, ami megtalálja a hexadecimális számjegyeket (0-9 és a-f) a szövegben"
+      test_cases:
+        positive:
+          - text: "#FFAA33"
+            description: "Nagybetűs hexadecimális érték"
+            expected_matches: ["F", "F", "A", "A", "3", "3"]
+          - text: "a1b2c3d4e5f6"
+            description: "Vegyes kisbetűs és számjegyes karakterek"
+            expected_matches: ["a", "1", "b", "2", "c", "3", "d", "4", "e", "5", "f", "6"]
+        negative:
+          - text: "ZzXxGg"
+            description: "Nem hexadecimális karakterek"
+      solution: "[0-9a-fA-F]"
+      explanation: "A megoldás három tartomány kombinációja: `[0-9]` a számjegyekhez, `[a-f]` a kisbetűs HEX karakterekhez, és `[A-F]` a nagybetűsökhöz."
+      hints:
+        - "Három tartományt kell összevonni: Számok, kisbetűk, nagybetűk"
+        - "A HEX értékek 0-tól F-ig terjednek"
+
+  summary: |
+    Megtanultad, hogy a kötőjellel (`-`) definiált tartományok jelentősen lerövidíthetik a karakterkészletek definiálását.
+    Az `[a-z]` minta sokkal áttekinthetőbb és könnyebben kezelhető, mint az összes betű felsorolása.

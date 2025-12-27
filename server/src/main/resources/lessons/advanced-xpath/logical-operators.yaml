@@ -1,0 +1,87 @@
+lesson:
+  id: "logical-operators"
+  title: "Logikai operátorok (and, or)"
+  description: "Több feltétel összekapcsolása egy predikátumon belül"
+  introduction: |
+    Már tudjuk, hogyan kell attribútumok alapján szűrni.  
+    Gyakran azonban **több feltételt is meg kell adnunk** egyetlen predikátumon belül.  
+    Erre szolgálnak a logikai operátorok: **and** és **or**.
+
+    - **and**: akkor igaz, ha **mindkét** feltétel teljesül.  
+      Például: `//a[@class='nav' and @href='home.html']`  
+      → azokat az `<a>` elemeket választja ki, amelyek **egyszerre** `class='nav'` és `href='home.html'`.
+
+    - **or**: akkor igaz, ha **legalább az egyik** feltétel igaz.  
+      Például: `//p[@class='warning' or @class='error']`  
+      → kiválasztja az összes olyan `<p>` elemet, amelynek osztálya „warning” **vagy** „error”.
+
+    A logikai operátorokkal egyetlen predikátumban is elvégezhetünk összetett szűréseket, anélkül hogy több útvonalat kéne láncolni.
+
+  exercises:
+    - id: "and-operator"
+      type: "radio"
+      order: 1
+      title: "And operátor"
+      question: "Mikor illeszkedik egy elemre egy predikátum, amely az `and` operátort használja?"
+      options:
+        - id: "a"
+          text: "Ha legalább az egyik feltétel igaz"
+          correct: false
+        - id: "b"
+          text: "Ha mindkét feltétel egyszerre igaz"
+          correct: true
+      explanation: "Az `and` operátor szigorú: a predikátum csak akkor igaz, ha **mindkét** feltétel teljesül."
+      hints:
+        - "Az `and` azt jelenti: „ez is, meg az is”."
+
+    - id: "or-operator"
+      type: "multiple_choice"
+      order: 2
+      title: "Or operátor"
+      question: |
+        Melyik elemre illeszkedik a `//div[@id='A' or @class='B']` kifejezés?
+
+        ```html
+        <div id="A" class="C">1</div>
+        <div id="X" class="B">2</div>
+        <div id="Y" class="C">3</div>
+        ```
+      options:
+        - id: "a"
+          text: "A <div id=\"A\" class=\"C\">1</div> elemre"
+          correct: true
+        - id: "b"
+          text: "A <div id=\"X\" class=\"B\">2</div> elemre"
+          correct: true
+        - id: "c"
+          text: "A <div id=\"Y\" class=\"C\">3</div> elemre"
+          correct: false
+        - id: "d"
+          text: "Egyikre sem"
+          correct: false
+      explanation: "Az első elem illeszkedik, mert `@id='A'` igaz. A második elem illeszkedik, mert `@class='B'` igaz. A harmadik elem egyiket sem teljesíti."
+      hints:
+        - "Az `or` megengedi, hogy **akár csak az egyik** feltétel teljesüljön."
+
+    - id: "combined-search"
+      type: "xpath_sandbox"
+      order: 3
+      title: "Kettős keresés"
+      question: "Válaszd ki az összes `<p>` elemet, amelynek az `id` attribútuma `intro` vagy a `class` attribútuma `highlight`."
+      sample_document: |
+        <div>
+          <p id="intro">Fontos bevezetés</p>
+          <p class="highlight">Ki kell emelni</p>
+          <p id="outro">Befejező rész</p>
+        </div>
+      solution: "//p[@id='intro' or @class='highlight']"
+      explanation: "Az `or` operátor megenged minden `<p>` elemet, amely bármelyik feltételt teljesíti, így két bekezdés is kiválasztható."
+      hints:
+        - "Két lépés: feltételek megadása, majd összekötés `or`-ral."
+
+  summary: |
+    A logikai operátorok elengedhetetlenek a **komplex, többszörös feltételű** szűrésekhez.  
+    - `and` → mindkét feltételnek igaznak kell lennie  
+    - `or` → elég, ha az egyik feltétel igaz  
+
+    Ezek segítségével sokkal tömörebb és áttekinthetőbb predikátumokat írhatunk.

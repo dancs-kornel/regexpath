@@ -1,0 +1,34 @@
+<div *ngIf="result" class="results-section">
+  <h3>Találatok ({{ result.matches.length }})</h3>
+  
+  <div *ngIf="result.error" class="error-message">
+    <strong>Hiba:</strong> {{ result.error }}
+  </div>
+
+  <div *ngIf="result.executionTime" class="execution-time">
+    <small>Kiértékelve: {{ result.executionTime.toFixed(2) }}ms</small>
+  </div>
+
+  <div *ngIf="result.matches.length > 0" class="matches-container">
+    <ul class="matches-list">
+      <li 
+        *ngFor="let match of result.matches"
+        class="match-item"
+        (mouseenter)="onResultHover(match)"
+        (mouseleave)="onResultLeave()"
+        (click)="onResultClick(match)">
+        <strong>{{ match.index + 1 }}.</strong>
+        <span class="node-type">{{ getNodeTypeLabel(match.type) }}</span>
+        <span *ngIf="match.tagName" class="tag-name">: &lt;{{ match.tagName }}&gt;</span>
+        <br />
+        <code class="xpath-path">{{ match.path }}</code>
+        <br />
+        <span *ngIf="match.textContent" class="text-content">{{ match.textContent }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="result.matches.length === 0 && !result.error" class="no-matches">
+    <p>Nincs találat</p>
+  </div>
+</div>

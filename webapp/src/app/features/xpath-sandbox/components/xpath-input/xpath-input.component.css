@@ -1,0 +1,70 @@
+
+.xpath-input-container {
+  gap: 0.75rem;
+}
+
+.xpath-input-row {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.75rem;
+  
+}
+
+.xpath-left-col {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.xpath-text-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 12px 16px;
+  font-size: 15px;
+  line-height: 1.4;
+  font-family: inherit;
+  color: var(--color-text-primary);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--shadow-small);
+  transition: all var(--transition-standard);
+  box-sizing: border-box;
+  height: 40px; 
+}
+
+.xpath-text-input:focus {
+  outline: none;
+  border-color: rgba(221, 42, 123, 0.6);
+  box-shadow:
+    0 0 0 3px rgba(221, 42, 123, 0.1),
+    var(--shadow-small);
+}
+
+
+.xpath-right-col {
+  flex: 0 0 auto;
+  min-width: max-content;
+  display: flex;
+  align-items: flex-start;
+}
+
+
+.xpath-toolbar-row {
+  flex: 0 0 auto;
+  display: block;
+}
+
+.sandbox-token-row {
+  
+  align-self: flex-start;        
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.xpath-input-container > .sandbox-token-row {
+  width: 100%;
+  max-width: 100%;
+}
+

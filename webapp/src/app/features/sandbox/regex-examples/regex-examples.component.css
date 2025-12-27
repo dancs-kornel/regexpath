@@ -1,0 +1,140 @@
+.examples-card {
+  margin-top: 24px;
+}
+
+.examples-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.examples-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.generate-btn {
+  padding: 10px 16px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.examples-error {
+  font-size: 0.9rem;
+}
+
+.examples-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .examples-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.example-group {
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: var(--border-radius-medium);
+  background: rgba(0,0,0,0.015);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  padding: 16px;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.group-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-medium);
+  padding: 4px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.group-icon svg {
+  display: block;
+}
+
+.success-icon {
+  background-color: rgba(76, 175, 80, 0.12);       
+  color: #2e7d32;                                  
+}
+
+.fail-icon {
+  background-color: rgba(244, 67, 54, 0.12);       
+  color: #c62828;
+}
+
+.group-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.example-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.example-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding: 12px 0;
+  transition: all var(--transition-standard);
+}
+
+.example-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.example-item:first-child {
+  padding-top: 0;
+}
+
+.example-item:hover {
+  background-color: rgba(221, 42, 123, 0.02);
+  border-bottom-color: rgba(221, 42, 123, 0.3);
+}
+
+.example-item:last-child:hover {
+  border-bottom-color: transparent;
+}
+
+.example-code {
+  font-family: var(--font-monospace);
+  font-size: 0.95rem;
+  background: rgba(0,0,0,0.04);
+  color: var(--color-text-primary);
+  border-radius: 6px;
+  padding: 2px 6px;
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-word;
+  min-height: 1.5rem;
+}
+
+.example-reason {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  line-height: 1.4;
+}

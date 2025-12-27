@@ -1,0 +1,26 @@
+
+.multiple-choice-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.option-item.selected .checkbox-custom {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.option-item.selected .checkmark {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.option-item.correct .checkbox-custom {
+    background: #4caf50;
+    border-color: #4caf50;
+}
+
+.option-item.incorrect .checkbox-custom {
+    background: #f44336;
+    border-color: #f44336;
+}

@@ -1,0 +1,73 @@
+lesson:
+  id: "numeric-functions"
+  title: "Numerikus függvények (count(), position())"
+  description: "Mennyiség és pozíció alapú szűrések"
+  introduction: |
+    A predikátumokban gyakran kell **numerikus feltételeket** megadni — például egy elem sorszáma vagy a gyerek-elemek száma alapján.
+
+    Ehhez két fontos függvény áll rendelkezésünkre:
+
+    - **`position()`**  
+      Visszaadja az aktuális csomópont sorszámát a találati halmazban.  
+      Példa: `//li[position() > 3]`  
+      → kiválasztja az összes olyan `<li>` elemet, amely **harmadiknál későbbi**.
+
+      Használható matematikai műveletekkel is, például:  
+      `//tr[position() mod 2 = 0]`  
+      → kiválasztja a **páros sorszámú** sorokat.
+
+    - **`count(kifejezés)`**  
+      Megszámolja, hogy **hány csomópont** felel meg a kifejezésnek.  
+      Példa: `//ul[count(li) > 5]`  
+      → kiválasztja azokat az `<ul>` elemeket, amelyek több mint 5 `<li>` gyereket tartalmaznak.
+
+  exercises:
+    - id: "count-filtering"
+      type: "multiple_choice"
+      order: 1
+      title: "Bonyolult számlálás"
+      question: |
+        Melyik `<ul>` elemre illeszkedik a `//ul[count(li) < 3]` kifejezés?
+
+        ```html
+        <ul id="list1"><li>A</li><li>B</li></ul>
+        <ul id="list2"><li>C</li><li>D</li><li>E</li></ul>
+        <ul id="list3"><li>F</li></ul>
+        ```
+      options:
+        - id: "a"
+          text: "A <ul id=\"list1\"> elemre"
+          correct: true
+        - id: "b"
+          text: "A <ul id=\"list2\"> elemre"
+          correct: false
+        - id: "c"
+          text: "A <ul id=\"list3\"> elemre"
+          correct: true
+      explanation: "A `count(li) < 3` feltétel a 2 és 1 darabos listákra igaz — vagyis a list1 és list3 elemekre."
+      hints:
+        - "A count() a zárójelben lévő kifejezés találatait számolja meg."
+
+    - id: "even-rows"
+      type: "xpath_sandbox"
+      order: 2
+      title: "Minden második sor"
+      question: "Válaszd ki egy táblázatban az összes páros sorszámú `<tr>` sort."
+      sample_document: |
+        <table>
+          <tr><td>1. sor (páratlan)</td></tr>
+          <tr><td>2. sor (páros)</td></tr>
+          <tr><td>3. sor (páratlan)</td></tr>
+          <tr><td>4. sor (páros)</td></tr>
+        </table>
+      solution: "//tr[position() mod 2 = 0]"
+      explanation: "A `position()` adja a sor sorszámát a kiválasztott halmazban, a `mod 2 = 0` pedig a párosakat jelöli."
+      hints:
+        - "Használd a position() függvényt!"
+
+  summary: |
+    A numerikus függvényekkel hatékonyan szűrhetünk **mennyiség** és **pozíció** alapján.
+    - `position()` → egy elem helye a találati listában  
+    - `count()` → gyerek-elemek vagy találatok száma  
+
+    Ezek elengedhetetlenek a bonyolultabb XPath szűrésekhez.

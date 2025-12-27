@@ -1,0 +1,90 @@
+lesson:
+  id: "dot-metacharacter"
+  title: "A mindentudó pont (.)"
+  description: "Helyettesítő karakter használata, ami bármilyen karakternek megfelel"
+  introduction: |
+    Az előző leckében láttuk, hogyan keressünk konkrét szövegrészleteket.
+    De mi van akkor, ha nem tudjuk, vagy nem érdekel minket a minta egy-egy karaktere?
+    Itt ismerjük meg az első igazi metakarakterünket: a pontot (`.`)
+    A pont egy különleges helyettesítő karakter (**wildcard**), ami bármilyen egyetlen karakterre illeszkedik.
+    Ez lehet betű, szám, szóköz, vagy bármilyen szimbólum (kivéve az újsor karaktert).
+    A `k.s` minta illeszkedni fog a következőkre: „kis”, „kos”, „kás”, „k9s”, „k s”, vagy akár „k#s”.
+    A lényeg, hogy a 'k' és az 's' között pontosan egy darab karakter álljon, így tehát nem illeszkedik a „ks” vagy a „kolos” szövegekre.
+
+
+  exercises:
+    - id: "dot-meaning"
+      type: "multiple_choice"
+      order: 1
+      title: "A pont jelentése"
+      question: "Az alábbiak közül melyikre fog illeszkedni a <code>p.l</code> reguláris kifejezés?"
+      options:
+        - id: "a"
+          text: "pál"
+          correct: true
+        - id: "b"
+          text: "pil"
+          correct: true
+        - id: "c"
+          text: "p_l"
+          correct: true
+        - id: "d"
+          text: "pl"
+          correct: false
+      explanation: "A pont (<code>.</code>) pontosan egy karaktert helyettesít. A <code>p.l</code> minta tehát minden olyan három karakteres sorozatra illeszkedik, ami ’p’-vel kezdődik és ’l’-re végződik."
+      hints:
+        - "A pont egy üres helyet jelöl, amit egyetlen karakternek kell kitöltenie"
+        - "Ha két betű között pont van, az azt jelenti, hogy köztük bármi lehet — de csak **egy** karakter"
+
+    - id: "dot-sandbox"
+      type: "regex_sandbox"
+      order: 2
+      title: "Gyakorlat - Regex sandbox"
+      question: "Írj egy reguláris kifejezést, amely megtalálja a ’nap’, ’nép’, és ’nőp’ szavakat"
+      test_cases:
+        positive:
+          - text: "Szép nap van"
+            description: "Egyszerű találat"
+            expected_matches: ["nap"]
+          - text: "A magyar nép"
+            description: "Ékezetes találat"
+            expected_matches: ["nép"]
+          - text: "kenőpénz"
+            description: "Szó részeként is működik"
+            expected_matches: ["nőp"]
+        negative:
+          - text: "knp zrt"
+            description: "Hiányzó középső karakter"
+          - text: "naap"
+            description: "Túl sok karakter"
+      solution: "n.p"
+      explanation: "Az <code>n.p</code> minta tökéletesen illeszkedik a három karakteres sorozatokra, ahol az első betű ’n’, az utolsó ’p’, a középső pedig bármi lehet."
+      hints:
+        - "Használd a leckében tanult helyettesítő karaktert a változó betű helyén"
+        - "Emlékezz: a pont csak **egy** karaktert helyettesít"
+
+    - id: "dot-definition"
+      type: "radio"
+      order: 3
+      title: "Fogalom"
+      question: "A <code>.</code> metakarakter hány karakterre illeszkedik?"
+      options:
+        - id: "a"
+          text: "Pontosan egyre"
+          correct: true
+        - id: "b"
+          text: "Nulla vagy egyre"
+          correct: false
+        - id: "c"
+          text: "Egyre, vagy többre"
+          correct: false
+        - id: "d"
+          text: "Bármennyire"
+          correct: false
+      explanation: "A pont mindig pontosan egy karaktert jelent. Az ismétlődési lehetőségeket későbbi leckékben, a kvantoroknál fogjuk megtanulni."
+      hints:
+        - "A pont egy helyfoglaló, nem ismétlő"
+        - "Bármilyen karakter ≠ bármennyi karakter"
+
+  summary: |
+    Ebben a leckében megismerted, mennyire hasznos eszköz a pont metakarakter, ha a minta egy bizonyos részén bármilyen karakter előfordulhat.

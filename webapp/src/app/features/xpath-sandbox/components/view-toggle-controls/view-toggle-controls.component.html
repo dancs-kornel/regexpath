@@ -1,0 +1,10 @@
+<div class="view-toggles">
+  <label *ngFor="let toggle of toggles">
+    <input 
+      *ngIf="toggle.available"
+      type="checkbox" 
+      [(ngModel)]="toggle.visible"
+      (change)="onToggleChange(toggle)">
+    {{ toggle.label }}
+  </label>
+</div>

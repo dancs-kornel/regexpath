@@ -1,0 +1,8 @@
+<div class="notification-container">
+    @for (notification of notificationService.notifications$ | async; track notification.id) {
+        <div class="notification flex-between" [ngClass]="getNotificationClass(notification.type)">
+            <span class="notification-message">{{ notification.message }}</span>
+            <button class="notification-close" (click)="closeNotification(notification.id)">×</button>
+        </div>
+    }
+</div>

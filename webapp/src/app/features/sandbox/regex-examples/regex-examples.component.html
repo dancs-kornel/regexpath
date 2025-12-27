@@ -1,0 +1,58 @@
+<!-- app/features/sandbox/regex-examples/regex-examples.component.html -->
+<div class="examples-card card-wrapper">
+  <div class="examples-header">
+    <h3 class="examples-title">Példák generálása</h3>
+
+    <button
+      class="generate-btn btn-small"
+      [disabled]="isDisabled"
+      (click)="generateExamples()">
+      <span *ngIf="isGenerating">Generálás...</span>
+      <span *ngIf="!isGenerating">Példák generálása</span>
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="examples-error error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="hasAnyExamples" class="examples-body">
+    <!-- POSITIVE -->
+    <div *ngIf="positiveExamples.length > 0" class="example-group">
+      <div class="group-header">
+        <span class="group-icon success-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
+        <h4 class="group-title">Illeszkedő példák</h4>
+      </div>
+
+      <ul class="example-list positive">
+        <li *ngFor="let example of positiveExamples" class="example-item list-row-hover">
+          <code class="example-code">{{ example.text }}</code>
+        </li>
+      </ul>
+    </div>
+
+    <!-- NEGATIVE -->
+    <div *ngIf="negativeExamples.length > 0" class="example-group">
+      <div class="group-header">
+        <span class="group-icon fail-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </span>
+        <h4 class="group-title">Nem illeszkedő példák</h4>
+      </div>
+
+      <ul class="example-list negative">
+        <li *ngFor="let example of negativeExamples" class="example-item">
+          <code class="example-code font-monospace">{{ example.text }}</code>
+          <span *ngIf="example.reason" class="example-reason">{{ example.reason }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<!-- webapp/src/app/features/xpath-sandbox/components/xpath-explanation/xpath-explanation.component.html -->
+
+<div *ngIf="!isEmpty" class="xpath-explanation">
+  <h3>Magyarázat</h3>
+  
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+  
+  <ul *ngIf="!error && explanationNodes.length > 0" class="explanation-list">
+    <li *ngFor="let node of explanationNodes"
+        [ngClass]="getNodeClass(node)"
+        [ngStyle]="getIndentStyle(node)">
+      <span class="token font-monospace">{{ node.token }}:</span>
+      <span class="explanation-text">{{ node.explanation }}</span>
+    </li>
+  </ul>
+</div>
