@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8080/api'  // TODO: Update this to production API URL
+  apiUrl: 'https://regexpath-api-hzebawcrc5arhkbj.francecentral-01.azurewebsites.net/api'
 };
+
