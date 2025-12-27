@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: webapp-dist
-          path: webapp/dist/webapp
+          path: webapp/dist/webapp/browser
 
   deploy:
     runs-on: ubuntu-latest
@@ -66,3 +66,4 @@ jobs:
           app-name: 'regexpath-webapp'
           slot-name: 'Production'
           package: webapp-dist
+
